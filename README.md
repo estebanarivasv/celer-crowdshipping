@@ -1,1 +1,1 @@
-# CelerAPI
+# Celer
