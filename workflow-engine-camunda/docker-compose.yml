@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+
+    # Camunda process workflow engine
+    zeebe:
+        image: camunda/zeebe:${CAMUNDA_CLOUD_VERSION:-1.3.5}
+        # Ports: 26500: Gateway API, 26501: Command API (gateway-to-broker), 26502: Internal API (broker-to-broker)
+        container_name: celer-zeebe
+        environment:
+            - 'ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_CLASSNAME=io.camunda.zeebe.exporter.ElasticsearchExporter'
+            - 'ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_URL=http://elasticsearch:9200'
+            - 'ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_BULK_SIZE=1'
+        ports:
+            - '26500:26500'
+        volumes:
+            - '/zeebe/data:/zeebe/data'
+        networks:
+            - camunda-cloud
+
+volumes:
+    zeebe:
+        driver: local
+    elastic:
+        driver: local
+
+networks:
+    camunda-cloud:
+        driver: bridge
