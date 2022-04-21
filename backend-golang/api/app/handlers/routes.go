@@ -5,6 +5,6 @@ import (
 )
 
 func Routes(router *gin.Engine) {
-	// Create a get method and associate it with the welcome funct
+	// Create a get method and associate it with the welcome function
 	router.GET("/", welcome)
 }
