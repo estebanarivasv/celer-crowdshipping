@@ -5,6 +5,7 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/handlers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main() {
@@ -14,10 +15,18 @@ func main() {
 	db := config.ConnectToDb()
 
 	// AutoMigrate will create tables, missing foreign keys, constraints, columns and indexes
-	db.AutoMigrate(&models.Shipping{})
+	err := db.AutoMigrate(&models.Shipping{})
+	if err != nil {
+		panic(err)
+		return
+	}
 
 	// Load REST controllers
 	handlers.Routes(router)
 
-	router.Run(":5000")
+	err = router.Run(":5000")
+	if err != http.ErrServerClosed {
+		panic("Server is closed")
+		return
+	}
 }
