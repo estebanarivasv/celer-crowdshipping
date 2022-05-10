@@ -24,7 +24,7 @@ func main() {
 	// Load REST controllers
 	handlers.Routes(router)
 
-	err = router.Run(":5000")
+	err = router.Run(":5001")
 	if err != http.ErrServerClosed {
 		panic("Server is closed")
 		return
