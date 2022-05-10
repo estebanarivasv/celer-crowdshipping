@@ -12,4 +12,7 @@ func Routes(router *gin.Engine) {
 	router.GET("/sender/shippings/:id", getShippingByIDHandler)
 	router.PUT("/sender/shippings/:id", updateShippingByIDHandler)
 	router.DELETE("/sender/shippings/:id", deleteShippingByIDHandler)
+	// Todo delete these routes
+	router.POST("/shipping-proc/create", createShippingProc)
+	router.POST("/shipping-proc/message", sendMessageToProc)
 }
