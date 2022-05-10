@@ -1,4 +1,4 @@
-package daos
+package dtos
 
 type Response struct {
 	Success bool        `json:"success"`

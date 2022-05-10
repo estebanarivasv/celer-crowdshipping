@@ -1,4 +1,4 @@
-package repositories
+package daos
 
 type QueryResponse struct {
 	Output interface{}
