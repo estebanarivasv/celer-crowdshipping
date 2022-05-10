@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/daos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
 )
@@ -19,45 +20,45 @@ func NewShippingRepository() *ShippingRepository {
 }
 
 // SaveOne Store a new shipping in the database
-func (r *ShippingRepository) SaveOne(shipping *models.Shipping) QueryResponse {
+func (r *ShippingRepository) SaveOne(shipping *models.Shipping) daos.QueryResponse {
 	err := r.db.Save(shipping).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return daos.QueryResponse{Error: err}
 	}
-	return QueryResponse{Output: shipping}
+	return daos.QueryResponse{Output: shipping}
 }
 
 // FindAll Get shipping from the database
-func (r *ShippingRepository) FindAll() QueryResponse {
+func (r *ShippingRepository) FindAll() daos.QueryResponse {
 	var shippings []*models.Shipping
 
 	err := r.db.Find(&shippings).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return daos.QueryResponse{Error: err}
 	}
 
-	return QueryResponse{Output: shippings}
+	return daos.QueryResponse{Output: shippings}
 }
 
 // FindOneById Get one shipping by ID from the database
-func (r *ShippingRepository) FindOneById(id int) QueryResponse {
+func (r *ShippingRepository) FindOneById(id int) daos.QueryResponse {
 	var shipping *models.Shipping
 
 	err := r.db.Where(&models.Shipping{ID: id}).Take(&shipping).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return daos.QueryResponse{Error: err}
 	}
 
-	return QueryResponse{Output: shipping}
+	return daos.QueryResponse{Output: shipping}
 }
 
 // DeleteOneById Delete a shipping by ID from the database
-func (r *ShippingRepository) DeleteOneById(id int) QueryResponse {
+func (r *ShippingRepository) DeleteOneById(id int) daos.QueryResponse {
 
 	err := r.db.Delete(&models.Shipping{ID: id}).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return daos.QueryResponse{Error: err}
 	}
 
-	return QueryResponse{Output: nil}
+	return daos.QueryResponse{Output: nil}
 }

@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/daos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
 	"log"
@@ -12,38 +12,38 @@ import (
 
 var repository = repositories.NewShippingRepository()
 
-func CreateShipping(shipping *models.Shipping) daos.Response {
+func CreateShipping(shipping *models.Shipping) dtos.Response {
 
 	response := repository.SaveOne(shipping)
 	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+		return dtos.Response{Success: false, Error: response.Error.Error()}
 	}
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
 }
 
-func FindAllShippings() daos.Response {
+func FindAllShippings() dtos.Response {
 
 	response := repository.FindAll()
 	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+		return dtos.Response{Success: false, Error: response.Error.Error()}
 	}
-	return daos.Response{Success: true, Data: response.Output.([]*models.Shipping)}
+	return dtos.Response{Success: true, Data: response.Output.([]*models.Shipping)}
 }
 
-func FindShippingById(id int) daos.Response {
+func FindShippingById(id int) dtos.Response {
 
 	response := repository.FindOneById(id)
 	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+		return dtos.Response{Success: false, Error: response.Error.Error()}
 	}
 
 	log.Printf(fmt.Sprintf("%v", response.Output))
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
 }
 
-func UpdateShippingById(id int, newShipping *models.Shipping) daos.Response {
+func UpdateShippingById(id int, newShipping *models.Shipping) dtos.Response {
 
 	existingShippingDao := FindShippingById(id)
 	if !existingShippingDao.Success {
@@ -60,18 +60,18 @@ func UpdateShippingById(id int, newShipping *models.Shipping) daos.Response {
 
 	response := repository.SaveOne(shipping)
 	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+		return dtos.Response{Success: false, Error: response.Error.Error()}
 	}
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
 }
 
-func DeleteShippingById(id int) daos.Response {
+func DeleteShippingById(id int) dtos.Response {
 
 	response := repository.DeleteOneById(id)
 	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+		return dtos.Response{Success: false, Error: response.Error.Error()}
 	}
 
-	return daos.Response{Success: true}
+	return dtos.Response{Success: true}
 }
