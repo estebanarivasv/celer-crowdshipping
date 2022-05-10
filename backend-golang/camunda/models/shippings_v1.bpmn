@@ -13,17 +13,7 @@
     <bpmn:sequenceFlow id="Flow_1gdli6f" sourceRef="VeriftShippingTask" targetRef="AwaitingOfferTask" />
     <bpmn:sequenceFlow id="Flow_11idmd5" sourceRef="SenderDeliverPackage" targetRef="VeriftShippingTask" />
     <bpmn:receiveTask id="AwaitingOfferTask" name="Receive selected offer" messageRef="Message_0l6g6b7">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="offer_id" />
-          <camunda:inputParameter name="distributor">
-            <camunda:map>
-              <camunda:entry key="id" />
-              <camunda:entry key="name" />
-            </camunda:map>
-          </camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+      <bpmn:extensionElements />
       <bpmn:incoming>Flow_1gdli6f</bpmn:incoming>
       <bpmn:outgoing>Flow_0vrtn1g</bpmn:outgoing>
     </bpmn:receiveTask>
@@ -41,28 +31,7 @@
     </bpmn:receiveTask>
     <bpmn:sequenceFlow id="Flow_14klrni" sourceRef="ConfirmationTime" targetRef="Delivered" />
     <bpmn:receiveTask id="VeriftShippingTask" name="Verify shipping request details" messageRef="Message_2h6q83m">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="sender">
-            <camunda:map>
-              <camunda:entry key="id" />
-              <camunda:entry key="name" />
-            </camunda:map>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="recipient">
-            <camunda:map>
-              <camunda:entry key="id" />
-              <camunda:entry key="name" />
-            </camunda:map>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="package">
-            <camunda:map>
-              <camunda:entry key="name" />
-              <camunda:entry key="dimensions" />
-            </camunda:map>
-          </camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+      <bpmn:extensionElements />
       <bpmn:incoming>Flow_11idmd5</bpmn:incoming>
       <bpmn:outgoing>Flow_1gdli6f</bpmn:outgoing>
     </bpmn:receiveTask>
@@ -80,6 +49,10 @@
   <bpmn:message id="Message_1i200f9" name="PackageOkMessage" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ShippingDelivery">
+      <bpmndi:BPMNEdge id="Flow_14klrni_di" bpmnElement="Flow_14klrni">
+        <di:waypoint x="1038" y="120" />
+        <di:waypoint x="1142" y="120" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_06ppcvk" bpmnElement="Flow_11idmd5">
         <di:waypoint x="228" y="120" />
         <di:waypoint x="310" y="120" />
@@ -100,21 +73,11 @@
         <di:waypoint x="870" y="120" />
         <di:waypoint x="920" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_14klrni_di" bpmnElement="Flow_14klrni">
-        <di:waypoint x="1038" y="120" />
-        <di:waypoint x="1142" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_0econme_di" bpmnElement="VeriftShippingTask">
-        <dc:Bounds x="310" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0m4nndu_di" bpmnElement="AwaitingPickupTask">
-        <dc:Bounds x="620" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1e107bp" bpmnElement="ConfirmPackageOkTask">
-        <dc:Bounds x="920" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="BPMNShape_0jq5pjs" bpmnElement="Delivered">
+        <dc:Bounds x="1142" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1120" y="145" width="83" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1004zwm" bpmnElement="SenderDeliverPackage">
         <dc:Bounds x="192" y="102" width="36" height="36" />
@@ -122,19 +85,25 @@
           <dc:Bounds x="168" y="145" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_01wxgbi_di" bpmnElement="PackageInTransitTask">
-        <dc:Bounds x="770" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0pjez8e_di" bpmnElement="AwaitingOfferTask">
         <dc:Bounds x="470" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0jq5pjs" bpmnElement="Delivered">
-        <dc:Bounds x="1142" y="102" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1120" y="145" width="83" height="27" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_0m4nndu_di" bpmnElement="AwaitingPickupTask">
+        <dc:Bounds x="620" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01wxgbi_di" bpmnElement="PackageInTransitTask">
+        <dc:Bounds x="770" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1e107bp" bpmnElement="ConfirmPackageOkTask">
+        <dc:Bounds x="920" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0econme_di" bpmnElement="VeriftShippingTask">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1862zwz_di" bpmnElement="ConfirmationTime">
         <dc:Bounds x="1002" y="102" width="36" height="36" />
