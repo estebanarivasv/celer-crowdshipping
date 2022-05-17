@@ -15,7 +15,12 @@ func main() {
 	db := config.ConnectToDb()
 
 	// AutoMigrate will create tables, missing foreign keys, constraints, columns and indexes
-	err := db.AutoMigrate(&models.Shipping{})
+	err := db.AutoMigrate(
+		&models.Offer{},
+		&models.Package{},
+		&models.RouteDetail{},
+		&models.Shipping{},
+		&models.User{})
 	if err != nil {
 		panic(err)
 		return
