@@ -53,10 +53,10 @@ func UpdateShippingById(id int, newShipping *models.Shipping) dtos.Response {
 	shipping := existingShippingDao.Data.(*models.Shipping)
 
 	// Todo: fix mapping
-	shipping.Image = newShipping.Image
+	shipping.ImageURL = newShipping.ImageURL
 	shipping.Details = newShipping.Details
-	shipping.StartAddr = newShipping.StartAddr
-	shipping.DestinationAddr = newShipping.DestinationAddr
+	shipping.OriginAddress = newShipping.OriginAddress
+	shipping.DestinationAddress = newShipping.DestinationAddress
 
 	response := repository.SaveOne(shipping)
 	if response.Error != nil {
