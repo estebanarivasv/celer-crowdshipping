@@ -21,6 +21,7 @@ type Shipping struct {
 	DestinationAddress string        `json:"dest_addr"`
 	Offers             []Offer       `json:"offers"` // Has many
 	Route              []RouteDetail `json:"route"`  // Has many
+	SelectedOffer      Offer
 	Sender             User
 	Recipient          User
 	Package            Package

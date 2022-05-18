@@ -8,7 +8,6 @@ type Package struct {
 	ID          int     `gorm:"primarykey" json:"id"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
-	Type        string  `json:"type"`
 	Dimensions  string  `json:"dimensions"`
 	Value       float64 `json:"value"` // Monetary value
 }
