@@ -9,7 +9,7 @@ import (
 
 func ConnectToDb() *gorm.DB {
 
-	loadEnv()
+	LoadEnv()
 
 	dsn := os.Getenv("DB_URI")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
