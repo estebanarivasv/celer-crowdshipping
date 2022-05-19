@@ -1,4 +1,4 @@
-package handlers
+package sender
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
@@ -8,7 +8,18 @@ import (
 	"strconv"
 )
 
-func newShippingHandler(c *gin.Context) {
+// NewShippingHandler
+// @Summary Creates a new shipping
+// @Description Creates a new shipping instance in camunda and in the database
+// @Consume application/json
+// @Accept json
+// @Produce json
+// -		object			model				description			TODO create dto
+// @Param shippings body dtos.Response true "shipping info"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Router /sender/shippings [post]
+func NewShippingHandler(c *gin.Context) {
 	var shipping models.Shipping
 	if err := c.ShouldBindJSON(&shipping); err != nil {
 		c.JSON(
@@ -26,7 +37,7 @@ func newShippingHandler(c *gin.Context) {
 	return
 }
 
-func getAllShippingsHandler(c *gin.Context) {
+func GetAllShippingsHandler(c *gin.Context) {
 	var dao = services.FindAllShippings()
 	if !dao.Success {
 		c.JSON(http.StatusInternalServerError, dao.Error)
@@ -36,7 +47,7 @@ func getAllShippingsHandler(c *gin.Context) {
 	return
 }
 
-func getShippingByIDHandler(c *gin.Context) {
+func GetShippingByIDHandler(c *gin.Context) {
 	var id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
@@ -56,7 +67,7 @@ func getShippingByIDHandler(c *gin.Context) {
 	return
 }
 
-func updateShippingByIDHandler(c *gin.Context) {
+func UpdateShippingByIDHandler(c *gin.Context) {
 	var id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
@@ -80,7 +91,7 @@ func updateShippingByIDHandler(c *gin.Context) {
 	return
 }
 
-func deleteShippingByIDHandler(c *gin.Context) {
+func DeleteShippingByIDHandler(c *gin.Context) {
 
 	var id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
