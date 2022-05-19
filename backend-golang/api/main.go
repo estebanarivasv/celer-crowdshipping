@@ -5,11 +5,15 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/handlers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"os"
 )
 
 func main() {
-	router := gin.Default()
+
+	config.LoadEnv()
+	config.LoadSwaggerConfig()
+
+	server := gin.Default()
 
 	// Connect to database
 	db := config.ConnectToDb()
@@ -27,11 +31,11 @@ func main() {
 	}
 
 	// Load REST controllers
-	handlers.Routes(router)
+	handlers.GenerateRouting(server)
 
-	err = router.Run(":5001")
-	if err != http.ErrServerClosed {
-		panic("Server is closed")
+	err = server.Run(os.Getenv("ADDR"))
+	if err != nil {
+		panic(err)
 		return
 	}
 }
