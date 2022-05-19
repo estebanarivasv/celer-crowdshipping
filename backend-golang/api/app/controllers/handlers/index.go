@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func indexHandler(c *gin.Context) {
+func IndexHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  200,
 		"message": "Welcome to celer-crowdshipping API",

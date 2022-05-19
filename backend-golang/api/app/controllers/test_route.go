@@ -1,4 +1,4 @@
-package handlers
+package controllers
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/camunda"

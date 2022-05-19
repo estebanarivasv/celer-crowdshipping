@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/handlers"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/controllers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/gin-gonic/gin"
 	"os"
@@ -30,8 +30,8 @@ func main() {
 		return
 	}
 
-	// Load REST controllers
-	handlers.GenerateRouting(server)
+	// Load REST handlers
+	controllers.GenerateRouting(server)
 
 	err = server.Run(os.Getenv("ADDR"))
 	if err != nil {

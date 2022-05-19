@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// NewShippingHandler
+// NewShipping
 // @Summary Creates a new shipping
 // @Description Creates a new shipping instance in camunda and in the database
 // @Consume application/json
@@ -19,7 +19,7 @@ import (
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Router /sender/shippings [post]
-func NewShippingHandler(c *gin.Context) {
+func NewShipping(c *gin.Context) {
 	var shipping models.Shipping
 	if err := c.ShouldBindJSON(&shipping); err != nil {
 		c.JSON(
@@ -37,7 +37,7 @@ func NewShippingHandler(c *gin.Context) {
 	return
 }
 
-func GetAllShippingsHandler(c *gin.Context) {
+func GetAllShippings(c *gin.Context) {
 	var dao = services.FindAllShippings()
 	if !dao.Success {
 		c.JSON(http.StatusInternalServerError, dao.Error)
@@ -47,27 +47,7 @@ func GetAllShippingsHandler(c *gin.Context) {
 	return
 }
 
-func GetShippingByIDHandler(c *gin.Context) {
-	var id, err = strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
-		return
-	}
-
-	var dao = services.FindShippingById(id)
-	if !dao.Success {
-		if dao.Error == "record not found" {
-			c.JSON(http.StatusNotFound, dao.Error)
-			return
-		}
-		c.JSON(http.StatusInternalServerError, dao.Error)
-		return
-	}
-	c.JSON(http.StatusOK, dao.Data)
-	return
-}
-
-func UpdateShippingByIDHandler(c *gin.Context) {
+func UpdateShippingByID(c *gin.Context) {
 	var id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
@@ -91,7 +71,7 @@ func UpdateShippingByIDHandler(c *gin.Context) {
 	return
 }
 
-func DeleteShippingByIDHandler(c *gin.Context) {
+func DeleteShippingByID(c *gin.Context) {
 
 	var id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -106,4 +86,16 @@ func DeleteShippingByIDHandler(c *gin.Context) {
 	c.JSON(http.StatusAccepted, dao.Data)
 
 	return
+}
+
+func GetShippingOffersByID(c *gin.Context) {
+
+}
+
+func GetShippingPackageByID(c *gin.Context) {
+
+}
+
+func GetShippingRouteByID(c *gin.Context) {
+
 }
