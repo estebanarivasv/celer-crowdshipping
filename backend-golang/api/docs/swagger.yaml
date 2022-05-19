@@ -1,0 +1,37 @@
+definitions:
+  dtos.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /sender/shippings:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new shipping instance in camunda and in the database
+      parameters:
+      - description: shipping info
+        in: body
+        name: shippings
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.Response'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Creates a new shipping
+swagger: "2.0"
