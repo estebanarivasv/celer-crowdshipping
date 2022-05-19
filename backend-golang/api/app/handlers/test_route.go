@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/camunda"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func sendMessageToProc(c *gin.Context) {
-	var jsonMessage dtos.MessageToProc
+	var jsonMessage shipping.MessageToProc
 	if err := c.ShouldBindJSON(&jsonMessage); err != nil {
 		c.JSON(
 			http.StatusBadRequest,

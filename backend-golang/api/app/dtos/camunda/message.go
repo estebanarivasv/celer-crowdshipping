@@ -1,4 +1,4 @@
-package dtos
+package shipping
 
 type MessageToProc struct {
 	MessageName       string `json:"messageName"`

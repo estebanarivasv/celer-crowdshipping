@@ -4,8 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/shipping"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/camunda"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/mappers"
 	"io"
 	"io/ioutil"
@@ -20,7 +19,7 @@ const baseUrl = "http://localhost:8080/engine-rest"
 func SendMessage(msgName string, procId string) error {
 
 	const url = baseUrl + "/message"
-	payload := dtos.MessageToProc{
+	payload := shipping.MessageToProc{
 		MessageName:       msgName,
 		ProcessInstanceId: procId,
 	}

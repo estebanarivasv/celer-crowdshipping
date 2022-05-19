@@ -2,7 +2,7 @@ package mappers
 
 import (
 	"encoding/json"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/shipping"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/camunda"
 	"log"
 )
 
