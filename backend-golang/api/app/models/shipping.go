@@ -9,7 +9,6 @@ import (
 type Shipping struct {
 	gorm.Model
 	ID                 int           `gorm:"primarykey" json:"id"`
-	ImageURL           string        `json:"image_url"`
 	Details            string        `json:"details"`
 	PackageID          int           `json:"package_id"`
 	SelectedOfferID    int           `json:"selected_offer_id"` // Selected Offer
