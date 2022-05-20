@@ -30,3 +30,7 @@ func GetShippingByID(c *gin.Context) {
 func UpdateShippingStateByID(c *gin.Context) {
 
 }
+
+func GetShippingStateByID(c *gin.Context) {
+
+}
