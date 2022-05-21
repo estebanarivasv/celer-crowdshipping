@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
+	"gorm.io/gorm"
+)
 
 // Package TODO: Field-Level Permission gorm
 type Package struct {
@@ -11,4 +14,32 @@ type Package struct {
 	Description string  `json:"description"`
 	Dimensions  string  `json:"dimensions"`
 	Value       float64 `json:"value"` // Monetary value
+}
+
+func (model Package) FromDTO(dto entities.PackageInDTO) interface{} {
+
+	return Package{
+		Name:        dto.Name,
+		ImageURL:    dto.ImageURL,
+		Description: dto.Description,
+		Dimensions:  dto.Dimensions,
+		Value:       dto.Value,
+	}
+
+}
+
+func (model Package) ToDTO() entities.PackageOutDTO {
+
+	return entities.PackageOutDTO{
+		ID:          model.ID,
+		Name:        model.Name,
+		ImageURL:    model.ImageURL,
+		Description: model.Description,
+		Dimensions:  model.Dimensions,
+		Value:       model.Value,
+		CreatedAt:   model.CreatedAt,
+		UpdatedAt:   model.UpdatedAt,
+		DeletedAt:   model.DeletedAt.Time,
+	}
+
 }

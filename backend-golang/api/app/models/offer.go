@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
+	"gorm.io/gorm"
+)
 
 // TODO: Field-Level Permission gorm
 type Offer struct {
@@ -13,4 +16,32 @@ type Offer struct {
 	DistributorID int     `json:"distributor_id"`
 	Distributor   User
 	Shipping      *Shipping // Avoid recursive types
+}
+
+func (model Offer) FromDTO(dto entities.OfferInDTO) interface{} {
+
+	return Offer{
+		ShippingCost:  dto.ShippingCost,
+		Message:       dto.Message,
+		Duration:      dto.Duration,
+		ShippingID:    dto.ShippingID,
+		DistributorID: dto.DistributorID,
+	}
+
+}
+
+func (model Offer) ToDTO() entities.OfferOutDTO {
+
+	return entities.OfferOutDTO{
+		ID:           model.ID,
+		ShippingCost: model.ShippingCost,
+		Message:      model.Message,
+		Duration:     model.Duration,
+		ShippingID:   model.ShippingID,
+		Distributor:  model.Distributor.ToDTO(),
+		CreatedAt:    model.CreatedAt,
+		UpdatedAt:    model.UpdatedAt,
+		DeletedAt:    model.DeletedAt.Time,
+	}
+
 }
