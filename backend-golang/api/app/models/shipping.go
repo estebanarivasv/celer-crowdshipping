@@ -8,21 +8,21 @@ import (
 // Shipping TODO: Field-Level Permission gorm
 type Shipping struct {
 	gorm.Model
-	ID                 int           `gorm:"primarykey" json:"id"`
-	Details            string        `json:"details"`
-	PackageID          int           `json:"package_id"`
-	SelectedOfferID    int           `json:"selected_offer_id"` // Selected Offer
-	SenderID           int           `json:"sender_id"`
-	RecipientID        int           `json:"recipient_id"`
-	ProcessID          string        `json:"process_id"`
-	PickedUpAt         time.Time     `json:"pickup_at"`
-	DeliveredAt        time.Time     `json:"delivered_at"`
-	OriginAddress      string        `json:"origin_addr"`
-	DestinationAddress string        `json:"dest_addr"`
-	Offers             []Offer       `json:"offers"` // Has many
-	Route              []RouteDetail `json:"route"`  // Has many
-	SelectedOffer      Offer
-	Sender             User
-	Recipient          User
-	Package            Package
+	ID                 int `gorm:"primarykey"`
+	Details            string
+	PackageID          int
+	SelectedOfferID    int // Selected Offer
+	SenderID           int
+	RecipientID        int
+	ProcessID          string
+	PickedUpAt         time.Time
+	DeliveredAt        time.Time
+	OriginAddress      string
+	DestinationAddress string
+	Offers             []Offer       `gorm:"PRELOAD:true"` // Has many
+	Route              []RouteDetail `gorm:"PRELOAD:true"` // Has many
+	SelectedOffer      Offer         `gorm:"PRELOAD:true"` // Has one
+	Sender             User          `gorm:"PRELOAD:true"` // Has one
+	Recipient          User          `gorm:"PRELOAD:true"` // Has one
+	Package            Package       `gorm:"PRELOAD:true"` // Has one
 }
