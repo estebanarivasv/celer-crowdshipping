@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/daos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
 )
@@ -11,7 +11,7 @@ type ShippingRepository struct {
 	db *gorm.DB
 }
 
-// Todo: check if it works
+// TODO CHANGE TO CONTEXT -- var db = context.Background()
 var db = config.ConnectToDb()
 
 // NewShippingRepository Returns a new instance
@@ -19,46 +19,74 @@ func NewShippingRepository() *ShippingRepository {
 	return &ShippingRepository{db: db}
 }
 
-// SaveOne Store a new shipping in the database
-func (r *ShippingRepository) SaveOne(shipping *models.Shipping) daos.QueryResponse {
+// Save Store a new entity in the database
+func (r *ShippingRepository) Save(shipping models.Shipping) (models.Shipping, error) {
 	err := r.db.Save(shipping).Error
 	if err != nil {
-		return daos.QueryResponse{Error: err}
+		return *new(models.Shipping), err
 	}
-	return daos.QueryResponse{Output: shipping}
+	return shipping, nil
+}
+
+func (r *ShippingRepository) Create(dao models.Shipping) (models.Shipping, error) {
+
+	err := r.db.Create(&dao).Error
+	if err != nil {
+		// TODO HANDLE EMPTY
+		return *new(models.Shipping), err
+	}
+
+	return r.FindOneById(dao.ID)
 }
 
 // FindAll Get shipping from the database
-func (r *ShippingRepository) FindAll() daos.QueryResponse {
-	var shippings []*models.Shipping
+func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
+	var shippings []models.Shipping
 
 	err := r.db.Find(&shippings).Error
 	if err != nil {
-		return daos.QueryResponse{Error: err}
+		// TODO HANDLE EMPTY
+		return *new([]models.Shipping), err
 	}
 
-	return daos.QueryResponse{Output: shippings}
+	return shippings, nil
 }
 
 // FindOneById Get one shipping by ID from the database
-func (r *ShippingRepository) FindOneById(id int) daos.QueryResponse {
-	var shipping *models.Shipping
+func (r *ShippingRepository) FindOneById(id int) (models.Shipping, error) {
+	var shipping models.Shipping
 
 	err := r.db.Where(&models.Shipping{ID: id}).Take(&shipping).Error
 	if err != nil {
-		return daos.QueryResponse{Error: err}
+		// TODO HANDLE EMPTY
+		return *new(models.Shipping), err
 	}
 
-	return daos.QueryResponse{Output: shipping}
+	return shipping, nil
 }
 
-// DeleteOneById Delete a shipping by ID from the database
-func (r *ShippingRepository) DeleteOneById(id int) daos.QueryResponse {
+// DeleteById Delete a shipping by ID from the database
+func (r *ShippingRepository) DeleteById(id int) error {
 
 	err := r.db.Delete(&models.Shipping{ID: id}).Error
 	if err != nil {
-		return daos.QueryResponse{Error: err}
+		return err
 	}
 
-	return daos.QueryResponse{Output: nil}
+	return nil
+}
+
+// UpdateById Update an entity from the database with a body and an ID
+func (r *ShippingRepository) UpdateById(id int, dto *entities.ShippingInDTO) (models.Shipping, error) {
+
+	existentModel, err := r.FindOneById(id)
+	if err != nil {
+		// TODO HANDLE EMPTY
+		return *new(models.Shipping), err
+	}
+
+	// TODO SUPUESTAMENTE SE ACTUALIZA
+	r.db.Model(&existentModel).Select("*").Updates(dto)
+
+	return r.FindOneById(existentModel.ID)
 }
