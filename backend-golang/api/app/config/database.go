@@ -17,6 +17,7 @@ func ConnectToDb() *gorm.DB {
 		panic("Database connection failed")
 	}
 	log.Printf("Database connection successful")
+	db.Set("gorm:auto_preload", true)
 
 	return db
 }
