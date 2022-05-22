@@ -16,6 +16,7 @@ import (
 // @Param id path int true "Shipping ID"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
+// @Failure 404 {object} dtos.Response
 // @Router /sender/shippings/{id} [get]
 func GetShippingByID(c *gin.Context) {
 	id, err := controllers.ConvertParamToInt(c.Param("id"))

@@ -118,7 +118,7 @@ func GetShippingOffersByID(c *gin.Context) {
 
 }
 
-func GetShippingPackageByID(c *gin.Context) {
+func GetShippingDistributorByID(c *gin.Context) {
 
 }
 
