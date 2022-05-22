@@ -109,6 +109,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.Response'
       summary: Get Shipping
     put:
       consumes:

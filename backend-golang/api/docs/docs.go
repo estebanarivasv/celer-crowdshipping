@@ -105,6 +105,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dtos.Response"
                         }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
                     }
                 }
             },
