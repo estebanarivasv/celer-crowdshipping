@@ -7,9 +7,10 @@ import (
 
 type RouteDetail struct {
 	gorm.Model
-	ID          int    `gorm:"primarykey" json:"id"`
-	Coordinates string `json:"coordinates"`
-	ShippingID  int    `json:"shipping_id"`
+	ID          int       `gorm:"primarykey" json:"id"`
+	Coordinates string    `json:"coordinates"`
+	ShippingID  int       `json:"shipping_id"`
+	Shipping    *Shipping // Avoid recursive types
 }
 
 func (model RouteDetail) FromDTO(dto entities.RouteDetailInDTO) interface{} {
