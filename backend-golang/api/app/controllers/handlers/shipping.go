@@ -2,28 +2,38 @@ package handlers
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
+// GetShippingByID
+// @Summary Get Shipping
+// @Description Get Shipping stored in the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Router /sender/shippings/{id} [get]
 func GetShippingByID(c *gin.Context) {
-	var id, err = strconv.Atoi(c.Param("id"))
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	var dao = services.FindShippingById(id)
-	if !dao.Success {
-		if dao.Error == "record not found" {
-			c.JSON(http.StatusNotFound, dao.Error)
+	dto := services.FindShippingById(id)
+	if !dto.Success {
+		if dto.Error == "record not found" {
+			c.JSON(http.StatusNotFound, dto)
 			return
 		}
-		c.JSON(http.StatusInternalServerError, dao.Error)
+		c.JSON(http.StatusInternalServerError, dto)
 		return
 	}
-	c.JSON(http.StatusOK, dao.Data)
+	c.JSON(http.StatusOK, dto)
 	return
 }
 
