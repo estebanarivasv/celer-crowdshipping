@@ -7,21 +7,52 @@ definitions:
       success:
         type: boolean
     type: object
+  entities.ShippingInDTO:
+    properties:
+      dest_addr:
+        type: string
+      details:
+        type: string
+      origin_addr:
+        type: string
+      package_id:
+        type: integer
+      recipient_id:
+        type: integer
+      selected_offer_id:
+        type: integer
+      sender_id:
+        type: integer
+    type: object
 info:
   contact: {}
 paths:
   /sender/shippings:
+    get:
+      description: Get all shippings stored in the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get all shippings
     post:
       consumes:
       - application/json
       description: Creates a new shipping instance in camunda and in the database
       parameters:
-      - description: shipping info
+      - description: Fill the body to create a new shipping
         in: body
-        name: shippings
+        name: Shipping
         required: true
         schema:
-          $ref: '#/definitions/dtos.Response'
+          $ref: '#/definitions/entities.ShippingInDTO'
       produces:
       - application/json
       responses:
@@ -34,4 +65,77 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Creates a new shipping
+  /sender/shippings/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Shipping by ID which is stored in the database
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Delete Shipping
+    get:
+      consumes:
+      - application/json
+      description: Get Shipping stored in the database by passing an ID
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get Shipping
+    put:
+      consumes:
+      - application/json
+      description: Update a Shipping by ID which is stored in the database
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fill the body to update a new shipping
+        in: body
+        name: Shipping
+        required: true
+        schema:
+          $ref: '#/definitions/entities.ShippingInDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Update Shipping
 swagger: "2.0"

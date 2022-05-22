@@ -17,6 +17,27 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/sender/shippings": {
+            "get": {
+                "description": "Get all shippings stored in the database",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all shippings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Creates a new shipping instance in camunda and in the database",
                 "consumes": [
@@ -28,13 +49,123 @@ const docTemplate = `{
                 "summary": "Creates a new shipping",
                 "parameters": [
                     {
-                        "description": "shipping info",
-                        "name": "shippings",
+                        "description": "Fill the body to create a new shipping",
+                        "name": "Shipping",
                         "in": "body",
                         "required": true,
                         "schema": {
+                            "$ref": "#/definitions/entities.ShippingInDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
                             "$ref": "#/definitions/dtos.Response"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/sender/shippings/{id}": {
+            "get": {
+                "description": "Get Shipping stored in the database by passing an ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Shipping",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a Shipping by ID which is stored in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update Shipping",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fill the body to update a new shipping",
+                        "name": "Shipping",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.ShippingInDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a Shipping by ID which is stored in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete Shipping",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -64,6 +195,32 @@ const docTemplate = `{
                 },
                 "success": {
                     "type": "boolean"
+                }
+            }
+        },
+        "entities.ShippingInDTO": {
+            "type": "object",
+            "properties": {
+                "dest_addr": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "string"
+                },
+                "origin_addr": {
+                    "type": "string"
+                },
+                "package_id": {
+                    "type": "integer"
+                },
+                "recipient_id": {
+                    "type": "integer"
+                },
+                "selected_offer_id": {
+                    "type": "integer"
+                },
+                "sender_id": {
+                    "type": "integer"
                 }
             }
         }
