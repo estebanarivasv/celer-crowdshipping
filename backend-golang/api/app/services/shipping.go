@@ -29,7 +29,7 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
 func FindAllShippings() dtos.Response {
 
-	var dtosArr []entities.ShippingOutDTO
+	var dtosArr []interface{}
 
 	response, err := repository.FindAll()
 	if err != nil {
