@@ -1,76 +1,101 @@
 package services
 
 import (
-	"fmt"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/mappers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
-	"log"
 )
 
-// Todo: make all functions available with a generic interface
-
 var repository = repositories.NewShippingRepository()
+var mapper = mappers.ShippingMapper{}
 
-func CreateShipping(shipping *models.Shipping) dtos.Response {
+// CreateShipping TODO RETURN ERROR
+func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
-	response := repository.SaveOne(shipping)
-	if response.Error != nil {
-		return dtos.Response{Success: false, Error: response.Error.Error()}
+	// Convert the dto to an entity
+	shippingModel := mapper.FromDTO(shipping)
+
+	query, err := repository.Create(shippingModel)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	// Mapping into a dto
+	shippingDto := mapper.ToDTO(&query)
+
+	return dtos.Response{Success: true, Data: shippingDto}
 }
 
 func FindAllShippings() dtos.Response {
 
-	response := repository.FindAll()
-	if response.Error != nil {
-		return dtos.Response{Success: false, Error: response.Error.Error()}
+	var dtosArr []entities.ShippingOutDTO
+
+	response, err := repository.FindAll()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
-	return dtos.Response{Success: true, Data: response.Output.([]*models.Shipping)}
+
+	// Convert and append all models into dtos
+	for _, v := range response {
+		dtosArr = append(dtosArr, mapper.ToDTO(&v))
+	}
+
+	return dtos.Response{Success: true, Data: dtosArr}
+
 }
 
 func FindShippingById(id int) dtos.Response {
 
-	response := repository.FindOneById(id)
-	if response.Error != nil {
-		return dtos.Response{Success: false, Error: response.Error.Error()}
+	query, err := repository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	log.Printf(fmt.Sprintf("%v", response.Output))
+	// Mapping into a dto
+	shippingDto := mapper.ToDTO(&query)
 
-	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: shippingDto}
+
 }
 
-func UpdateShippingById(id int, newShipping *models.Shipping) dtos.Response {
+func UpdateShippingById(id int, dto entities.ShippingInDTO) dtos.Response {
 
-	existingShippingDao := FindShippingById(id)
-	if !existingShippingDao.Success {
-		// Returns success as "false" with an error
-		return existingShippingDao
+	/*
+		existingShippingDao := FindShippingById(id)
+		if !existingShippingDao.Success {
+			// Returns success as "false" with an error
+			return existingShippingDao
+		}
+		shipping := existingShippingDao.Data.(*models.Shipping)
+
+		// Todo: fix mapping
+		shipping.Details = newShipping.Details
+		shipping.OriginAddress = newShipping.OriginAddress
+		shipping.DestinationAddress = newShipping.DestinationAddress
+
+		response := repository.SaveOne(shipping)
+
+	*/
+
+	query, err := repository.UpdateById(id, &dto)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
-	shipping := existingShippingDao.Data.(*models.Shipping)
 
-	// Todo: fix mapping
-	shipping.Details = newShipping.Details
-	shipping.OriginAddress = newShipping.OriginAddress
-	shipping.DestinationAddress = newShipping.DestinationAddress
+	// Mapping into a dto
+	shippingDto := mapper.ToDTO(&query)
 
-	response := repository.SaveOne(shipping)
-	if response.Error != nil {
-		return dtos.Response{Success: false, Error: response.Error.Error()}
-	}
-
-	return dtos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: shippingDto}
 }
 
 func DeleteShippingById(id int) dtos.Response {
 
-	response := repository.DeleteOneById(id)
-	if response.Error != nil {
-		return dtos.Response{Success: false, Error: response.Error.Error()}
+	err := repository.DeleteById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
 	return dtos.Response{Success: true}
+
 }
