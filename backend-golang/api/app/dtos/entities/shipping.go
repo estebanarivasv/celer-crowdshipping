@@ -23,6 +23,7 @@ type ShippingOutDTO struct {
 	Package            PackageOutDTO       `json:"package"`
 	OriginAddress      string              `json:"origin_addr"`
 	DestinationAddress string              `json:"dest_addr"`
+	ProcessID          string              `json:"process_id"`
 	Offers             []OfferOutDTO       `json:"offers"`
 	SelectedOffer      OfferOutDTO         `json:"selected_offer"`
 	Sender             UserOutDTO          `json:"sender"`
