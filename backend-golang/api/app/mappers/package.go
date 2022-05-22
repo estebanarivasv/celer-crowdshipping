@@ -1,0 +1,45 @@
+package mappers
+
+import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
+)
+
+type PackageMapper struct {
+}
+
+// FromDTO Return a model with the dto that comes from the service
+func (m PackageMapper) FromDTO(dto *entities.PackageInDTO) models.Package {
+
+	return models.Package{
+		Name:        dto.Name,
+		ImageURL:    dto.ImageURL,
+		Description: dto.Description,
+		Dimensions:  dto.Dimensions,
+		Value:       dto.Value,
+	}
+
+}
+
+// ToDTO Return a dto with the model that comes from the database
+func (m PackageMapper) ToDTO(model *models.Package) interface{} {
+
+	// If model is empty, it returns an empty interface
+	if controllers.IsZero[*models.Package](model) {
+		return *new(interface{})
+	}
+
+	return entities.PackageOutDTO{
+		ID:          model.ID,
+		Name:        model.Name,
+		ImageURL:    model.ImageURL,
+		Description: model.Description,
+		Dimensions:  model.Dimensions,
+		Value:       model.Value,
+		CreatedAt:   model.CreatedAt,
+		UpdatedAt:   model.UpdatedAt,
+		DeletedAt:   model.DeletedAt.Time,
+	}
+
+}

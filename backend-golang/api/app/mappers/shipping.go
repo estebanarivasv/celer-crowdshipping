@@ -24,39 +24,39 @@ func (m ShippingMapper) FromDTO(dto *entities.ShippingInDTO) models.Shipping {
 }
 
 // ToDTO Return a dto with the model that comes from the database
-func (m ShippingMapper) ToDTO(model *models.Shipping) entities.ShippingOutDTO {
+func (m ShippingMapper) ToDTO(model *models.Shipping) interface{} {
 
 	// Each coordinate is mapped into a dto and appended to a slice
-	var routeArr []entities.RouteDetailOutDTO
-	for _, r := range model.Route {
-		routeArr = append(routeArr,
-			r.ToDTO())
-	}
+	// var routeArr []interface{}
+	// for _, r := range model.Route {
+	// 	routeArr = append(routeArr,
+	// 		RouteMapper{}.ToDTO(&r))
+	// }
 
 	// Each coordinate is mapped into a dto and appended to a slice
-	var offersSlice []entities.OfferOutDTO
-	for _, o := range model.Offers {
-		offersSlice = append(offersSlice,
-			o.ToDTO())
-	}
+	// var offersSlice []interface{}
+	// for _, o := range model.Offers {
+	// 	offersSlice = append(offersSlice,
+	// 		OfferMapper{}.ToDTO(&o))
+	// }
 
 	return entities.ShippingOutDTO{
 		ID:                 model.ID,
 		Details:            model.Details,
-		Package:            model.Package.ToDTO(),
+		Package:            PackageMapper{}.ToDTO(&model.Package),
 		OriginAddress:      model.OriginAddress,
 		DestinationAddress: model.DestinationAddress,
 		ProcessID:          model.ProcessID,
-		Offers:             offersSlice,
-		SelectedOffer:      model.SelectedOffer.ToDTO(),
-		Sender:             model.Sender.ToDTO(),
-		Recipient:          model.Recipient.ToDTO(),
-		Route:              routeArr,
+		SelectedOfferID:    model.SelectedOfferID,
+		Sender:             UserMapper{}.ToDTO(&model.Sender),
+		Recipient:          UserMapper{}.ToDTO(&model.Recipient),
 		PickedUpAt:         model.PickedUpAt,
 		DeliveredAt:        model.DeliveredAt,
 		CreatedAt:          model.CreatedAt,
 		UpdatedAt:          model.UpdatedAt,
 		DeletedAt:          model.DeletedAt.Time,
+		// Offers:             offersSlice,
+		// Route:              routeArr,
 	}
 
 }
