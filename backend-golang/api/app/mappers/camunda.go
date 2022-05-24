@@ -19,6 +19,16 @@ func (m *CamundaMapper) JsonBodyToCamundaProcessDTO(jsonResponse []byte) (*dtos.
 	return &data, nil
 }
 
+func (m *CamundaMapper) JsonBodyToDetailedProcessDTO(jsonResponse []byte) (dtos.DetailedCamundaProcessDTO, error) {
+	var data dtos.DetailedCamundaProcessDTO
+	err := json.Unmarshal(jsonResponse, &data)
+	if err != nil {
+		log.Fatal(err)
+		return *new(dtos.DetailedCamundaProcessDTO), err
+	}
+	return data, nil
+}
+
 func (m *CamundaMapper) PayloadToJsonBody(payload interface{}) (*bytes.Buffer, error) {
 
 	encodedPayload, err := json.Marshal(payload)

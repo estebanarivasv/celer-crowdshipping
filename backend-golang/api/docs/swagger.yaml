@@ -157,4 +157,31 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping
+  /shippings/{id}/state:
+    get:
+      consumes:
+      - application/json
+      description: Get Shipping state making reference to Camunda instance
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get Shipping state
 swagger: "2.0"

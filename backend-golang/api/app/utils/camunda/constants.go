@@ -9,7 +9,7 @@ func GetProcCurrentActivityURL(procID string) string {
 	config.LoadEnv()
 	CamundaBaseUrl := os.Getenv("CAMUNDA_BASE_URL")
 
-	return CamundaBaseUrl + "/process-instance" + procID + "/activity-instances"
+	return CamundaBaseUrl + "/process-instance/" + procID + "/activity-instances"
 }
 
 func GetMessageProcURL() string {

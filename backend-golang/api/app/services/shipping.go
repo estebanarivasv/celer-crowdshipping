@@ -8,14 +8,15 @@ import (
 )
 
 var repository = repositories.NewShippingRepository()
-var mapper = mappers.ShippingMapper{}
+var shippingMapper = mappers.ShippingMapper{}
+var camundaMapper = mappers.CamundaMapper{}
 
 // TODO comment service
 
 func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
 	// Convert the dto to an entity
-	shippingModel := mapper.FromDTO(shipping)
+	shippingModel := shippingMapper.FromDTO(shipping)
 
 	query, err := repository.Create(shippingModel)
 	if err != nil {
@@ -34,7 +35,7 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 	}
 
 	// Mapping into a dto
-	shippingDto := mapper.ToDTO(queryWithProcID)
+	shippingDto := shippingMapper.ToDTO(queryWithProcID)
 
 	return dtos.Response{Success: true, Data: shippingDto}
 }
@@ -50,7 +51,7 @@ func FindAllShippings() dtos.Response {
 
 	// Convert and append all models into dtos
 	for _, v := range response {
-		dtosArr = append(dtosArr, mapper.ToDTO(&v))
+		dtosArr = append(dtosArr, shippingMapper.ToDTO(&v))
 	}
 
 	return dtos.Response{Success: true, Data: dtosArr}
@@ -65,7 +66,7 @@ func FindShippingById(id int) dtos.Response {
 	}
 
 	// Mapping into a dto
-	shippingDto := mapper.ToDTO(&query)
+	shippingDto := shippingMapper.ToDTO(&query)
 
 	return dtos.Response{Success: true, Data: shippingDto}
 
@@ -79,7 +80,7 @@ func UpdateShippingById(id int, dto entities.ShippingInPutDTO) dtos.Response {
 	}
 
 	// Mapping into a dto
-	shippingDto := mapper.ToDTO(&query)
+	shippingDto := shippingMapper.ToDTO(&query)
 
 	return dtos.Response{Success: true, Data: shippingDto}
 }
@@ -92,5 +93,22 @@ func DeleteShippingById(id int) dtos.Response {
 	}
 
 	return dtos.Response{Success: true}
+
+}
+
+func FindShippingStateById(id int) dtos.Response {
+
+	query, err := repository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	camundaID := query.ProcessID
+	stateDto, err := GetProcInstanceState(camundaID)
+	if err != nil {
+		return dtos.Response{}
+	}
+
+	return dtos.Response{Success: true, Data: stateDto}
 
 }

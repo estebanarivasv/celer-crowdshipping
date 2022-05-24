@@ -20,12 +20,12 @@ func CreateNewCamundaProcInstance() (*dtos.BasicCamundaProcessDTO, error) {
 }
 
 // SendMessageToCamundaProcess Camunda service that sends a message to a process instance
-func SendMessageToCamundaProcess(msgName string, procId string) dtos.Response {
+func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 
 	url := camunda.GetMessageProcURL()
 	payload := dtos.MessageToProcessDTO{
-		MessageName:       msgName,
 		ProcessInstanceId: procId,
+		MessageName:       msgName,
 	}
 	body, err := camunda.PayloadToJsonBody(payload)
 	if err != nil {
@@ -39,4 +39,15 @@ func SendMessageToCamundaProcess(msgName string, procId string) dtos.Response {
 
 	return dtos.Response{Success: true}
 
+}
+
+func GetProcInstanceState(procId string) (dtos.DetailedCamundaProcessDTO, error) {
+
+	url := camunda.GetProcCurrentActivityURL(procId)
+
+	procDTO, err := repositories.GetProcCurrentActivity(http.MethodGet, url)
+	if err != nil {
+		return *new(dtos.DetailedCamundaProcessDTO), err
+	}
+	return procDTO, nil
 }
