@@ -19,10 +19,10 @@ type Shipping struct {
 	DeliveredAt        time.Time
 	OriginAddress      string
 	DestinationAddress string
-	Offers             []Offer       `gorm:"PRELOAD:true"` // Has many
-	Route              []RouteDetail `gorm:"PRELOAD:true"` // Has many
-	SelectedOffer      Offer         `gorm:"PRELOAD:true"` // Has one
-	Sender             User          `gorm:"PRELOAD:true"` // Has one
-	Recipient          User          `gorm:"PRELOAD:true"` // Has one
-	Package            Package       `gorm:"PRELOAD:true"` // Has one
+	Offers             []Offer       `gorm:"preload:true"` // Has many
+	Route              []RouteDetail `gorm:"preload:true"` // Has many
+	SelectedOffer      Offer         `gorm:"preload:true"` // Has one
+	Sender             User          `gorm:"preload:true"` // Has one
+	Recipient          User          `gorm:"preload:true"` // Has one
+	Package            Package       `gorm:"preload:true"` // Has one
 }
