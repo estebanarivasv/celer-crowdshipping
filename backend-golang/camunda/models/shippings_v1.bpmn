@@ -7,12 +7,12 @@
     <bpmn:startEvent id="SenderDeliverPackage" name="Sender needs to deliver a package">
       <bpmn:outgoing>Flow_11idmd5</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_18m0xuu" sourceRef="PackageInTransitTask" targetRef="ConfirmPackageOkTask" />
-    <bpmn:sequenceFlow id="Flow_0bpoblv" sourceRef="AwaitingPickupTask" targetRef="PackageInTransitTask" />
+    <bpmn:sequenceFlow id="Flow_18m0xuu" sourceRef="AwaitArrivalTask" targetRef="ConfirmPackageOkTask" />
+    <bpmn:sequenceFlow id="Flow_0bpoblv" sourceRef="AwaitingPickupTask" targetRef="AwaitArrivalTask" />
     <bpmn:sequenceFlow id="Flow_0vrtn1g" sourceRef="AwaitingOfferTask" targetRef="AwaitingPickupTask" />
-    <bpmn:sequenceFlow id="Flow_1gdli6f" sourceRef="VeriftShippingTask" targetRef="AwaitingOfferTask" />
-    <bpmn:sequenceFlow id="Flow_11idmd5" sourceRef="SenderDeliverPackage" targetRef="VeriftShippingTask" />
-    <bpmn:receiveTask id="AwaitingOfferTask" name="Receive selected offer" messageRef="Message_0l6g6b7">
+    <bpmn:sequenceFlow id="Flow_1gdli6f" sourceRef="VerifyShippingTask" targetRef="AwaitingOfferTask" />
+    <bpmn:sequenceFlow id="Flow_11idmd5" sourceRef="SenderDeliverPackage" targetRef="VerifyShippingTask" />
+    <bpmn:receiveTask id="AwaitingOfferTask" name="Await selected offer" messageRef="Message_0l6g6b7">
       <bpmn:extensionElements />
       <bpmn:incoming>Flow_1gdli6f</bpmn:incoming>
       <bpmn:outgoing>Flow_0vrtn1g</bpmn:outgoing>
@@ -21,7 +21,7 @@
       <bpmn:incoming>Flow_0vrtn1g</bpmn:incoming>
       <bpmn:outgoing>Flow_0bpoblv</bpmn:outgoing>
     </bpmn:receiveTask>
-    <bpmn:receiveTask id="PackageInTransitTask" name="Await for the distributor to deliver the package" messageRef="Message_2lcrp46">
+    <bpmn:receiveTask id="AwaitArrivalTask" name="Await for the distributor to deliver the package" messageRef="Message_2lcrp46">
       <bpmn:incoming>Flow_0bpoblv</bpmn:incoming>
       <bpmn:outgoing>Flow_18m0xuu</bpmn:outgoing>
     </bpmn:receiveTask>
@@ -30,7 +30,7 @@
       <bpmn:incoming>Flow_18m0xuu</bpmn:incoming>
     </bpmn:receiveTask>
     <bpmn:sequenceFlow id="Flow_14klrni" sourceRef="ConfirmationTime" targetRef="Delivered" />
-    <bpmn:receiveTask id="VeriftShippingTask" name="Verify shipping request details" messageRef="Message_2h6q83m">
+    <bpmn:receiveTask id="VerifyShippingTask" name="Verify shipping request details" messageRef="Message_2h6q83m">
       <bpmn:extensionElements />
       <bpmn:incoming>Flow_11idmd5</bpmn:incoming>
       <bpmn:outgoing>Flow_1gdli6f</bpmn:outgoing>
@@ -42,11 +42,11 @@
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
   </bpmn:process>
-  <bpmn:message id="Message_2h6q83m" name="AddShippingDetailsMsg" />
-  <bpmn:message id="Message_0l6g6b7" name="SendOfferMsg" />
-  <bpmn:message id="Message_1oen412" name="PackageInTransitMsg" />
-  <bpmn:message id="Message_2lcrp46" name="DeliveredToRecipientMsg" />
-  <bpmn:message id="Message_1i200f9" name="PackageOkMessage" />
+  <bpmn:message id="Message_2h6q83m" name="ShippingDetailsAdded" />
+  <bpmn:message id="Message_0l6g6b7" name="OfferSelected" />
+  <bpmn:message id="Message_1oen412" name="PackageInTransit" />
+  <bpmn:message id="Message_2lcrp46" name="DeliveredToRecipient" />
+  <bpmn:message id="Message_1i200f9" name="PackageOk" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ShippingDelivery">
       <bpmndi:BPMNEdge id="Flow_14klrni_di" bpmnElement="Flow_14klrni">
@@ -93,7 +93,7 @@
         <dc:Bounds x="620" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_01wxgbi_di" bpmnElement="PackageInTransitTask">
+      <bpmndi:BPMNShape id="Activity_01wxgbi_di" bpmnElement="AwaitArrivalTask">
         <dc:Bounds x="770" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
@@ -101,7 +101,7 @@
         <dc:Bounds x="920" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0econme_di" bpmnElement="VeriftShippingTask">
+      <bpmndi:BPMNShape id="Activity_0econme_di" bpmnElement="VerifyShippingTask">
         <dc:Bounds x="310" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
