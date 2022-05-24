@@ -12,17 +12,6 @@ import (
 
 func GenerateRouting(server *gin.Engine) {
 	// Create a get method and associate it with the welcome function
-	// Todo delete these comments
-	/*
-		server.GET("/", indexHandler)
-		server.POST("/sender/shippings", newShippingHandler)
-		server.GET("/sender/shippings", getAllShippingsHandler)
-		server.GET("/sender/shippings/:id", getShippingByIDHandler)
-		server.PUT("/sender/shippings/:id", updateShippingByIDHandler)
-		server.DELETE("/sender/shippings/:id", deleteShippingByIDHandler)
-		server.POST("/camunda-proc/create", createShippingProc)
-		server.POST("/camunda-proc/message", sendMessageToProc)
-	*/
 
 	// ex: localhost/api/v1
 	mainPath := server.Group(docs.SwaggerInfo.BasePath)
@@ -31,12 +20,12 @@ func GenerateRouting(server *gin.Engine) {
 		{
 			senderShipPath := senderPath.Group("/shippings")
 			{
-				senderShipPath.POST("", sender.NewShipping)
-				senderShipPath.GET("", sender.GetAllShippings)
-				senderShipPath.GET("/:id", handlers.GetShippingByID)
-				senderShipPath.PUT("/:id", sender.UpdateShippingByID)
-				senderShipPath.PATCH("/:id", handlers.UpdateShippingStateByID)
-				senderShipPath.DELETE("/:id", sender.DeleteShippingByID)
+				senderShipPath.POST("", sender.NewShipping)                  // TODO DONE
+				senderShipPath.GET("", sender.GetAllShippings)               // TODO DONE
+				senderShipPath.GET("/:id", sender.GetShippingByID)           // TODO DONE
+				senderShipPath.PUT("/:id", sender.UpdateShippingByID)        // TODO DONE
+				senderShipPath.PATCH("/:id", sender.UpdateShippingStateByID) // TODO DONE
+				senderShipPath.DELETE("/:id", sender.DeleteShippingByID)     // TODO DONE
 				senderShipPath.GET("/:id/offers", sender.GetShippingOffersByID)
 				senderShipPath.GET("/:id/distributor", sender.GetShippingDistributorByID)
 				senderShipPath.GET("/:id/route", sender.GetShippingRouteByID)
@@ -54,12 +43,12 @@ func GenerateRouting(server *gin.Engine) {
 			distributorPath.GET("/offers", distributor.GetAllOffersByDistributor)
 			distributorShipPath := distributorPath.Group("/shippings")
 			{
-				distributorShipPath.GET("/:id", handlers.GetShippingByID)
-				distributorShipPath.PATCH("/:id", handlers.UpdateShippingStateByID)
+				distributorShipPath.GET("/:id", distributor.GetShippingByID)           // TODO DONE
+				distributorShipPath.PATCH("/:id", distributor.UpdateShippingStateByID) // TODO DONE
 				distributorShipPath.POST("/:id/route/coordinates", distributor.NewShippingCoordinate)
 			}
 		}
-		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID)
+		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID) // TODO DONE
 		mainPath.GET("/users/:id", handlers.GetUserByID)
 	}
 
