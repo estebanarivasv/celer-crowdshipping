@@ -26,3 +26,7 @@ type MessageToProcessDTO struct {
 	MessageName       string `json:"messageName"`
 	ProcessInstanceId string `json:"processInstanceId"`
 }
+
+type MessageToProcessInDTO struct {
+	MessageName string `json:"messageName"`
+}
