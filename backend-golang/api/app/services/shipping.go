@@ -28,11 +28,15 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
+	// Add Camunda Process ID
 	query.ProcessID = newCamundaProcDTO.ID
 	queryWithProcID, err := repository.Save(&query)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
+
+	// Send ShippingDetailsAdded message to Camunda
+	SendMessageToCamundaProcess(newCamundaProcDTO.ID, "ShippingDetailsAdded")
 
 	// Mapping into a dto
 	shippingDto := shippingMapper.ToDTO(queryWithProcID)
@@ -111,4 +115,19 @@ func FindShippingStateById(id int) dtos.Response {
 
 	return dtos.Response{Success: true, Data: stateDto}
 
+}
+
+func UpdateShippingState(shippingId int, message string) dtos.Response {
+
+	// Bring shipping
+	query, err := repository.FindOneById(shippingId)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Bring proc id
+	camundaID := query.ProcessID
+
+	// Send msg to proc
+	return SendMessageToCamundaProcess(camundaID, message)
 }
