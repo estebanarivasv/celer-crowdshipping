@@ -82,7 +82,7 @@ func SendMessageToProcessRequest(httpMethod string, url string, body io.Reader) 
 
 	if response.StatusCode == http.StatusBadRequest {
 		// 400 - BadRequest
-		return http.ErrBodyNotAllowed
+		return errors.New("this process is not awaiting for that message")
 	}
 	return nil
 }
