@@ -10,7 +10,8 @@ import (
 var repository = repositories.NewShippingRepository()
 var mapper = mappers.ShippingMapper{}
 
-// CreateShipping TODO RETURN ERROR
+// TODO comment service
+
 func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
 	// Convert the dto to an entity
@@ -21,8 +22,19 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
+	newCamundaProcDTO, err := CreateNewCamundaProcInstance()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	query.ProcessID = newCamundaProcDTO.ID
+	queryWithProcID, err := repository.Save(&query)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
 	// Mapping into a dto
-	shippingDto := mapper.ToDTO(&query)
+	shippingDto := mapper.ToDTO(queryWithProcID)
 
 	return dtos.Response{Success: true, Data: shippingDto}
 }
@@ -59,24 +71,7 @@ func FindShippingById(id int) dtos.Response {
 
 }
 
-func UpdateShippingById(id int, dto entities.ShippingInDTO) dtos.Response {
-
-	/*
-		existingShippingDao := FindShippingById(id)
-		if !existingShippingDao.Success {
-			// Returns success as "false" with an error
-			return existingShippingDao
-		}
-		shipping := existingShippingDao.Data.(*models.Shipping)
-
-		// Todo: fix mapping
-		shipping.Details = newShipping.Details
-		shipping.OriginAddress = newShipping.OriginAddress
-		shipping.DestinationAddress = newShipping.DestinationAddress
-
-		response := repository.SaveOne(shipping)
-
-	*/
+func UpdateShippingById(id int, dto entities.ShippingInPutDTO) dtos.Response {
 
 	query, err := repository.UpdateById(id, &dto)
 	if err != nil {

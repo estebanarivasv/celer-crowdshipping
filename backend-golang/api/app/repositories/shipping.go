@@ -13,7 +13,6 @@ type ShippingRepository struct {
 	db *gorm.DB
 }
 
-// TODO CHANGE TO CONTEXT -- var db = context.Background()
 var db = config.ConnectToDb()
 
 // NewShippingRepository Returns a new instance
@@ -22,7 +21,6 @@ func NewShippingRepository() *ShippingRepository {
 }
 
 // Save Store a new entity in the database
-
 func (r *ShippingRepository) Save(shipping *models.Shipping) (*models.Shipping, error) {
 	err := r.db.Save(&shipping).Error
 	if err != nil {
@@ -32,7 +30,6 @@ func (r *ShippingRepository) Save(shipping *models.Shipping) (*models.Shipping, 
 }
 
 func (r *ShippingRepository) Create(dao models.Shipping) (models.Shipping, error) {
-
 	err := r.db.Create(&dao).Error
 	if err != nil {
 		// TODO HANDLE EMPTY
@@ -81,7 +78,7 @@ func (r *ShippingRepository) DeleteById(id int) error {
 }
 
 // UpdateById Update an entity from the database with a body and an ID
-func (r *ShippingRepository) UpdateById(id int, dto *entities.ShippingInDTO) (models.Shipping, error) {
+func (r *ShippingRepository) UpdateById(id int, dto *entities.ShippingInPutDTO) (models.Shipping, error) {
 
 	// TODO UPDATED AT
 	err := r.db.Model(models.Shipping{}).Where("id = ?", id).Updates(dto).Error
