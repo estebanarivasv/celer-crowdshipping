@@ -11,7 +11,7 @@ type Shipping struct {
 	ID                 int `gorm:"primarykey"`
 	Details            string
 	PackageID          int
-	SelectedOfferID    int // Selected Offer
+	SelectedOfferID    *int `sql:"default:null"` // Selected Offer
 	SenderID           int
 	RecipientID        int
 	ProcessID          string
