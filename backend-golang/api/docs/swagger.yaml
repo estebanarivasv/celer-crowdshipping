@@ -1,4 +1,9 @@
 definitions:
+  dtos.MessageToProcessInDTO:
+    properties:
+      messageName:
+        type: string
+    type: object
   dtos.Response:
     properties:
       data: {}
@@ -42,6 +47,61 @@ definitions:
 info:
   contact: {}
 paths:
+  /distributor/shippings/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Shipping stored in the database by passing an ID
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get Shipping
+    patch:
+      consumes:
+      - application/json
+      description: Change shipping state by sending a message to a camunda process
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fill the body to change shipping state
+        in: body
+        name: Shipping
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.MessageToProcessInDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Update Shipping State
   /sender/shippings:
     get:
       description: Get all shippings stored in the database
@@ -129,6 +189,34 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Get Shipping
+    patch:
+      consumes:
+      - application/json
+      description: Change shipping state by sending a message to a camunda process
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fill the body to change shipping state
+        in: body
+        name: Shipping
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.MessageToProcessInDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Update Shipping State
     put:
       consumes:
       - application/json
