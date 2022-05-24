@@ -1,9 +1,84 @@
 package distributor
 
 import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func NewShippingCoordinate(c *gin.Context) {
 
+}
+
+// GetShippingByID
+// @Summary Get Shipping
+// @Description Get Shipping stored in the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 404 {object} dtos.Response
+// @Router /distributor/shippings/{id} [get]
+func GetShippingByID(c *gin.Context) {
+	// TODO: Verify user has access to this information - AUTH
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := services.FindShippingById(id)
+	if !dto.Success {
+		if dto.Error == "record not found" {
+			c.JSON(http.StatusNotFound, dto)
+			return
+		}
+		c.JSON(http.StatusInternalServerError, dto)
+		return
+	}
+	c.JSON(http.StatusOK, dto)
+	return
+}
+
+// UpdateShippingStateByID
+// @Summary Update Shipping State
+// @Description Change shipping state by sending a message to a camunda process
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Param Shipping body dtos.MessageToProcessInDTO true "Fill the body to change shipping state"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Router /distributor/shippings/{id} [patch]
+func UpdateShippingStateByID(c *gin.Context) {
+
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	dto := controllers.ShouldBindDTO(c, dtos.MessageToProcessInDTO{})
+
+	// Verify message is valid for sender
+	valid := controllers.ContainsValidDistributorMsg(dto.MessageName)
+	if !valid {
+		c.JSON(
+			http.StatusBadRequest,
+			dtos.Response{Success: false, Error: "not a valid message"})
+		return
+	}
+
+	responseDto := services.UpdateShippingState(id, dto.MessageName)
+
+	if !responseDto.Success {
+		c.JSON(http.StatusInternalServerError, responseDto)
+		return
+	}
+	c.JSON(http.StatusCreated, responseDto)
+	return
 }
