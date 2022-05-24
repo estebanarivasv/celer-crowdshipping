@@ -19,6 +19,21 @@ definitions:
         type: integer
       recipient_id:
         type: integer
+      sender_id:
+        type: integer
+    type: object
+  entities.ShippingInPutDTO:
+    properties:
+      dest_addr:
+        type: string
+      details:
+        type: string
+      origin_addr:
+        type: string
+      package_id:
+        type: integer
+      recipient_id:
+        type: integer
       selected_offer_id:
         type: integer
       sender_id:
@@ -129,7 +144,7 @@ paths:
         name: Shipping
         required: true
         schema:
-          $ref: '#/definitions/entities.ShippingInDTO'
+          $ref: '#/definitions/entities.ShippingInPutDTO'
       produces:
       - application/json
       responses:

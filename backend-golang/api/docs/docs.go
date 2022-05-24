@@ -137,7 +137,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entities.ShippingInDTO"
+                            "$ref": "#/definitions/entities.ShippingInPutDTO"
                         }
                     }
                 ],
@@ -205,6 +205,29 @@ const docTemplate = `{
             }
         },
         "entities.ShippingInDTO": {
+            "type": "object",
+            "properties": {
+                "dest_addr": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "string"
+                },
+                "origin_addr": {
+                    "type": "string"
+                },
+                "package_id": {
+                    "type": "integer"
+                },
+                "recipient_id": {
+                    "type": "integer"
+                },
+                "sender_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.ShippingInPutDTO": {
             "type": "object",
             "properties": {
                 "dest_addr": {
