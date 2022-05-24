@@ -32,7 +32,6 @@ func (r *ShippingRepository) Save(shipping *models.Shipping) (*models.Shipping, 
 func (r *ShippingRepository) Create(dao models.Shipping) (models.Shipping, error) {
 	err := r.db.Create(&dao).Error
 	if err != nil {
-		// TODO HANDLE EMPTY
 		return *new(models.Shipping), err
 	}
 
@@ -45,7 +44,6 @@ func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
 
 	err := r.db.Preload(clause.Associations).Find(&shippings).Error
 	if err != nil {
-		// TODO HANDLE EMPTY
 		return *new([]models.Shipping), err
 	}
 
@@ -55,7 +53,7 @@ func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
 // FindOneById Get one shipping by ID from the database
 func (r *ShippingRepository) FindOneById(id int) (models.Shipping, error) {
 	var shipping models.Shipping
-	//
+
 	err := r.db.Model(models.Shipping{}).Preload(clause.Associations).Where("id = ?", id).Take(&shipping).Error
 	if err != nil {
 		// TODO HANDLE EMPTY
@@ -68,7 +66,6 @@ func (r *ShippingRepository) FindOneById(id int) (models.Shipping, error) {
 // DeleteById Delete a shipping by ID from the database
 func (r *ShippingRepository) DeleteById(id int) error {
 
-	// TODO UPDATE DELETED AT - DO NOT DELETE
 	err := r.db.Delete(&models.Shipping{}, id).Error
 	if err != nil {
 		return err
@@ -80,7 +77,6 @@ func (r *ShippingRepository) DeleteById(id int) error {
 // UpdateById Update an entity from the database with a body and an ID
 func (r *ShippingRepository) UpdateById(id int, dto *entities.ShippingInPutDTO) (models.Shipping, error) {
 
-	// TODO UPDATED AT
 	err := r.db.Model(models.Shipping{}).Where("id = ?", id).Updates(dto).Error
 	if err != nil {
 		return *new(models.Shipping), err

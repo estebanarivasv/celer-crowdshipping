@@ -7,9 +7,8 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
 )
 
-var repository = repositories.NewShippingRepository()
+var shippingRepository = repositories.NewShippingRepository()
 var shippingMapper = mappers.ShippingMapper{}
-var camundaMapper = mappers.CamundaMapper{}
 
 // TODO comment service
 
@@ -18,7 +17,7 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 	// Convert the dto to an entity
 	shippingModel := shippingMapper.FromDTO(shipping)
 
-	query, err := repository.Create(shippingModel)
+	query, err := shippingRepository.Create(shippingModel)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -30,7 +29,7 @@ func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
 	// Add Camunda Process ID
 	query.ProcessID = newCamundaProcDTO.ID
-	queryWithProcID, err := repository.Save(&query)
+	queryWithProcID, err := shippingRepository.Save(&query)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -48,7 +47,7 @@ func FindAllShippings() dtos.Response {
 
 	var dtosArr []interface{}
 
-	response, err := repository.FindAll()
+	response, err := shippingRepository.FindAll()
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -64,7 +63,7 @@ func FindAllShippings() dtos.Response {
 
 func FindShippingById(id int) dtos.Response {
 
-	query, err := repository.FindOneById(id)
+	query, err := shippingRepository.FindOneById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -78,7 +77,7 @@ func FindShippingById(id int) dtos.Response {
 
 func UpdateShippingById(id int, dto entities.ShippingInPutDTO) dtos.Response {
 
-	query, err := repository.UpdateById(id, &dto)
+	query, err := shippingRepository.UpdateById(id, &dto)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -91,7 +90,7 @@ func UpdateShippingById(id int, dto entities.ShippingInPutDTO) dtos.Response {
 
 func DeleteShippingById(id int) dtos.Response {
 
-	err := repository.DeleteById(id)
+	err := shippingRepository.DeleteById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -102,7 +101,7 @@ func DeleteShippingById(id int) dtos.Response {
 
 func FindShippingStateById(id int) dtos.Response {
 
-	query, err := repository.FindOneById(id)
+	query, err := shippingRepository.FindOneById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -120,7 +119,7 @@ func FindShippingStateById(id int) dtos.Response {
 func UpdateShippingState(shippingId int, message string) dtos.Response {
 
 	// Bring shipping
-	query, err := repository.FindOneById(shippingId)
+	query, err := shippingRepository.FindOneById(shippingId)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
