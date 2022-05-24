@@ -99,6 +99,78 @@ const docTemplate = `{
                 }
             }
         },
+        "/packages": {
+            "post": {
+                "description": "Creates a new package in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Creates a new package",
+                "parameters": [
+                    {
+                        "description": "Fill the body to create a new package",
+                        "name": "Package",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.PackageInDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/packages/{id}": {
+            "delete": {
+                "description": "Delete a Package by ID which is stored in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete Package",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Package ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/sender/shippings": {
             "get": {
                 "description": "Get all shippings stored in the database",
@@ -378,6 +450,26 @@ const docTemplate = `{
                 }
             }
         },
+        "entities.PackageInDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "dimensions": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
         "entities.ShippingInDTO": {
             "type": "object",
             "properties": {
@@ -417,9 +509,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "recipient_id": {
-                    "type": "integer"
-                },
-                "selected_offer_id": {
                     "type": "integer"
                 },
                 "sender_id": {
