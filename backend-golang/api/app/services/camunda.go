@@ -29,12 +29,12 @@ func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 	}
 	body, err := camunda.PayloadToJsonBody(payload)
 	if err != nil {
-		return dtos.Response{Success: true, Error: err.Error()}
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
 	err = repositories.SendMessageToProcessRequest(http.MethodPost, url, body)
 	if err != nil {
-		return dtos.Response{Success: true, Error: err.Error()}
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
 	return dtos.Response{Success: true}
