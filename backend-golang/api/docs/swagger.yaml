@@ -40,19 +40,9 @@ definitions:
       sender_id:
         type: integer
     type: object
-  entities.ShippingInPutDTO:
+  entities.ShippingInPatchDTO:
     properties:
-      dest_addr:
-        type: string
-      details:
-        type: string
-      origin_addr:
-        type: string
-      package_id:
-        type: integer
-      recipient_id:
-        type: integer
-      sender_id:
+      selected_offer_id:
         type: integer
     type: object
 info:
@@ -275,22 +265,23 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping State
-    put:
+  /sender/shippings/{id}/offers/selected:
+    patch:
       consumes:
       - application/json
-      description: Update a Shipping by ID which is stored in the database
+      description: Add selected offer and send a message to a camunda process
       parameters:
       - description: Shipping ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Fill the body to update a new shipping
+      - description: Add selected offer ID
         in: body
         name: Shipping
         required: true
         schema:
-          $ref: '#/definitions/entities.ShippingInPutDTO'
+          $ref: '#/definitions/entities.ShippingInPatchDTO'
       produces:
       - application/json
       responses:
@@ -302,7 +293,7 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
-      summary: Update Shipping
+      summary: Update Shipping's selected offer
   /shippings/{id}/state:
     get:
       consumes:

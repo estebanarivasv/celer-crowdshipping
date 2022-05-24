@@ -269,48 +269,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "Update a Shipping by ID which is stored in the database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update Shipping",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Shipping ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Fill the body to update a new shipping",
-                        "name": "Shipping",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entities.ShippingInPutDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.Response"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "Delete a Shipping by ID which is stored in the database",
                 "consumes": [
@@ -368,6 +326,50 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/dtos.MessageToProcessInDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/sender/shippings/{id}/offers/selected": {
+            "patch": {
+                "description": "Add selected offer and send a message to a camunda process",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update Shipping's selected offer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Add selected offer ID",
+                        "name": "Shipping",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.ShippingInPatchDTO"
                         }
                     }
                 ],
@@ -493,25 +495,10 @@ const docTemplate = `{
                 }
             }
         },
-        "entities.ShippingInPutDTO": {
+        "entities.ShippingInPatchDTO": {
             "type": "object",
             "properties": {
-                "dest_addr": {
-                    "type": "string"
-                },
-                "details": {
-                    "type": "string"
-                },
-                "origin_addr": {
-                    "type": "string"
-                },
-                "package_id": {
-                    "type": "integer"
-                },
-                "recipient_id": {
-                    "type": "integer"
-                },
-                "sender_id": {
+                "selected_offer_id": {
                     "type": "integer"
                 }
             }
