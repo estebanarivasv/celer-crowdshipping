@@ -13,9 +13,8 @@ func (m ShippingMapper) FromDTO(dto *entities.ShippingInDTO) models.Shipping {
 
 	return models.Shipping{
 		Details:            dto.Details,
-		PackageID:          dto.PackageID,
-		SelectedOfferID:    dto.SelectedOfferID,
 		SenderID:           dto.SenderID,
+		PackageID:          dto.PackageID,
 		RecipientID:        dto.RecipientID,
 		OriginAddress:      dto.OriginAddress,
 		DestinationAddress: dto.DestinationAddress,
