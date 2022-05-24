@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -32,10 +31,29 @@ func IsZero[T comparable](v T) bool {
 }
 
 func ConvertParamToInt(param string) (int, error) {
-	log.Printf(param)
 	p, err := strconv.Atoi(param)
 	if err != nil {
 		return 0, err
 	}
 	return p, nil
+}
+
+func ContainsValidSenderMsg(v string) bool {
+	elems := []string{"OfferSelected", "PackageOk"}
+	for _, s := range elems {
+		if v == s {
+			return true
+		}
+	}
+	return false
+}
+
+func ContainsValidDistributorMsg(v string) bool {
+	elems := []string{"PackageInTransit", "DeliveredToRecipient"}
+	for _, s := range elems {
+		if v == s {
+			return true
+		}
+	}
+	return false
 }
