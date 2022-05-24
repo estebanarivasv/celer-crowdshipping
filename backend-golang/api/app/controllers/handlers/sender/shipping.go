@@ -1,12 +1,12 @@
 package sender
 
 import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
 // NewShipping
@@ -20,17 +20,6 @@ import (
 // @Failure 400 {object} dtos.Response
 // @Router /sender/shippings [post]
 func NewShipping(c *gin.Context) {
-	// TODO: Replace with generic should bind - TEST IF IT WORKS
-	/*
-		if err := c.ShouldBindJSON(&shipping); err != nil {
-			c.JSON(
-				http.StatusBadRequest,
-				gin.H{"error": err.Error()})
-			return
-		}
-	*/
-
-	// TODO CREATE CAMUNDA INSTANCE
 	dto := controllers.ShouldBindDTO(c, entities.ShippingInDTO{})
 
 	var responseDto = services.CreateShipping(&dto)
@@ -56,6 +45,38 @@ func GetAllShippings(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, responseDto)
+	return
+}
+
+// GetShippingByID
+// @Summary Get Shipping
+// @Description Get Shipping stored in the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 404 {object} dtos.Response
+// @Router /sender/shippings/{id} [get]
+func GetShippingByID(c *gin.Context) {
+	// TODO: Verify user has access to this information - AUTH
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := services.FindShippingById(id)
+	if !dto.Success {
+		if dto.Error == "record not found" {
+			c.JSON(http.StatusNotFound, dto)
+			return
+		}
+		c.JSON(http.StatusInternalServerError, dto)
+		return
+	}
+	c.JSON(http.StatusOK, dto)
 	return
 }
 
@@ -99,7 +120,7 @@ func UpdateShippingByID(c *gin.Context) {
 // @Router /sender/shippings/{id} [delete]
 func DeleteShippingByID(c *gin.Context) {
 
-	var id, err = strconv.Atoi(c.Param("id"))
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return
@@ -111,6 +132,45 @@ func DeleteShippingByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusAccepted, responseDto)
 
+	return
+}
+
+// UpdateShippingStateByID
+// @Summary Update Shipping State
+// @Description Change shipping state by sending a message to a camunda process
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Param Shipping body dtos.MessageToProcessInDTO true "Fill the body to change shipping state"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Router /sender/shippings/{id} [patch]
+func UpdateShippingStateByID(c *gin.Context) {
+
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	dto := controllers.ShouldBindDTO(c, dtos.MessageToProcessInDTO{})
+
+	// Verify message is valid for sender
+	valid := controllers.ContainsValidSenderMsg(dto.MessageName)
+	if !valid {
+		c.JSON(
+			http.StatusBadRequest,
+			dtos.Response{Success: false, Error: "not a valid message"})
+		return
+	}
+
+	responseDto := services.UpdateShippingState(id, dto.MessageName)
+
+	if !responseDto.Success {
+		c.JSON(http.StatusInternalServerError, responseDto)
+		return
+	}
+	c.JSON(http.StatusCreated, responseDto)
 	return
 }
 
