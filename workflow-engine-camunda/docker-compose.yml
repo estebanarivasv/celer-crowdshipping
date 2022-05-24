@@ -4,6 +4,7 @@ services:
   # Camunda platform with zeebe embeeded (I guess)
   camunda-platform:
     image: camunda/camunda-bpm-platform:7.18.0-SNAPSHOT
+    command: ./camunda.sh --rest --swaggerui --webapps
     container_name: celer-camunda-platform
     environment:
       - "DB_DRIVER=org.postgresql.Driver"
