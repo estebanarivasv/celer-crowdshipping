@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -75,7 +74,7 @@ func (r *ShippingRepository) DeleteById(id int) error {
 }
 
 // UpdateById Update an entity from the database with a body and an ID
-func (r *ShippingRepository) UpdateById(id int, dto *entities.ShippingInPutDTO) (models.Shipping, error) {
+func (r *ShippingRepository) UpdateById(id int, dto interface{}) (models.Shipping, error) {
 
 	err := r.db.Model(models.Shipping{}).Where("id = ?", id).Updates(dto).Error
 	if err != nil {

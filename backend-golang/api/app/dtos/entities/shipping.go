@@ -13,13 +13,8 @@ type ShippingInDTO struct {
 	DestinationAddress string `json:"dest_addr"`
 }
 
-type ShippingInPutDTO struct {
-	Details            string `json:"details"`
-	PackageID          int    `json:"package_id"`
-	SenderID           int    `json:"sender_id"`
-	RecipientID        int    `json:"recipient_id"`
-	OriginAddress      string `json:"origin_addr"`
-	DestinationAddress string `json:"dest_addr"`
+type ShippingInPatchDTO struct {
+	SelectedOfferID *int `json:"selected_offer_id"`
 }
 
 type ShippingOutDTO struct {

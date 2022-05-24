@@ -75,19 +75,6 @@ func FindShippingById(id int) dtos.Response {
 
 }
 
-func UpdateShippingById(id int, dto entities.ShippingInPutDTO) dtos.Response {
-
-	query, err := shippingRepository.UpdateById(id, &dto)
-	if err != nil {
-		return dtos.Response{Success: false, Error: err.Error()}
-	}
-
-	// Mapping into a dto
-	shippingDto := shippingMapper.ToDTO(&query)
-
-	return dtos.Response{Success: true, Data: shippingDto}
-}
-
 func DeleteShippingById(id int) dtos.Response {
 
 	err := shippingRepository.DeleteById(id)
@@ -129,4 +116,21 @@ func UpdateShippingState(shippingId int, message string) dtos.Response {
 
 	// Send msg to proc
 	return SendMessageToCamundaProcess(camundaID, message)
+}
+
+func UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.Response {
+
+	query, err := shippingRepository.UpdateById(shippingId, dto)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Send OfferSelected message to Camunda
+	SendMessageToCamundaProcess(query.ProcessID, "OfferSelected")
+
+	// Mapping into a dto
+	shippingDto := shippingMapper.ToDTO(&query)
+
+	return dtos.Response{Success: true, Data: shippingDto}
+
 }
