@@ -66,7 +66,7 @@ func GetAllShippings(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Shipping ID"
-// @Param Shipping body entities.ShippingInDTO true "Fill the body to update a new shipping"
+// @Param Shipping body entities.ShippingInPutDTO true "Fill the body to update a new shipping"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Router /sender/shippings/{id} [put]
@@ -77,7 +77,7 @@ func UpdateShippingByID(c *gin.Context) {
 		return
 	}
 
-	dto := controllers.ShouldBindDTO(c, entities.ShippingInDTO{})
+	dto := controllers.ShouldBindDTO(c, entities.ShippingInPutDTO{})
 	var responseDto = services.UpdateShippingById(id, dto)
 	if !responseDto.Success {
 		c.JSON(http.StatusInternalServerError, responseDto)
