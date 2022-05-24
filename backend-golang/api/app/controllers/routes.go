@@ -50,6 +50,9 @@ func GenerateRouting(server *gin.Engine) {
 		}
 		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID) // TODO DONE
 		mainPath.GET("/users/:id", handlers.GetUserByID)
+		mainPath.POST("/packages", handlers.NewPackage)
+		mainPath.DELETE("/packages/:id", handlers.DeletePackageByID)
+
 	}
 
 	server.NoRoute(handlers.IndexHandler)
