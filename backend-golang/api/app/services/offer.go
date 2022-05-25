@@ -83,6 +83,33 @@ func FindOffersByRequestID(id int) dtos.Response {
 
 }
 
+func FindOffersByShippingID(id int) dtos.Response {
+
+	// Get shipping
+	shippingDao, err := shippingRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	var dtosArr []interface{}
+
+	conditions := make(map[string]interface{})
+	conditions["shipping_id"] = shippingDao.ID
+
+	offers, err := offerRepository.FindAllRequestOffers(conditions)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Convert and append all models into dtos
+	for _, offer := range offers {
+		dtosArr = append(dtosArr, offerMapper.ToDTO(&offer))
+	}
+
+	return dtos.Response{Success: true, Data: dtosArr}
+
+}
+
 func DeleteOfferById(id int) dtos.Response {
 	err := offerRepository.DeleteById(id)
 	if err != nil {

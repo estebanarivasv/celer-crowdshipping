@@ -577,6 +577,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/sender/shippings/{id}/offers": {
+            "get": {
+                "description": "Get offers associated to a shipping from the database by passing an ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get shipping offers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/sender/shippings/{id}/offers/selected": {
             "get": {
                 "description": "Get a shipping selected route from the database by passing an ID",

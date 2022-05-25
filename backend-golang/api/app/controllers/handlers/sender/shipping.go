@@ -176,8 +176,33 @@ func UpdateSelectedOfferByID(c *gin.Context) {
 	return
 }
 
+// GetShippingOffersByID
+// @Summary Get shipping offers
+// @Description Get offers associated to a shipping from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 200 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /sender/shippings/{id}/offers [get]
 func GetShippingOffersByID(c *gin.Context) {
 
+	shippingId, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := services.FindOffersByShippingID(shippingId)
+	if !dto.Success {
+		c.JSON(http.StatusBadRequest, dto)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto)
+	return
 }
 
 // GetSelectedOfferByID
