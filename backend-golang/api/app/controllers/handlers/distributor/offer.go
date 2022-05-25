@@ -39,6 +39,32 @@ func GetRequestOffers(c *gin.Context) {
 
 }
 
+// DeleteOfferByID
+// @Summary Delete offer
+// @Description Delete offer from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Offer ID"
+// @Success 204 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /distributor/requests/offers/{id} [delete]
 func DeleteOfferByID(c *gin.Context) {
+
+	offerId, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := services.DeleteOfferById(offerId)
+	if !dto.Success {
+		c.JSON(http.StatusBadRequest, dto)
+		return
+	}
+
+	c.JSON(http.StatusNoContent, dto)
+	return
 
 }

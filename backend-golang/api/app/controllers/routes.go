@@ -38,7 +38,7 @@ func GenerateRouting(server *gin.Engine) {
 				distributorReqPath.GET("", distributor.SearchRequests)
 				distributorReqPath.POST("/:id/offers", distributor.NewRequestOffer)
 				distributorReqPath.GET("/:id/offers", distributor.GetRequestOffers)
-				distributorReqPath.DELETE("/:id/offers/:offerId", distributor.DeleteOfferByID)
+				distributorReqPath.DELETE("/offers/:id", distributor.DeleteOfferByID)
 			}
 			distributorPath.GET("/offers", distributor.GetAllOffersByDistributor)
 			distributorShipPath := distributorPath.Group("/shippings")

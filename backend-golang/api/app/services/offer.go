@@ -78,3 +78,12 @@ func FindOffersByRequestID(id int) dtos.Response {
 	return dtos.Response{Success: true, Data: dtosArr}
 
 }
+
+func DeleteOfferById(id int) dtos.Response {
+	err := offerRepository.DeleteById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	return dtos.Response{Success: true}
+}
