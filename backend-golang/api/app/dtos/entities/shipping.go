@@ -14,7 +14,7 @@ type ShippingInDTO struct {
 }
 
 type ShippingInPatchDTO struct {
-	SelectedOfferID *int `json:"selected_offer_id"`
+	SelectedOfferID int `json:"selected_offer_id"`
 }
 
 type ShippingOutDTO struct {

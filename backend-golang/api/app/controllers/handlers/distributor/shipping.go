@@ -74,11 +74,11 @@ func UpdateShippingStateByID(c *gin.Context) {
 	}
 
 	responseDto := services.UpdateShippingState(id, dto.MessageName)
-
 	if !responseDto.Success {
 		c.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
+
 	c.JSON(http.StatusCreated, responseDto)
 	return
 }
