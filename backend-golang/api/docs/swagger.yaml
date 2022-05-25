@@ -48,6 +48,21 @@ definitions:
 info:
   contact: {}
 paths:
+  /distributor/requests:
+    get:
+      description: Get all requests which are stored in the database and expect offers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get all pending shipping requests
   /distributor/shippings/{id}:
     get:
       consumes:
