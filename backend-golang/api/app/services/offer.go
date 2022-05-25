@@ -12,7 +12,7 @@ var userRepository = repositories.NewUserRepository()
 var offerMapper = mappers.OfferMapper{}
 
 func FindOfferById(id int) dtos.Response {
-	query, err := offerRepository.FindOneById(id)
+	query, err := offerRepository.FindOneById(&id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -117,4 +117,25 @@ func FindOffersByDistributorID(id int) dtos.Response {
 
 	return dtos.Response{Success: true, Data: dtosArr}
 
+}
+
+func FindSelectedOfferByShippingId(id int) dtos.Response {
+
+	// Verify shipping exists
+	shipping, err := shippingRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Verify selected offer is not null
+	if shipping.SelectedOfferID == nil {
+		return dtos.Response{Success: false, Error: "there is not a selected offer in this shipping instance."}
+	}
+
+	dto, err := offerRepository.FindOneById(shipping.SelectedOfferID)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	return dtos.Response{Success: true, Data: dto}
 }

@@ -169,7 +169,7 @@ func UpdateSelectedOfferByID(c *gin.Context) {
 	responseDto := services.UpdateSelectedOffer(id, dto)
 
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		c.JSON(http.StatusBadRequest, responseDto)
 		return
 	}
 	c.JSON(http.StatusCreated, responseDto)
@@ -180,7 +180,33 @@ func GetShippingOffersByID(c *gin.Context) {
 
 }
 
-func GetShippingDistributorByID(c *gin.Context) {
+// GetSelectedOfferByID
+// @Summary Get Shipping selected offer
+// @Description Get a shipping selected route from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 202 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /sender/shippings/{id}/offers/selected [get]
+func GetSelectedOfferByID(c *gin.Context) {
+
+	shippingId, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	responseDto := services.FindSelectedOfferByShippingId(shippingId)
+	if !responseDto.Success {
+		c.JSON(http.StatusBadRequest, responseDto)
+		return
+	}
+
+	c.JSON(http.StatusAccepted, responseDto)
+	return
 
 }
 

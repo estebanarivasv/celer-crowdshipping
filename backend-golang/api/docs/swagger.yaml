@@ -438,6 +438,32 @@ paths:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping State
   /sender/shippings/{id}/offers/selected:
+    get:
+      consumes:
+      - application/json
+      description: Get a shipping selected route from the database by passing an ID
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get Shipping selected offer
     patch:
       consumes:
       - application/json
@@ -480,8 +506,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "202":
+          description: Accepted
           schema:
             $ref: '#/definitions/dtos.Response'
         "400":

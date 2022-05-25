@@ -27,7 +27,7 @@ func GenerateRouting(server *gin.Engine) {
 				senderShipPath.DELETE("/:id", sender.DeleteShippingByID)     // TODO DONE
 				senderShipPath.GET("/:id/offers", sender.GetShippingOffersByID)
 				senderShipPath.PATCH("/:id/offers/selected", sender.UpdateSelectedOfferByID)
-				senderShipPath.GET("/:id/offers/selected", sender.GetShippingDistributorByID)
+				senderShipPath.GET("/:id/offers/selected", sender.GetSelectedOfferByID)
 				senderShipPath.GET("/:id/route", sender.GetShippingRouteByID)
 			}
 		}

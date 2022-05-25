@@ -23,11 +23,11 @@ func (r *OfferRepository) Create(dao models.Offer) (models.Offer, error) {
 		return *new(models.Offer), err
 	}
 
-	return r.FindOneById(dao.ID)
+	return r.FindOneById(&dao.ID)
 }
 
 // FindOneById Get one offer by ID from the database
-func (r *OfferRepository) FindOneById(id int) (models.Offer, error) {
+func (r *OfferRepository) FindOneById(id *int) (models.Offer, error) {
 	var model models.Offer
 
 	err := r.db.First(&model, id).Error
