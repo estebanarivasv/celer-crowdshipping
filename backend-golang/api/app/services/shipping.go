@@ -166,3 +166,20 @@ func UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.R
 	return dtos.Response{Success: true, Data: shippingDto}
 
 }
+
+func FindShippingRequests() dtos.Response {
+
+	requests, err := shippingRepository.FindAllRequests()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Map all models into a dto
+	var requestsArr []interface{}
+	for _, r := range requests {
+		requestsArr = append(requestsArr, shippingMapper.ToDTO(&r))
+	}
+
+	return dtos.Response{Success: true, Data: requestsArr}
+
+}
