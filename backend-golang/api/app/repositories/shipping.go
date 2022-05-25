@@ -49,14 +49,11 @@ func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
 	return shippings, nil
 }
 
-// FindAllRequests Get shipping requests from the database
-func (r *ShippingRepository) FindAllRequests() ([]models.Shipping, error) {
+// FindFilteredShippings Get shipping requests from the database
+func (r *ShippingRepository) FindFilteredShippings(filter map[string]interface{}) ([]models.Shipping, error) {
 	var shippings []models.Shipping
 
-	conditions := make(map[string]interface{})
-	conditions["selected_offer_id"] = nil
-
-	err := r.db.Preload(clause.Associations).Where(conditions).Find(&shippings).Error
+	err := r.db.Preload(clause.Associations).Where(filter).Find(&shippings).Error
 	if err != nil {
 		return *new([]models.Shipping), err
 	}

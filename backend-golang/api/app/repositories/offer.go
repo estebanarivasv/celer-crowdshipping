@@ -50,11 +50,8 @@ func (r *OfferRepository) DeleteById(id int) error {
 }
 
 // FindAllRequestOffers Get offers associated to requests from the database
-func (r *OfferRepository) FindAllRequestOffers(id int) ([]models.Offer, error) {
+func (r *OfferRepository) FindAllRequestOffers(conditions map[string]interface{}) ([]models.Offer, error) {
 	var offers []models.Offer
-
-	conditions := make(map[string]interface{})
-	conditions["shipping_id"] = id
 
 	err := r.db.Preload(clause.Associations).Where(conditions).Find(&offers).Error
 	if err != nil {

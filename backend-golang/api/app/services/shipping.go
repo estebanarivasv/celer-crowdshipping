@@ -169,7 +169,10 @@ func UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.R
 
 func FindShippingRequests() dtos.Response {
 
-	requests, err := shippingRepository.FindAllRequests()
+	conditions := make(map[string]interface{})
+	conditions["selected_offer_id"] = nil
+
+	requests, err := shippingRepository.FindFilteredShippings(conditions)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
