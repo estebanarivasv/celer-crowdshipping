@@ -51,30 +51,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/distributor/requests": {
-            "get": {
-                "description": "Get all requests which are stored in the database and expect offers",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get all pending shipping requests",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dtos.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/distributor/requests/offers/{id}": {
+        "/distributor/offers/{id}": {
             "delete": {
                 "description": "Delete offer from the database by passing an ID",
                 "consumes": [
@@ -102,6 +79,29 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/distributor/requests": {
+            "get": {
+                "description": "Get all requests which are stored in the database and expect offers",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all pending shipping requests",
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dtos.Response"
                         }
@@ -281,7 +281,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/distributor/shippings/{id}/route/coordinates": {
+        "/distributor/shippings/{id}/route": {
             "post": {
                 "description": "Add new coordinates to a shipping and stores it in the database",
                 "consumes": [

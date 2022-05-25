@@ -20,7 +20,7 @@ import (
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
-// @Router /distributor/shippings/{id}/route/coordinates [post]
+// @Router /distributor/shippings/{id}/route [post]
 func NewShippingCoordinates(c *gin.Context) {
 
 	shippingId, err := controllers.ConvertParamToInt(c.Param("id"))

@@ -73,7 +73,7 @@ func GetRequestOffers(c *gin.Context) {
 // @Success 204 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
-// @Router /distributor/requests/offers/{id} [delete]
+// @Router /distributor/offers/{id} [delete]
 func DeleteOfferByID(c *gin.Context) {
 
 	offerId, err := controllers.ConvertParamToInt(c.Param("id"))

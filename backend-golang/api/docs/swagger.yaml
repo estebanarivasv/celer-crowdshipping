@@ -88,6 +88,33 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Get offers made by a distributor
+  /distributor/offers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete offer from the database by passing an ID
+      parameters:
+      - description: Offer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Delete offer
   /distributor/requests:
     get:
       description: Get all requests which are stored in the database and expect offers
@@ -160,33 +187,6 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Creates a new offer for a shipping request
-  /distributor/requests/offers/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete offer from the database by passing an ID
-      parameters:
-      - description: Offer ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-          schema:
-            $ref: '#/definitions/dtos.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dtos.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dtos.Response'
-      summary: Delete offer
   /distributor/shippings/{id}:
     get:
       consumes:
@@ -242,7 +242,7 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping State
-  /distributor/shippings/{id}/route/coordinates:
+  /distributor/shippings/{id}/route:
     post:
       consumes:
       - application/json

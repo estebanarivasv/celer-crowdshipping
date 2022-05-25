@@ -38,14 +38,14 @@ func GenerateRouting(server *gin.Engine) {
 				distributorReqPath.GET("", distributor.SearchRequests)
 				distributorReqPath.POST("/:id/offers", distributor.NewRequestOffer)
 				distributorReqPath.GET("/:id/offers", distributor.GetRequestOffers)
-				distributorReqPath.DELETE("/offers/:id", distributor.DeleteOfferByID)
 			}
 			distributorPath.GET("/offers", distributor.GetAllOffersByDistributor)
+			distributorPath.DELETE("/offers/:id", distributor.DeleteOfferByID)
 			distributorShipPath := distributorPath.Group("/shippings")
 			{
 				distributorShipPath.GET("/:id", distributor.GetShippingByID)           // TODO DONE
 				distributorShipPath.PATCH("/:id", distributor.UpdateShippingStateByID) // TODO DONE
-				distributorShipPath.POST("/:id/route/coordinates", distributor.NewShippingCoordinates)
+				distributorShipPath.POST("/:id/route", distributor.NewShippingCoordinates)
 			}
 		}
 		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID) // TODO DONE
