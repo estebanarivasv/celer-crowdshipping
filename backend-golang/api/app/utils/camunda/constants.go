@@ -19,11 +19,10 @@ func GetMessageProcURL() string {
 	return CamundaBaseUrl + "/message"
 }
 
-func GetDeleteProcURL(procID string) string {
+func GetProcStateURL(procID string) string {
 	config.LoadEnv()
 	CamundaBaseUrl := os.Getenv("CAMUNDA_BASE_URL")
-
-	return CamundaBaseUrl + "/process-instance" + procID
+	return CamundaBaseUrl + "/history/process-instance/" + procID
 }
 
 func GetCreateShippingProcURL() string {

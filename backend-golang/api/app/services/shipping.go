@@ -5,6 +5,7 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/mappers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
+	"time"
 )
 
 var shippingRepository = repositories.NewShippingRepository()
@@ -94,12 +95,21 @@ func FindShippingStateById(id int) dtos.Response {
 	}
 
 	camundaID := query.ProcessID
+
 	stateDto, err := GetProcInstanceState(camundaID)
 	if err != nil {
-		return dtos.Response{}
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+	if stateDto.State == "COMPLETED" {
+		return dtos.Response{Success: true, Data: "the process has been successfully completed"}
 	}
 
-	return dtos.Response{Success: true, Data: stateDto}
+	currentTaskDto, err := GetProcInstanceCurrentTask(camundaID)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	return dtos.Response{Success: true, Data: currentTaskDto}
 
 }
 
@@ -111,6 +121,23 @@ func UpdateShippingState(shippingId int, message string) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
+	// Update PICKED_UP_AT or DELIVERED_AT
+	if message == "PackageInTransit" {
+		query.PickedUpAt = time.Now()
+		query.UpdatedAt = time.Now()
+		_, err := shippingRepository.Save(&query)
+		if err != nil {
+			return dtos.Response{Success: false, Error: err.Error()}
+		}
+	} else if message == "DeliveredToRecipient" {
+		query.DeliveredAt = time.Now()
+		query.UpdatedAt = time.Now()
+		_, err := shippingRepository.Save(&query)
+		if err != nil {
+			return dtos.Response{Success: false, Error: err.Error()}
+		}
+	}
+
 	// Bring proc id
 	camundaID := query.ProcessID
 
@@ -119,6 +146,11 @@ func UpdateShippingState(shippingId int, message string) dtos.Response {
 }
 
 func UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.Response {
+
+	offerDto := FindOfferById(dto.SelectedOfferID)
+	if !offerDto.Success {
+		return offerDto
+	}
 
 	query, err := shippingRepository.UpdateById(shippingId, dto)
 	if err != nil {

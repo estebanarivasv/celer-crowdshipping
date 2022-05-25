@@ -20,6 +20,7 @@ type DetailedCamundaProcessDTO struct {
 	ActivityName           string                      `json:"activityName"`
 	ChildActivityInstances []DetailedCamundaProcessDTO `json:"childActivityInstances"`
 	Incidents              []interface{}               `json:"incidents"`
+	State                  string                      `json:"state"`
 }
 
 type MessageToProcessDTO struct {

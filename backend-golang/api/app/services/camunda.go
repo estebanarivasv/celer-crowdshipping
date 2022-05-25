@@ -41,9 +41,20 @@ func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 
 }
 
-func GetProcInstanceState(procId string) (dtos.DetailedCamundaProcessDTO, error) {
+func GetProcInstanceCurrentTask(procId string) (dtos.DetailedCamundaProcessDTO, error) {
 
 	url := camunda.GetProcCurrentActivityURL(procId)
+
+	procDTO, err := repositories.GetProcCurrentActivity(http.MethodGet, url)
+	if err != nil {
+		return *new(dtos.DetailedCamundaProcessDTO), err
+	}
+	return procDTO, nil
+}
+
+func GetProcInstanceState(procId string) (dtos.DetailedCamundaProcessDTO, error) {
+
+	url := camunda.GetProcStateURL(procId)
 
 	procDTO, err := repositories.GetProcCurrentActivity(http.MethodGet, url)
 	if err != nil {
