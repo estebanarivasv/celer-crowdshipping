@@ -146,7 +146,7 @@ func UpdateShippingStateByID(c *gin.Context) {
 	return
 }
 
-// UpdateShippingStateByID
+// UpdateSelectedOfferByID
 // @Summary Update Shipping's selected offer
 // @Description Add selected offer and send a message to a camunda process
 // @Consume application/json

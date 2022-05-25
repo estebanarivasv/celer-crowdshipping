@@ -11,7 +11,7 @@ import (
 var shippingRepository = repositories.NewShippingRepository()
 var shippingMapper = mappers.ShippingMapper{}
 
-// TODO comment service
+// TODO: comment service
 
 func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 

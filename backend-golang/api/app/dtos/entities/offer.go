@@ -2,6 +2,13 @@ package entities
 
 import "time"
 
+type NewOfferInDTO struct {
+	ShippingCost  float64 `json:"shipping_cost"`
+	Message       string  `json:"message"`
+	Duration      float64 `json:"duration"`
+	DistributorID int     `json:"distributor_id"`
+}
+
 type OfferInDTO struct {
 	ShippingCost  float64 `json:"shipping_cost"`
 	Message       string  `json:"message"`

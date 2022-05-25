@@ -39,6 +39,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/distributor/requests/{id}/offers": {
+            "post": {
+                "description": "Creates a new shipping request offer instance and stores it in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Creates a new offer for a shipping request",
+                "parameters": [
+                    {
+                        "description": "Fill the body to create a new shipping request offer",
+                        "name": "Offer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.NewOfferInDTO"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Shipping request ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/distributor/shippings/{id}": {
             "get": {
                 "description": "Get Shipping stored in the database by passing an ID",
@@ -472,6 +522,23 @@ const docTemplate = `{
                 },
                 "success": {
                     "type": "boolean"
+                }
+            }
+        },
+        "entities.NewOfferInDTO": {
+            "type": "object",
+            "properties": {
+                "distributor_id": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "number"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "shipping_cost": {
+                    "type": "number"
                 }
             }
         },
