@@ -609,6 +609,47 @@
                 }
             }
         },
+        "/sender/shippings/{id}/route": {
+            "get": {
+                "description": "Get a shipping route from the database by passing an ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Shipping route",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/shippings/{id}/state": {
             "get": {
                 "description": "Get Shipping state making reference to Camunda instance",

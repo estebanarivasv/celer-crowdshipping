@@ -184,6 +184,30 @@ func GetShippingDistributorByID(c *gin.Context) {
 
 }
 
+// GetShippingRouteByID
+// @Summary Get Shipping route
+// @Description Get a shipping route from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping ID"
+// @Success 202 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /sender/shippings/{id}/route [get]
 func GetShippingRouteByID(c *gin.Context) {
 
+	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	var responseDto = services.FindRouteByShippingID(id)
+	if !responseDto.Success {
+		c.JSON(http.StatusInternalServerError, responseDto)
+	}
+	c.JSON(http.StatusAccepted, responseDto)
+
+	return
 }

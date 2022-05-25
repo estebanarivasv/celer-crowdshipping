@@ -4,6 +4,7 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type RouteRepository struct {
@@ -46,4 +47,16 @@ func (r *RouteRepository) DeleteById(id int) error {
 	}
 
 	return nil
+}
+
+// FindFilteredRoutes Get filtered routes from the database
+func (r *RouteRepository) FindFilteredRoutes(filter map[string]interface{}) ([]models.RouteDetail, error) {
+	var routeDetails []models.RouteDetail
+
+	err := r.db.Preload(clause.Associations).Where(filter).Find(&routeDetails).Error
+	if err != nil {
+		return *new([]models.RouteDetail), err
+	}
+
+	return routeDetails, nil
 }

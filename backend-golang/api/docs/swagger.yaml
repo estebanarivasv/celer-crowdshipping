@@ -466,6 +466,33 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping's selected offer
+  /sender/shippings/{id}/route:
+    get:
+      consumes:
+      - application/json
+      description: Get a shipping route from the database by passing an ID
+      parameters:
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get Shipping route
   /shippings/{id}/state:
     get:
       consumes:
