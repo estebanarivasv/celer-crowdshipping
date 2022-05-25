@@ -8,6 +8,7 @@ import (
 )
 
 var offerRepository = repositories.NewOfferRepository()
+var userRepository = repositories.NewUserRepository()
 var offerMapper = mappers.OfferMapper{}
 
 func FindOfferById(id int) dtos.Response {
@@ -65,7 +66,10 @@ func FindOffersByRequestID(id int) dtos.Response {
 
 	var dtosArr []interface{}
 
-	offers, err := offerRepository.FindAllRequestOffers(id)
+	conditions := make(map[string]interface{})
+	conditions["shipping_id"] = id
+
+	offers, err := offerRepository.FindAllRequestOffers(conditions)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -86,4 +90,31 @@ func DeleteOfferById(id int) dtos.Response {
 	}
 
 	return dtos.Response{Success: true}
+}
+
+func FindOffersByDistributorID(id int) dtos.Response {
+
+	var dtosArr []interface{}
+
+	// Verify user exists
+	user, err := userRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	conditions := make(map[string]interface{})
+	conditions["distributor_id"] = user.ID
+
+	offers, err := offerRepository.FindAllRequestOffers(conditions)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Convert and append all models into dtos
+	for _, offer := range offers {
+		dtosArr = append(dtosArr, offerMapper.ToDTO(&offer))
+	}
+
+	return dtos.Response{Success: true, Data: dtosArr}
+
 }

@@ -4,6 +4,41 @@
         "contact": {}
     },
     "paths": {
+        "/distributor/offers": {
+            "get": {
+                "description": "Get offers associated to a distributor from the database by passing an ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get offers made by a distributor",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Distributor ID",
+                        "name": "distributorId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/distributor/requests": {
             "get": {
                 "description": "Get all requests which are stored in the database and expect offers",

@@ -7,7 +7,31 @@ import (
 	"net/http"
 )
 
+// GetAllOffersByDistributor
+// @Summary Get offers made by a distributor
+// @Description Get offers associated to a distributor from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param distributorId query int true "Distributor ID"
+// @Success 200 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /distributor/offers [get]
 func GetAllOffersByDistributor(c *gin.Context) {
+	distributorId, err := controllers.ConvertParamToInt(c.Query("distributorId"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := services.FindOffersByDistributorID(distributorId)
+	if !dto.Success {
+		c.JSON(http.StatusBadRequest, dto)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto)
+	return
 
 }
 
