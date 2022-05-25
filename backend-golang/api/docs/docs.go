@@ -40,6 +40,39 @@ const docTemplate = `{
             }
         },
         "/distributor/requests/{id}/offers": {
+            "get": {
+                "description": "Get offers associated to a request from the database by passing an ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get request offers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shipping request ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Creates a new shipping request offer instance and stores it in the database",
                 "consumes": [

@@ -75,6 +75,29 @@ paths:
             $ref: '#/definitions/dtos.Response'
       summary: Get all pending shipping requests
   /distributor/requests/{id}/offers:
+    get:
+      consumes:
+      - application/json
+      description: Get offers associated to a request from the database by passing
+        an ID
+      parameters:
+      - description: Shipping request ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Get request offers
     post:
       consumes:
       - application/json

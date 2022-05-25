@@ -49,3 +49,32 @@ func CreateOffer(offerDTO *entities.OfferInDTO) dtos.Response {
 
 	return dtos.Response{Success: true, Data: dto}
 }
+
+func FindOffersByRequestID(id int) dtos.Response {
+
+	// Get shipping
+	shippingDao, err := shippingRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Verify Shipping has selected_offer_id null
+	if shippingDao.SelectedOfferID != nil {
+		return dtos.Response{Success: false, Error: "this shipping id does not refer to a shipping request"}
+	}
+
+	var dtosArr []interface{}
+
+	offers, err := offerRepository.FindAllRequestOffers(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Convert and append all models into dtos
+	for _, offer := range offers {
+		dtosArr = append(dtosArr, offerMapper.ToDTO(&offer))
+	}
+
+	return dtos.Response{Success: true, Data: dtosArr}
+
+}

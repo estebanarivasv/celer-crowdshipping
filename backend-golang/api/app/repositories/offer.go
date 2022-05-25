@@ -4,6 +4,7 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type OfferRepository struct {
@@ -46,4 +47,19 @@ func (r *OfferRepository) DeleteById(id int) error {
 	}
 
 	return nil
+}
+
+// FindAllRequestOffers Get offers associated to requests from the database
+func (r *OfferRepository) FindAllRequestOffers(id int) ([]models.Offer, error) {
+	var offers []models.Offer
+
+	conditions := make(map[string]interface{})
+	conditions["shipping_id"] = id
+
+	err := r.db.Preload(clause.Associations).Where(conditions).Find(&offers).Error
+	if err != nil {
+		return *new([]models.Offer), err
+	}
+
+	return offers, nil
 }
