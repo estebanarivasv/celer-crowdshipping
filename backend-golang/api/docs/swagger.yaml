@@ -23,6 +23,11 @@ definitions:
       shipping_cost:
         type: number
     type: object
+  entities.NewRouteDetailInDTO:
+    properties:
+      coordinates:
+        type: string
+    type: object
   entities.PackageInDTO:
     properties:
       description:
@@ -213,6 +218,39 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Update Shipping State
+  /distributor/shippings/{id}/route/coordinates:
+    post:
+      consumes:
+      - application/json
+      description: Add new coordinates to a shipping and stores it in the database
+      parameters:
+      - description: Fill the body to update coordinates
+        in: body
+        name: Offer
+        required: true
+        schema:
+          $ref: '#/definitions/entities.NewRouteDetailInDTO'
+      - description: Shipping ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Create new coordinates
   /packages:
     post:
       consumes:

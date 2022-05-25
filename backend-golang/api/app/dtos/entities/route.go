@@ -2,6 +2,10 @@ package entities
 
 import "time"
 
+type NewRouteDetailInDTO struct {
+	Coordinates string `json:"coordinates"`
+}
+
 type RouteDetailInDTO struct {
 	Coordinates string `json:"coordinates"`
 	ShippingID  int    `json:"shipping_id"`

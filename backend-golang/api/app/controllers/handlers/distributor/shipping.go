@@ -2,13 +2,41 @@ package distributor
 
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func NewShippingCoordinate(c *gin.Context) {
+// NewShippingCoordinates
+// @Summary Create new coordinates
+// @Description Add new coordinates to a shipping and stores it in the database
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param Offer body entities.NewRouteDetailInDTO true "Fill the body to update coordinates"
+// @Param id path int true "Shipping ID"
+// @Success 201 {object} dtos.Response
+// @Failure 400 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /distributor/shippings/{id}/route/coordinates [post]
+func NewShippingCoordinates(c *gin.Context) {
+
+	shippingId, err := controllers.ConvertParamToInt(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	dto := controllers.ShouldBindDTO(c, entities.RouteDetailInDTO{})
+	responseDto := services.AddNewShippingCoordinates(shippingId, dto)
+	if !responseDto.Success {
+		c.JSON(http.StatusBadRequest, dto)
+		return
+	}
+
+	c.JSON(http.StatusOK, dto)
+	return
 
 }
 

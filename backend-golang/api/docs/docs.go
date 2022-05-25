@@ -246,6 +246,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/distributor/shippings/{id}/route/coordinates": {
+            "post": {
+                "description": "Add new coordinates to a shipping and stores it in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create new coordinates",
+                "parameters": [
+                    {
+                        "description": "Fill the body to update coordinates",
+                        "name": "Offer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.NewRouteDetailInDTO"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Shipping ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/packages": {
             "post": {
                 "description": "Creates a new package in the database",
@@ -613,6 +663,14 @@ const docTemplate = `{
                 },
                 "shipping_cost": {
                     "type": "number"
+                }
+            }
+        },
+        "entities.NewRouteDetailInDTO": {
+            "type": "object",
+            "properties": {
+                "coordinates": {
+                    "type": "string"
                 }
             }
         },

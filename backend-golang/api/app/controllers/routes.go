@@ -45,7 +45,7 @@ func GenerateRouting(server *gin.Engine) {
 			{
 				distributorShipPath.GET("/:id", distributor.GetShippingByID)           // TODO DONE
 				distributorShipPath.PATCH("/:id", distributor.UpdateShippingStateByID) // TODO DONE
-				distributorShipPath.POST("/:id/route/coordinates", distributor.NewShippingCoordinate)
+				distributorShipPath.POST("/:id/route/coordinates", distributor.NewShippingCoordinates)
 			}
 		}
 		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID) // TODO DONE
