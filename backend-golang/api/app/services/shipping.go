@@ -1,77 +1,188 @@
 package services
 
 import (
-	"fmt"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/daos"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/mappers"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
-	"log"
+	"time"
 )
 
-// Todo: make all functions available with a generic interface
+var shippingRepository = repositories.NewShippingRepository()
+var shippingMapper = mappers.ShippingMapper{}
 
-var repository = repositories.NewShippingRepository()
+// TODO: comment service
 
-func CreateShipping(shipping *models.Shipping) daos.Response {
+func CreateShipping(shipping *entities.ShippingInDTO) dtos.Response {
 
-	response := repository.SaveOne(shipping)
-	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+	// Convert the dto to an entity
+	shippingModel := shippingMapper.FromDTO(shipping)
+
+	query, err := shippingRepository.Create(shippingModel)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	newCamundaProcDTO, err := CreateNewCamundaProcInstance()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Add Camunda Process ID
+	query.ProcessID = newCamundaProcDTO.ID
+	queryWithProcID, err := shippingRepository.Save(&query)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Send ShippingDetailsAdded message to Camunda
+	SendMessageToCamundaProcess(newCamundaProcDTO.ID, "ShippingDetailsAdded")
+
+	// Mapping into a dto
+	shippingDto := shippingMapper.ToDTO(queryWithProcID)
+
+	return dtos.Response{Success: true, Data: shippingDto}
 }
 
-func FindAllShippings() daos.Response {
+func FindAllShippings() dtos.Response {
 
-	response := repository.FindAll()
-	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+	var dtosArr []interface{}
+
+	response, err := shippingRepository.FindAll()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
-	return daos.Response{Success: true, Data: response.Output.([]*models.Shipping)}
+
+	// Convert and append all models into dtos
+	for _, v := range response {
+		dtosArr = append(dtosArr, shippingMapper.ToDTO(&v))
+	}
+
+	return dtos.Response{Success: true, Data: dtosArr}
+
 }
 
-func FindShippingById(id int) daos.Response {
+func FindShippingById(id int) dtos.Response {
 
-	response := repository.FindOneById(id)
-	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+	query, err := shippingRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	log.Printf(fmt.Sprintf("%v", response.Output))
+	// Mapping into a dto
+	shippingDto := shippingMapper.ToDTO(&query)
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true, Data: shippingDto}
+
 }
 
-func UpdateShippingById(id int, newShipping *models.Shipping) daos.Response {
+func DeleteShippingById(id int) dtos.Response {
 
-	existingShippingDao := FindShippingById(id)
-	if !existingShippingDao.Success {
-		// Returns success as "false" with an error
-		return existingShippingDao
-	}
-	shipping := existingShippingDao.Data.(*models.Shipping)
-
-	// Todo: fix mapping
-	shipping.Image = newShipping.Image
-	shipping.Details = newShipping.Details
-	shipping.StartAddr = newShipping.StartAddr
-	shipping.DestinationAddr = newShipping.DestinationAddr
-
-	response := repository.SaveOne(shipping)
-	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+	err := shippingRepository.DeleteById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	return daos.Response{Success: true, Data: response.Output.(*models.Shipping)}
+	return dtos.Response{Success: true}
+
 }
 
-func DeleteShippingById(id int) daos.Response {
+func FindShippingStateById(id int) dtos.Response {
 
-	response := repository.DeleteOneById(id)
-	if response.Error != nil {
-		return daos.Response{Success: false, Error: response.Error.Error()}
+	query, err := shippingRepository.FindOneById(id)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	return daos.Response{Success: true}
+	camundaID := query.ProcessID
+
+	stateDto, err := GetProcInstanceState(camundaID)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+	if stateDto.State == "COMPLETED" {
+		return dtos.Response{Success: true, Data: "the process has been successfully completed"}
+	}
+
+	currentTaskDto, err := GetProcInstanceCurrentTask(camundaID)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	return dtos.Response{Success: true, Data: currentTaskDto}
+
+}
+
+func UpdateShippingState(shippingId int, message string) dtos.Response {
+
+	// Bring shipping
+	query, err := shippingRepository.FindOneById(shippingId)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Update PICKED_UP_AT or DELIVERED_AT
+	if message == "PackageInTransit" {
+		query.PickedUpAt = time.Now()
+		query.UpdatedAt = time.Now()
+		_, err := shippingRepository.Save(&query)
+		if err != nil {
+			return dtos.Response{Success: false, Error: err.Error()}
+		}
+	} else if message == "DeliveredToRecipient" {
+		query.DeliveredAt = time.Now()
+		query.UpdatedAt = time.Now()
+		_, err := shippingRepository.Save(&query)
+		if err != nil {
+			return dtos.Response{Success: false, Error: err.Error()}
+		}
+	}
+
+	// Bring proc id
+	camundaID := query.ProcessID
+
+	// Send msg to proc
+	return SendMessageToCamundaProcess(camundaID, message)
+}
+
+func UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.Response {
+
+	offerDto := FindOfferById(dto.SelectedOfferID)
+	if !offerDto.Success {
+		return offerDto
+	}
+
+	query, err := shippingRepository.UpdateById(shippingId, dto)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Send OfferSelected message to Camunda
+	SendMessageToCamundaProcess(query.ProcessID, "OfferSelected")
+
+	// Mapping into a dto
+	shippingDto := shippingMapper.ToDTO(&query)
+
+	return dtos.Response{Success: true, Data: shippingDto}
+
+}
+
+func FindShippingRequests() dtos.Response {
+
+	conditions := make(map[string]interface{})
+	conditions["selected_offer_id"] = nil
+
+	requests, err := shippingRepository.FindFilteredShippings(conditions)
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Map all models into a dto
+	var requestsArr []interface{}
+	for _, r := range requests {
+		requestsArr = append(requestsArr, shippingMapper.ToDTO(&r))
+	}
+
+	return dtos.Response{Success: true, Data: requestsArr}
+
 }

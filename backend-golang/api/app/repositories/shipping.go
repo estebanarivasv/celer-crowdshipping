@@ -4,13 +4,14 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/config"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+	"time"
 )
 
 type ShippingRepository struct {
 	db *gorm.DB
 }
 
-// Todo: check if it works
 var db = config.ConnectToDb()
 
 // NewShippingRepository Returns a new instance
@@ -18,46 +19,90 @@ func NewShippingRepository() *ShippingRepository {
 	return &ShippingRepository{db: db}
 }
 
-// SaveOne Store a new shipping in the database
-func (r *ShippingRepository) SaveOne(shipping *models.Shipping) QueryResponse {
-	err := r.db.Save(shipping).Error
+// Save Store a new entity in the database
+func (r *ShippingRepository) Save(shipping *models.Shipping) (*models.Shipping, error) {
+	err := r.db.Save(&shipping).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return *new(*models.Shipping), err
 	}
-	return QueryResponse{Output: shipping}
+	return shipping, nil
+}
+
+func (r *ShippingRepository) Create(dao models.Shipping) (models.Shipping, error) {
+	err := r.db.Create(&dao).Error
+	if err != nil {
+		return *new(models.Shipping), err
+	}
+
+	return r.FindOneById(dao.ID)
 }
 
 // FindAll Get shipping from the database
-func (r *ShippingRepository) FindAll() QueryResponse {
-	var shippings []*models.Shipping
+func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
+	var shippings []models.Shipping
 
-	err := r.db.Find(&shippings).Error
+	err := r.db.Preload(clause.Associations).Find(&shippings).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return *new([]models.Shipping), err
 	}
 
-	return QueryResponse{Output: shippings}
+	return shippings, nil
+}
+
+// FindFilteredShippings Get shipping requests from the database
+func (r *ShippingRepository) FindFilteredShippings(filter map[string]interface{}) ([]models.Shipping, error) {
+	var shippings []models.Shipping
+
+	err := r.db.Preload(clause.Associations).Where(filter).Find(&shippings).Error
+	if err != nil {
+		return *new([]models.Shipping), err
+	}
+
+	return shippings, nil
 }
 
 // FindOneById Get one shipping by ID from the database
-func (r *ShippingRepository) FindOneById(id int) QueryResponse {
-	var shipping *models.Shipping
+func (r *ShippingRepository) FindOneById(id int) (models.Shipping, error) {
+	var shipping models.Shipping
 
-	err := r.db.Where(&models.Shipping{ID: id}).Take(&shipping).Error
+	err := r.db.Model(models.Shipping{}).Preload(clause.Associations).Where("id = ?", id).Take(&shipping).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		// TODO HANDLE EMPTY
+		return *new(models.Shipping), err
 	}
 
-	return QueryResponse{Output: shipping}
+	return shipping, nil
 }
 
-// DeleteOneById Delete a shipping by ID from the database
-func (r *ShippingRepository) DeleteOneById(id int) QueryResponse {
+// DeleteById Delete a shipping by ID from the database
+func (r *ShippingRepository) DeleteById(id int) error {
 
-	err := r.db.Delete(&models.Shipping{ID: id}).Error
+	err := r.db.Delete(&models.Shipping{}, id).Error
 	if err != nil {
-		return QueryResponse{Error: err}
+		return err
 	}
 
-	return QueryResponse{Output: nil}
+	return nil
+}
+
+// UpdateById Update an entity from the database with a body and an ID
+func (r *ShippingRepository) UpdateById(id int, dto interface{}) (models.Shipping, error) {
+
+	err := r.db.Model(models.Shipping{}).Where("id = ?", id).Updates(dto).Error
+	if err != nil {
+		return *new(models.Shipping), err
+	}
+
+	editedModel, err := r.FindOneById(id)
+	if err != nil {
+		return *new(models.Shipping), err
+	}
+	editedModel.UpdatedAt = time.Now()
+
+	_, err = r.Save(&editedModel)
+	if err != nil {
+		return *new(models.Shipping), err
+	}
+
+	return editedModel, nil
 }

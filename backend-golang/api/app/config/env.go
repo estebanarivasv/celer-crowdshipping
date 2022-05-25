@@ -10,7 +10,7 @@ import (
 // Directory where .env is located
 const projectDirName = "backend-golang"
 
-func loadEnv() {
+func LoadEnv() {
 	projectName := regexp.MustCompile(`^(.*` + projectDirName + `)`)
 	currentWorkDirectory, _ := os.Getwd()
 

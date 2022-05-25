@@ -9,7 +9,7 @@ import (
 
 func ConnectToDb() *gorm.DB {
 
-	loadEnv()
+	LoadEnv()
 
 	dsn := os.Getenv("DB_URI")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -17,6 +17,7 @@ func ConnectToDb() *gorm.DB {
 		panic("Database connection failed")
 	}
 	log.Printf("Database connection successful")
+	db.Set("gorm:auto_preload", true)
 
 	return db
 }
