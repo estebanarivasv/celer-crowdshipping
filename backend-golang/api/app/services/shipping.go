@@ -55,7 +55,7 @@ func FindAllShippings() dtos.Response {
 
 	// Convert and append all models into dtos
 	for _, v := range response {
-		dtosArr = append(dtosArr, shippingMapper.ToDTO(&v))
+		dtosArr = append(dtosArr, shippingMapper.ToBasicDTO(&v))
 	}
 
 	return dtos.Response{Success: true, Data: dtosArr}
@@ -180,7 +180,23 @@ func FindShippingRequests() dtos.Response {
 	// Map all models into a dto
 	var requestsArr []interface{}
 	for _, r := range requests {
-		requestsArr = append(requestsArr, shippingMapper.ToDTO(&r))
+		requestsArr = append(requestsArr, shippingMapper.ToBasicDTO(&r))
+	}
+
+	return dtos.Response{Success: true, Data: requestsArr}
+
+}
+
+func FindActiveShippings() dtos.Response {
+	requests, err := shippingRepository.FindCurrentShippings()
+	if err != nil {
+		return dtos.Response{Success: false, Error: err.Error()}
+	}
+
+	// Map all models into a dto
+	var requestsArr []interface{}
+	for _, r := range requests {
+		requestsArr = append(requestsArr, shippingMapper.ToBasicDTO(&r))
 	}
 
 	return dtos.Response{Success: true, Data: requestsArr}

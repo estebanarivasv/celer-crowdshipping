@@ -20,11 +20,11 @@ func GenerateRouting(server *gin.Engine) {
 		{
 			senderShipPath := senderPath.Group("/shippings")
 			{
-				senderShipPath.POST("", sender.NewShipping)                  // TODO DONE
-				senderShipPath.GET("", sender.GetAllShippings)               // TODO DONE
-				senderShipPath.GET("/:id", sender.GetShippingByID)           // TODO DONE
-				senderShipPath.PATCH("/:id", sender.UpdateShippingStateByID) // TODO DONE
-				senderShipPath.DELETE("/:id", sender.DeleteShippingByID)     // TODO DONE
+				senderShipPath.POST("", sender.NewShipping)
+				senderShipPath.GET("", sender.GetAllShippings)
+				senderShipPath.GET("/:id", sender.GetShippingByID)
+				senderShipPath.PATCH("/:id", sender.UpdateShippingStateByID)
+				senderShipPath.DELETE("/:id", sender.DeleteShippingByID)
 				senderShipPath.GET("/:id/offers", sender.GetShippingOffersByID)
 				senderShipPath.PATCH("/:id/offers/selected", sender.UpdateSelectedOfferByID)
 				senderShipPath.GET("/:id/offers/selected", sender.GetSelectedOfferByID)
@@ -43,12 +43,13 @@ func GenerateRouting(server *gin.Engine) {
 			distributorPath.DELETE("/offers/:id", distributor.DeleteOfferByID)
 			distributorShipPath := distributorPath.Group("/shippings")
 			{
-				distributorShipPath.GET("/:id", distributor.GetShippingByID)           // TODO DONE
-				distributorShipPath.PATCH("/:id", distributor.UpdateShippingStateByID) // TODO DONE
+				distributorShipPath.GET("", distributor.GetShippingsInProcess)
+				distributorShipPath.GET("/:id", distributor.GetShippingByID)
+				distributorShipPath.PATCH("/:id", distributor.UpdateShippingStateByID)
 				distributorShipPath.POST("/:id/route", distributor.NewShippingCoordinates)
 			}
 		}
-		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID) // TODO DONE
+		mainPath.GET("/shippings/:id/state", handlers.GetShippingStateByID)
 		mainPath.GET("/users/:id", handlers.GetUserByID)
 		mainPath.POST("/packages", handlers.NewPackage)
 		mainPath.DELETE("/packages/:id", handlers.DeletePackageByID)

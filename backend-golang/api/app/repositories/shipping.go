@@ -106,3 +106,15 @@ func (r *ShippingRepository) UpdateById(id int, dto interface{}) (models.Shippin
 
 	return editedModel, nil
 }
+
+// FindCurrentShippings Get one shipping by ID from the database
+func (r *ShippingRepository) FindCurrentShippings() ([]models.Shipping, error) {
+	var shipping []models.Shipping
+
+	err := r.db.Model(models.Shipping{}).Preload(clause.Associations).Where("selected_offer_id IS NOT NULL ").Find(&shipping).Error
+	if err != nil {
+		return *new([]models.Shipping), err
+	}
+
+	return shipping, nil
+}

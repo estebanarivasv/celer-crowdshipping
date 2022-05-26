@@ -110,3 +110,25 @@ func UpdateShippingStateByID(c *gin.Context) {
 	c.JSON(http.StatusCreated, responseDto)
 	return
 }
+
+// GetShippingsInProcess
+// @Summary Get shippings in progress
+// @Description Get shippings that started their track into the recipient
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Success 200 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /distributor/shippings [get]
+func GetShippingsInProcess(c *gin.Context) {
+
+	responseDto := services.FindActiveShippings()
+	if !responseDto.Success {
+		c.JSON(http.StatusInternalServerError, responseDto)
+		return
+	}
+
+	c.JSON(http.StatusOK, responseDto)
+	return
+
+}
