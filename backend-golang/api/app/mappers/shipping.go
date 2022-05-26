@@ -25,20 +25,6 @@ func (m ShippingMapper) FromDTO(dto *entities.ShippingInDTO) models.Shipping {
 // ToDTO Return a dto with the model that comes from the database
 func (m ShippingMapper) ToDTO(model *models.Shipping) interface{} {
 
-	// Each coordinate is mapped into a dto and appended to a slice
-	// var routeArr []interface{}
-	// for _, r := range model.Route {
-	// 	routeArr = append(routeArr,
-	// 		RouteMapper{}.ToDTO(&r))
-	// }
-
-	// Each coordinate is mapped into a dto and appended to a slice
-	// var offersSlice []interface{}
-	// for _, o := range model.Offers {
-	// 	offersSlice = append(offersSlice,
-	// 		OfferMapper{}.ToDTO(&o))
-	// }
-
 	return entities.ShippingOutDTO{
 		ID:                 model.ID,
 		Details:            model.Details,
@@ -54,8 +40,20 @@ func (m ShippingMapper) ToDTO(model *models.Shipping) interface{} {
 		CreatedAt:          model.CreatedAt,
 		UpdatedAt:          model.UpdatedAt,
 		DeletedAt:          model.DeletedAt.Time,
-		// Offers:             offersSlice,
-		// Route:              routeArr,
+	}
+
+}
+
+// ToBasicDTO Return a dto with the model that comes from the database
+func (m ShippingMapper) ToBasicDTO(model *models.Shipping) interface{} {
+
+	return entities.ShippingOutBasicDTO{
+		ID:                 model.ID,
+		Details:            model.Details,
+		OriginAddress:      model.OriginAddress,
+		DestinationAddress: model.DestinationAddress,
+		PickedUpAt:         model.PickedUpAt,
+		DeliveredAt:        model.DeliveredAt,
 	}
 
 }

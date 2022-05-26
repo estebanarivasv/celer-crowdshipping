@@ -33,3 +33,12 @@ type ShippingOutDTO struct {
 	UpdatedAt          time.Time   `json:"updated_at"`
 	DeletedAt          time.Time   `json:"deleted_at"`
 }
+
+type ShippingOutBasicDTO struct {
+	ID                 int       `json:"id"`
+	Details            string    `json:"details"`
+	OriginAddress      string    `json:"origin_addr"`
+	DestinationAddress string    `json:"dest_addr"`
+	PickedUpAt         time.Time `json:"pickup_at"`
+	DeliveredAt        time.Time `json:"delivered_at"`
+}
