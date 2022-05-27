@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # Camunda platform with zeebe embeeded (I guess)
   camunda-platform:
-    image: camunda/camunda-bpm-platform:7.18.0-SNAPSHOT
+    image: camunda/camunda-bpm-platform:run-7.17.0-SNAPSHOT
     command: ./camunda.sh --rest --swaggerui --webapps
     container_name: celer-camunda-platform
     environment:
@@ -11,17 +11,17 @@ services:
       - "DB_URL=jdbc:postgresql://postgres:5432/${DB_NAME}"
       - "DB_USERNAME=${DB_USER}"
       - "DB_PASSWORD=${DB_PASSWORD}"
-      # - DEBUG=true
     links:
       - postgres
     ports:
       - "8080:8080"
-      # - "8000:8000" DEBUG
     restart: unless-stopped
     networks:
       - camunda
     depends_on:
       - postgres
+    volumes:
+    - '$PWD/webapps/:/camunda/webapps/'
 
   postgres:
     image: postgres:14.2-alpine
@@ -35,8 +35,6 @@ services:
       - "5032:5432"
     networks:
       - camunda
-    #volumes:
-    #  - './postgres/data:/var/lib/postgresql/data'
 
 networks:
   camunda:
