@@ -1,0 +1,25 @@
+
+<table cTable>
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Details</th>
+        <th scope="col">Origin</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Pickup time</th>
+        <th scope="col">Delivery time</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let shipping of shippingArr">
+        <th scope="row">{{shipping.id}}</th>
+        <td>{{shipping.details}}</td>
+        <td>{{shipping.originAddress}}</td>
+        <td>{{shipping.destinationAddress}}</td>
+        <td>{{shipping.pickedUpAt}}</td>
+        <td>{{shipping.deliveredAt}}</td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
