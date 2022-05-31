@@ -6,39 +6,39 @@ import (
 
 type ShippingInDTO struct {
 	Details            string `json:"details"`
-	PackageID          int    `json:"package_id"`
-	SenderID           int    `json:"sender_id"`
-	RecipientID        int    `json:"recipient_id"`
-	OriginAddress      string `json:"origin_addr"`
-	DestinationAddress string `json:"dest_addr"`
+	PackageID          int    `json:"packageId"`
+	SenderID           int    `json:"senderId"`
+	RecipientID        int    `json:"recipientId"`
+	OriginAddress      string `json:"originAddress"`
+	DestinationAddress string `json:"destinationAddress"`
 }
 
 type ShippingInPatchDTO struct {
-	SelectedOfferID int `json:"selected_offer_id"`
+	SelectedOfferID int `json:"selectedOfferId"`
 }
 
 type ShippingOutDTO struct {
 	ID                 int         `json:"id"`
 	Details            string      `json:"details"`
 	Package            interface{} `json:"package"`
-	OriginAddress      string      `json:"origin_addr"`
-	DestinationAddress string      `json:"dest_addr"`
-	ProcessID          string      `json:"process_id"`
-	SelectedOfferID    *int        `json:"selected_offer_id"`
+	OriginAddress      string      `json:"originAddress"`
+	DestinationAddress string      `json:"destinationAddress"`
+	ProcessID          string      `json:"processId"`
+	SelectedOfferID    *int        `json:"selectedOfferId"`
 	Sender             interface{} `json:"sender"`
 	Recipient          interface{} `json:"recipient"`
-	PickedUpAt         time.Time   `json:"pickup_at"`
-	DeliveredAt        time.Time   `json:"delivered_at"`
-	CreatedAt          time.Time   `json:"created_at"`
-	UpdatedAt          time.Time   `json:"updated_at"`
-	DeletedAt          time.Time   `json:"deleted_at"`
+	PickedUpAt         time.Time   `json:"pickedUpAt"`
+	DeliveredAt        time.Time   `json:"deliveredAt"`
+	CreatedAt          time.Time   `json:"createdAt"`
+	// UpdatedAt time.Time `json:"updatedAt"`
+	// DeletedAt time.Time `json:"deletedAt"`
 }
 
 type ShippingOutBasicDTO struct {
 	ID                 int       `json:"id"`
 	Details            string    `json:"details"`
-	OriginAddress      string    `json:"origin_addr"`
-	DestinationAddress string    `json:"dest_addr"`
-	PickedUpAt         time.Time `json:"pickup_at"`
-	DeliveredAt        time.Time `json:"delivered_at"`
+	OriginAddress      string    `json:"originAddress"`
+	DestinationAddress string    `json:"destinationAddress"`
+	PickedUpAt         time.Time `json:"pickedUpAt"`
+	DeliveredAt        time.Time `json:"deliveredAt"`
 }
