@@ -3,7 +3,6 @@ package mappers
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 )
 
 type PackageMapper struct {
@@ -26,8 +25,8 @@ func (m PackageMapper) FromDTO(dto *entities.PackageInDTO) models.Package {
 func (m PackageMapper) ToDTO(model *models.Package) interface{} {
 
 	// If model is empty, it returns an empty interface
-	if controllers.IsZero[*models.Package](model) {
-		return *new(interface{})
+	if model.ID == 0 {
+		return nil
 	}
 
 	return entities.PackageOutDTO{
@@ -37,9 +36,9 @@ func (m PackageMapper) ToDTO(model *models.Package) interface{} {
 		Description: model.Description,
 		Dimensions:  model.Dimensions,
 		Value:       model.Value,
-		CreatedAt:   model.CreatedAt,
-		UpdatedAt:   model.UpdatedAt,
-		DeletedAt:   model.DeletedAt.Time,
+		//CreatedAt:   model.CreatedAt,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
 	}
 
 }

@@ -3,7 +3,6 @@ package mappers
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 )
 
 type OfferMapper struct {
@@ -26,8 +25,8 @@ func (m OfferMapper) FromDTO(dto *entities.OfferInDTO) models.Offer {
 func (m OfferMapper) ToDTO(model *models.Offer) interface{} {
 
 	// If model is empty, it returns an empty interface
-	if controllers.IsZero[*models.Offer](model) {
-		return *new(interface{})
+	if model.ID == 0 {
+		return nil
 	}
 
 	return entities.OfferOutDTO{
@@ -37,9 +36,9 @@ func (m OfferMapper) ToDTO(model *models.Offer) interface{} {
 		Duration:      model.Duration,
 		ShippingID:    model.ShippingID,
 		DistributorID: model.DistributorID,
-		CreatedAt:     model.CreatedAt,
-		UpdatedAt:     model.UpdatedAt,
-		DeletedAt:     model.DeletedAt.Time,
+		//CreatedAt:   model.CreatedAt,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
 	}
 
 }
