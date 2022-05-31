@@ -1,6 +1,4 @@
-
-
-class Package {
+export class Package {
 
     id: number;
     name: string;
@@ -23,13 +21,3 @@ class Package {
         this.value = value;
     }
 }
-
-/*
-* 	ID          int `gorm:"primarykey"`
-	Name        string
-	ImageURL    string
-	Description string
-	Dimensions  string
-	Value       float64 `json:"value"` // Monetary value
-}
-* */

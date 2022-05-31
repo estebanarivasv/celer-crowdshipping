@@ -1,3 +1,6 @@
+import {Package} from "./package";
+import {User} from "./user";
+
 export class Shipping {
 
     id: number;
@@ -5,7 +8,7 @@ export class Shipping {
     pickedUpAt: Date;
     deliveredAt: Date;
     originAddress: string;
-    deliveryAddress: string;
+    destinationAddress: string;
     packageId?: number;
     selectedOfferId?: number;
     senderId?: number;
@@ -35,7 +38,7 @@ export class Shipping {
         this.pickedUpAt = pickedUpAt;
         this.deliveredAt = deliveredAt;
         this.originAddress = originAddress;
-        this.deliveryAddress = deliveryAddress;
+        this.destinationAddress = deliveryAddress;
         this.packageId = packageId;
         this.selectedOfferId = selectedOfferId;
         this.senderId = senderId;
