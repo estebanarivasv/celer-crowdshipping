@@ -25,11 +25,6 @@ func ShouldBindDTO[T InDTO](c *gin.Context, dto T) (boundDTO T) {
 	return dto
 }
 
-// IsZero compare if generic model is not null
-func IsZero[T comparable](v T) bool {
-	return v == *new(T)
-}
-
 func ConvertParamToInt(param string) (int, error) {
 	p, err := strconv.Atoi(param)
 	if err != nil {
