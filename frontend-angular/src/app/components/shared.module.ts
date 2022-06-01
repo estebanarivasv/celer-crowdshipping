@@ -1,20 +1,32 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FooterModule, SidebarModule, TableModule} from '@coreui/angular';
+import {TableModule} from "primeng/table";
+import {MenubarModule} from "primeng/menubar";
+import {InputTextModule} from "primeng/inputtext";
+import {ButtonModule} from "primeng/button";
+import {AvatarModule} from "primeng/avatar";
+import {SidebarModule} from "primeng/sidebar";
+import {ToggleButtonModule} from "primeng/togglebutton";
+import {CardModule} from "primeng/card";
+import {RippleModule} from "primeng/ripple";
+import {ImageModule} from "primeng/image";
 
 @NgModule({
-    declarations: [],
     imports: [
-        CommonModule,
-        FooterModule,
-        SidebarModule,
-        TableModule
+        CommonModule
     ],
     exports: [
-        FooterModule,
+        TableModule,
+        MenubarModule,
+        InputTextModule,
+        ButtonModule,
+        AvatarModule,
         SidebarModule,
-        TableModule
-    ]
+        ToggleButtonModule,
+        CardModule,
+        RippleModule,
+        ImageModule,
+    ], providers: []
 })
 export class SharedModule {
 }
