@@ -1,0 +1,37 @@
+<div class="grid mx-8 px-5">
+    <div class="col">
+        <p-card class="card mb-0">
+            <ng-template pTemplate="header">
+                <img src="assets/demo/ship.webp" alt="Ship a package" height="275">
+            </ng-template>
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-bold mb-3">Ship a package</span>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">+20  </span>
+            <span class="text-500">newly created requests</span>
+            <div class="flex justify-content-end">
+                <button routerLink="/sender" pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-outlined"></button>
+            </div>
+        </p-card>
+    </div>
+    <div class="col">
+        <p-card class="card">
+            <ng-template pTemplate="header">
+                <img src="assets/demo/deliver.jpg" alt="Deliver a package" height="275">
+            </ng-template>
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-bold mb-3">Make a delivery</span>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">+300  </span>
+            <span class="text-500">to-be delivered</span>
+            <div class="flex justify-content-end">
+                <button routerLink="/distributor" pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-outlined"></button>
+            </div>
+        </p-card>
+    </div>
+
+</div>
