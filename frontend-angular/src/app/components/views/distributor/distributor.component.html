@@ -1,0 +1,24 @@
+<p-table [value]="requestsArr">
+    <ng-template pTemplate="header">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Details</th>
+            <th scope="col">Origin</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Pickup time</th>
+            <th scope="col">Delivery time</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+        <tr >
+            <th scope="row">{{request.id}}</th>
+            <td>{{request.details}}</td>
+            <td>{{request.originAddress}}</td>
+            <td>{{request.destinationAddress}}</td>
+            <td>{{request.pickedUpAt}}</td>
+            <td>{{request.deliveredAt}}</td>
+            <td></td>
+        </tr>
+    </ng-template>
+</p-table>
