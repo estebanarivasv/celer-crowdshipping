@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
+import {MenuItem} from 'primeng/api';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass']
+    selector: 'app-header',
+    templateUrl: './header.component.html'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+    items: MenuItem[] = [
+        {
+            label: 'My shippings',
+            icon: 'pi pi-fw pi-file',
+            routerLink: "/sender"
+        },
+        {
+            label: 'My deliveries',
+            icon: 'pi pi-fw pi-pencil',
+            routerLink: "/distributor"
+        }
+    ];
 
 }
