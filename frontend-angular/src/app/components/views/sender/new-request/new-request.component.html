@@ -1,0 +1,121 @@
+<p-toast></p-toast>
+<div class="grid p-fluid">
+    <div class="col-1">
+        <div class="justify-content-start mr-3">
+            <button routerLink="/sender" pButton pRipple type="button" icon="pi pi-arrow-left"
+                    class="p-button-rounded p-button-outlined p-button-secondary"></button>
+        </div>
+    </div>
+    <div class="col-10">
+        <h3 class="mt-0">Package details</h3>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-paperclip"></i></span>
+                    <input required type="text" pInputText placeholder="What's in the package?"
+                           [(ngModel)]="packageModel.name" #name="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="text" pInputText placeholder="Description"
+                           [(ngModel)]="packageModel.description" #description="ngModel">
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="text" pInputText placeholder="Image url" [(ngModel)]="packageModel.imageUrl"
+                           #imageUrl="ngModel">
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <p-dropdown [options]="dimensionsOpts"
+                            [(ngModel)]="packageModel.dimensions"
+                            placeholder="Select a package size"
+                            [showClear]="true"
+                            [required]=true
+                            #dimensions="ngModel"></p-dropdown>
+
+            </div>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">$</span>
+                    <input required type="number" pInputText placeholder="Estimated monetary value"
+                           [(ngModel)]="packageModel.value"
+                           #packValue="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="flex w-min align-content-end">
+                    <button pButton pRipple
+                            [disabled]="savePkgClicked || ((!name.valid && !name.value) ||
+                             (!description.valid && !description.value) ||
+                             (!dimensions.valid && !dimensions.value) ||
+                             (!imageUrl.valid && !imageUrl.value) ||
+                             (!packValue.valid && !packValue.value))"
+                            (click)="onClickAddPackage()"
+                            type="button" label="Save"
+                            class="p-button-outlined p-button-rounded p-button-success"
+                    ></button>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="">Shipping details</h3>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="text" pInputText placeholder="Details for distributor"
+                           [(ngModel)]="shippingModel.details" #shipDetails="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="text" pInputText placeholder="Origin address"
+                           [(ngModel)]="shippingModel.originAddress" #shipOrig="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="text" pInputText placeholder="Destination address"
+                           [(ngModel)]="shippingModel.destinationAddress" #shipDest="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="number" pInputText placeholder="Recipient ID"
+                           [(ngModel)]="shippingModel.recipientId"
+                           #shipRecipient="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="number" pInputText placeholder="Sender ID"
+                           [(ngModel)]="shippingModel.senderId"
+                           #shipSender="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="flex w-min align-content-end">
+                    <button pButton pRipple
+                            [disabled]="saveShipClicked || ((!shipDetails.valid && !name.value) ||
+                             (!shipOrig.valid && !shipOrig.value) ||
+                             (!shipDest.valid && !shipDest.value) ||
+                             (!shipRecipient.valid && !shipRecipient.value) ||
+                             (!shipSender.valid && !shipSender.value))"
+                            (click)="onClickAddShipping()"
+                            type="button" label="Save"
+                            class="p-button-outlined p-button-rounded p-button-success"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
