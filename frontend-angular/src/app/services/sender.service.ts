@@ -3,6 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {Shipping} from "../models/shipping";
 import {map, Observable} from "rxjs";
 import {ApiResponse} from "../models/response";
+import {Package} from "../models/package";
+import {environment} from "../../environments/environment";
+import {Offers} from "../models/offers";
 
 
 /*
@@ -18,11 +21,24 @@ export class SenderService {
     }
 
     getAllShippings(): Observable<ApiResponse<Shipping[]>> {
-        // TODO: how to env variables
-        const URL = 'http://localhost:5000/api/v1/sender/shippings'
-
-        // `${environment.baseURL}student.json`
+        const URL = `${environment.apiBaseUrl}/sender/shippings`
         return this.http.get<ApiResponse<Shipping[]>>(URL);
     }
+
+    addShipping(body: Shipping): Observable<ApiResponse<Shipping>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings`
+        return this.http.post<ApiResponse<Shipping>>(URL, body);
+    }
+
+    getShippingDetails(id: number): Observable<ApiResponse<Shipping>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings/${id}`
+        return this.http.get<ApiResponse<Shipping>>(URL);
+    }
+
+    getShippingOffers(id: number): Observable<ApiResponse<Offers[]>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings/${id}/offers`
+        return this.http.get<ApiResponse<Offers[]>>(URL);
+    }
+
 }
 
