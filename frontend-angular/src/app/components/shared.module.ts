@@ -10,6 +10,11 @@ import {ToggleButtonModule} from "primeng/togglebutton";
 import {CardModule} from "primeng/card";
 import {RippleModule} from "primeng/ripple";
 import {ImageModule} from "primeng/image";
+import {ToastModule} from "primeng/toast";
+import {StepsModule} from "primeng/steps";
+import {DropdownModule} from "primeng/dropdown";
+import {MessageModule} from "primeng/message";
+import {ScrollPanelModule} from "primeng/scrollpanel";
 
 @NgModule({
     imports: [
@@ -26,6 +31,11 @@ import {ImageModule} from "primeng/image";
         CardModule,
         RippleModule,
         ImageModule,
+        ToastModule,
+        StepsModule,
+        DropdownModule,
+        MessageModule,
+        ScrollPanelModule
     ], providers: []
 })
 export class SharedModule {
