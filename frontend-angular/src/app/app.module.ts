@@ -10,6 +10,10 @@ import {SenderComponent} from './components/views/sender/sender.component';
 import {HeaderComponent} from './components/header/header.component';
 import {DistributorComponent} from "./components/views/distributor/distributor.component";
 import {DashboardComponent} from "./components/views/dashboard/dashboard.component";
+import {NewRequestComponent} from "./components/views/sender/new-request/new-request.component";
+import {ViewRequestsComponent} from "./components/views/sender/view-requests/view-requests.component";
+import {FormsModule} from "@angular/forms";
+import {DetailedRequestComponent} from "./components/views/sender/detailed-request/detailed-request.component";
 
 @NgModule({
     declarations: [
@@ -17,13 +21,17 @@ import {DashboardComponent} from "./components/views/dashboard/dashboard.compone
         SenderComponent,
         DistributorComponent,
         HeaderComponent,
-        DashboardComponent
+        DashboardComponent,
+        NewRequestComponent,
+        ViewRequestsComponent,
+        DetailedRequestComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
         AppRoutingModule,
+        FormsModule,
         SharedModule,
     ],
     providers: [],
