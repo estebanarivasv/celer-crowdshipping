@@ -3,50 +3,22 @@ import {User} from "./user";
 
 export class Shipping {
 
-    id: number;
-    details: string;
-    pickedUpAt: Date;
-    deliveredAt: Date;
-    originAddress: string;
-    destinationAddress: string;
+    id?: number;
+    details?: string;
+    pickedUpAt?: Date;
+    deliveredAt?: Date;
+    originAddress?: string;
+    destinationAddress?: string;
     packageId?: number;
     selectedOfferId?: number;
     senderId?: number;
     recipientId?: number;
     processId?: string;
-    package?: Package;
+    package: Package = new Package();
     sender?: User;
     recipient?: User;
 
-
-    constructor(id: number,
-                details: string,
-                pickedUpAt: Date,
-                deliveredAt: Date,
-                originAddress: string,
-                deliveryAddress: string,
-                packageId?: number,
-                selectedOfferId?: number,
-                senderId?: number,
-                recipientId?: number,
-                processId?: string,
-                packageDetails?: Package,
-                sender?: User,
-                recipient?: User) {
-        this.id = id;
-        this.details = details;
-        this.pickedUpAt = pickedUpAt;
-        this.deliveredAt = deliveredAt;
-        this.originAddress = originAddress;
-        this.destinationAddress = deliveryAddress;
-        this.packageId = packageId;
-        this.selectedOfferId = selectedOfferId;
-        this.senderId = senderId;
-        this.recipientId = recipientId;
-        this.processId = processId;
-        this.package = packageDetails;
-        this.sender = sender;
-        this.recipient = recipient;
+    constructor() {
     }
 }
 
