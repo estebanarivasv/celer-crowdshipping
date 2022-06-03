@@ -1,0 +1,94 @@
+<p-toast></p-toast>
+<div class="grid p-fluid">
+    <div class="col-1">
+        <div class="justify-content-start mr-3">
+            <button routerLink="/distributor" pButton pRipple type="button" icon="pi pi-arrow-left"
+                    class="p-button-rounded p-button-outlined p-button-secondary"></button>
+        </div>
+    </div>
+    <div class="col-11">
+        <div class="grid -mt-3">
+            <div class="col">
+                <p-card header="Shipping details">
+                    <div class="p-card-content -mt-3 pt-0 pb-6">
+                        <p-chip label="{{delivery!.originAddress}}"></p-chip>
+                        ->
+                        <p-chip label="{{delivery!.destinationAddress}}"></p-chip>
+                        <p>"{{delivery!.details}}"</p>
+                        <p><u>From:</u> {{delivery!.sender!.name}} {{delivery!.sender!.surname}}</p>
+                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{delivery!.sender!.phone}} -
+                            <strong>Username: </strong>{{delivery!.sender!.username}}</p>
+
+                        <p><u>To:</u> {{delivery!.recipient!.name}} {{delivery!.recipient!.surname}}</p>
+                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{delivery!.recipient!.phone}} - <strong>Username: </strong>{{delivery!.recipient!.username}}
+                        </p>
+
+
+                        <h3 class="mt-5">{{delivery!.package.name}}</h3>
+                        <p>{{delivery!.package.description}}</p>
+                        <p><strong>Value: </strong> ${{delivery!.package.value}} -
+                            <strong>Size: </strong> {{delivery!.package.dimensions}}</p>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <p-card header="Tracking">
+                        <ng-template [ngIf]="!deliveryCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Delivery state:
+                                    <p-chip styleClass="ml-2"
+                                            label="{{deliveryState!.childActivityInstances![0].activityId}}"></p-chip>
+
+                                </p>
+                                <p class="ml-3 -mt-2">
+                                    <strong>{{deliveryState!.childActivityInstances![0].activityName}}</strong></p>
+                                <div class="flex"></div>
+                                <ng-template
+                                        [ngIf]="deliveryState!.childActivityInstances![0].activityId! == 'AwaitingPickupTask'">
+                                    <div class="flex">
+                                        <button (click)="onClickPkgInTransit(delivery!.id!)"
+                                                pButton pRipple type="button" label="Package in transit"
+                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                    </div>
+                                </ng-template>
+                                <ng-template
+                                        [ngIf]="deliveryState!.childActivityInstances![0].activityId! == 'AwaitArrivalTask'">
+                                    <div class="flex">
+                                        <button (click)="onClickPkgDelivered(delivery!.id!)"
+                                                pButton pRipple type="button" label="Package delivered"
+                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngIf]="deliveryCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Delivery state:
+                                    <p-chip styleClass="ml-2" label="Completed"></p-chip>
+                                </p>
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+
+                <ng-template [ngIf]="delivery!.selectedOfferId">
+                    <p-card header="Your offer">
+                        <div class="p-card-content -mt-4 p-0">
+                            <p><u>Shipping cost:</u> ${{selectedOffer!.shippingCost}}</p>
+                            <p><u>ETA:</u> {{selectedOffer!.duration}} hours</p>
+                            <p>
+                                <u>Distributor:</u> {{selectedOffer!.distributor!.name}} {{selectedOffer!.distributor!.surname}}
+                            </p>
+                            <p class="ml-4 -mt-2 ">
+                                <strong>Mobile: </strong>{{selectedOffer!.distributor!.phone}} -
+                                <strong>Username: </strong>{{selectedOffer!.distributor!.username}}
+                            </p>
+                        </div>
+                    </p-card>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+</div>
