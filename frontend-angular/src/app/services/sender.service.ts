@@ -58,5 +58,14 @@ export class SenderService {
         });
     }
 
+    sendMsgToWorflowEngine(id: number): Observable<ApiResponse<State>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings/${id}`
+
+        let body = {
+            "messageName": "PackageOk"
+        }
+        return this.http.patch<ApiResponse<State>>(URL, body);
+    }
+
 }
 
