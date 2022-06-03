@@ -18,6 +18,7 @@ export class DetailedRequestComponent implements OnInit {
     offers?: Offer[];
     selectedOffer?: Offer;
     shippingState?: State;
+    shippingCompleted?: boolean;
 
     constructor(private route: ActivatedRoute,
                 private messageService: MessageService,
@@ -48,7 +49,11 @@ export class DetailedRequestComponent implements OnInit {
 
             this.senderService.getShippingStateById(this.requestId).subscribe(
                 (res) => {
-                    this.shippingState = res.data
+                    if (res.data !== null) {
+                        this.shippingState = res.data;
+                    } else {
+                        this.shippingCompleted = true;
+                    }
                 }
             )
 
@@ -72,4 +77,22 @@ export class DetailedRequestComponent implements OnInit {
         this.getShippingInformation();
     }
 
+    onClickPkgOk(id: number) {
+        this.senderService.sendMsgToWorflowEngine(id).subscribe(
+            ((res) => {
+                if (res.message === "" && res.success) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Sent',
+                        detail: 'Message sent to workflow engine and returned with no errors'
+                    });
+                }
+            }), error => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Bad request',
+                    detail: error.error.message!
+                })
+            });
+    }
 }

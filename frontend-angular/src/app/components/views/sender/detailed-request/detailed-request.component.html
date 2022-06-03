@@ -34,23 +34,36 @@
             <div class="col">
                 <div class="mb-3">
                     <p-card header="Tracking">
-                        <div class="p-card-content -mt-4 p-0">
-                            <p>Shipping state:
-                                <p-chip styleClass="ml-2"
-                                        label="{{shippingState!.childActivityInstances![0].activityId}}"></p-chip>
 
-                            </p>
-                            <p class="ml-3 -mt-2">
-                                <strong>{{shippingState!.childActivityInstances![0].activityName}}</strong></p>
-                            <div class="flex"></div>
-                            <ng-template
-                                    [ngIf]="shippingState!.childActivityInstances![0].activityId! == 'ConfirmPackageOkTask'">
-                                <div class="flex">
-                                    <button pButton pRipple type="button" label="Package OK"
-                                            class="p-button-outlined p-button-rounded p-button-success w-4"></button>
-                                </div>
-                            </ng-template>
-                        </div>
+                        <ng-template [ngIf]="!shippingCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Shipping state:
+                                    <p-chip styleClass="ml-2"
+                                            label="{{shippingState!.childActivityInstances![0].activityId}}"></p-chip>
+
+                                </p>
+                                <p class="ml-3 -mt-2">
+                                    <strong>{{shippingState!.childActivityInstances![0].activityName}}</strong></p>
+                                <div class="flex"></div>
+                                <ng-template
+                                        [ngIf]="shippingState!.childActivityInstances![0].activityId! == 'ConfirmPackageOkTask'">
+                                    <div class="flex">
+                                        <button (click)="onClickPkgOk(shipping!.id!)"
+                                                pButton pRipple type="button" label="Package OK"
+                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngIf]="shippingCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Shipping state:
+                                    <p-chip styleClass="ml-2"
+                                            label="Completed"></p-chip>
+
+                                </p>
+                            </div>
+                        </ng-template>
                     </p-card>
                 </div>
 
