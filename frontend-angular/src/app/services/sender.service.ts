@@ -5,7 +5,8 @@ import {map, Observable} from "rxjs";
 import {ApiResponse} from "../models/response";
 import {Package} from "../models/package";
 import {environment} from "../../environments/environment";
-import {Offers} from "../models/offers";
+import {Offer} from "../models/offer";
+import {State} from "../models/state";
 
 
 /*
@@ -35,9 +36,26 @@ export class SenderService {
         return this.http.get<ApiResponse<Shipping>>(URL);
     }
 
-    getShippingOffers(id: number): Observable<ApiResponse<Offers[]>> {
+    getShippingOffers(id: number): Observable<ApiResponse<Offer[]>> {
         const URL = `${environment.apiBaseUrl}/sender/shippings/${id}/offers`
-        return this.http.get<ApiResponse<Offers[]>>(URL);
+        return this.http.get<ApiResponse<Offer[]>>(URL);
+    }
+
+    getSelectedOfferByShippingId(id: number): Observable<ApiResponse<Offer>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings/${id}/offers/selected`
+        return this.http.get<ApiResponse<Offer>>(URL);
+    }
+
+    getShippingStateById(id: number): Observable<ApiResponse<State>> {
+        const URL = `${environment.apiBaseUrl}/shippings/${id}/state`
+        return this.http.get<ApiResponse<State>>(URL);
+    }
+
+    setSelectedOfferById(id: number, offerId: number): Observable<ApiResponse<Shipping>> {
+        const URL = `${environment.apiBaseUrl}/sender/shippings/${id}/offers/selected`
+        return this.http.patch<ApiResponse<Shipping>>(URL, {
+            "selectedOfferId": offerId
+        });
     }
 
 }

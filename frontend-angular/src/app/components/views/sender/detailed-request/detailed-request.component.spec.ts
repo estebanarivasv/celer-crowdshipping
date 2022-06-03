@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewRequestsComponent } from './view-requests.component';
+import { DetailedRequestComponent } from './detailed-request.component';
 
-describe('ViewRequestsComponent', () => {
-  let component: ViewRequestsComponent;
-  let fixture: ComponentFixture<ViewRequestsComponent>;
+describe('DetailedRequestComponent', () => {
+  let component: DetailedRequestComponent;
+  let fixture: ComponentFixture<DetailedRequestComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewRequestsComponent ]
+      declarations: [ DetailedRequestComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewRequestsComponent);
+    fixture = TestBed.createComponent(DetailedRequestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

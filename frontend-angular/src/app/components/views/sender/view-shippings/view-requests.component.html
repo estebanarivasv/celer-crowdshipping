@@ -1,6 +1,7 @@
 <div class="mb-5">
     <h3>My shippings</h3>
-    <button pButton pRipple routerLink="new-request" type="button" label="New request" class="p-button-sm p-button-rounded p-button-success"></button>
+    <button pButton pRipple routerLink="new-request" type="button" label="New request"
+            class="p-button-sm p-button-rounded p-button-success"></button>
 </div>
 
 <p-table [value]="shippingArr" styleClass="p-datatable-sm" responsiveLayout="scroll">
@@ -24,7 +25,8 @@
             <td>{{shipping.pickedUpAt}}</td>
             <td>{{shipping.deliveredAt}}</td>
             <td>
-                <button routerLink="requests/{{shipping.id}}" pButton pRipple type="button" icon="pi pi-search" class="p-button-sm p-button-rounded p-button-success"></button>
+                <button routerLink="requests/{{shipping.id}}" pButton pRipple type="button" icon="pi pi-search"
+                        class="p-button-sm p-button-rounded p-button-success"></button>
             </td>
         </tr>
     </ng-template>

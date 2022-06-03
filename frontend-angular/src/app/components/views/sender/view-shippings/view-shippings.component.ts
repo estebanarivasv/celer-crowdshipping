@@ -3,10 +3,10 @@ import {Shipping} from "../../../../models/shipping";
 import {SenderService} from "../../../../services/sender.service";
 
 @Component({
-  selector: 'app-view-requests',
+  selector: 'app-view-shippings',
   templateUrl: './view-requests.component.html'
 })
-export class ViewRequestsComponent implements OnInit {
+export class ViewShippingsComponent implements OnInit {
 
   shippingArr: Shipping[] = new Array<Shipping>();
 
