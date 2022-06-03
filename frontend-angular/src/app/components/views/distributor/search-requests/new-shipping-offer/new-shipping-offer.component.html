@@ -1,0 +1,60 @@
+<p-toast></p-toast>
+<div class="grid p-fluid">
+    <div class="col-1">
+        <div class="justify-content-start mr-3">
+            <button routerLink="/distributor/requests" pButton pRipple type="button" icon="pi pi-arrow-left"
+                    class="p-button-rounded p-button-outlined p-button-secondary"></button>
+        </div>
+    </div>
+    <div class="col-11">
+
+        <h3 class="mt-0">Offer details</h3>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-paperclip"></i></span>
+                    <input required type="text" pInputText placeholder="Message"
+                           [(ngModel)]="offerModel.message" #message="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="number" pInputText placeholder="Duration in hours"
+                           [(ngModel)]="offerModel.duration" #duration="ngModel">
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon">$</span>
+                    <input required type="number" pInputText placeholder="Shipping Cost"
+                           [(ngModel)]="offerModel.shippingCost" #cost="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <input required type="number" pInputText placeholder="Distributor Id"
+                           [(ngModel)]="offerModel.distributorId" #distributor="ngModel">
+                </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <div class="flex w-min align-content-end">
+                    <button pButton pRipple
+                            [disabled]="saveOfferClicked || ((!message.valid && !message.value) ||
+                             (!duration.valid && !duration.value) ||
+                             (!cost.valid && !cost.value) ||
+                             (!distributor.valid && !distributor.value))"
+                            (click)="onClickAddOffer()"
+                            type="button" label="Save"
+                            class="p-button-outlined p-button-rounded p-button-success"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
