@@ -6,6 +6,15 @@ import {DashboardComponent} from "./components/views/dashboard/dashboard.compone
 import {NewRequestComponent} from "./components/views/sender/new-request/new-request.component";
 import {ViewShippingsComponent} from "./components/views/sender/view-shippings/view-shippings.component";
 import {DetailedRequestComponent} from "./components/views/sender/detailed-request/detailed-request.component";
+import {SearchRequestsComponent} from "./components/views/distributor/search-requests/search-requests.component";
+import {ViewDeliveriesComponent} from "./components/views/distributor/view-deliveries/view-deliveries.component";
+import {
+    NewShippingOfferComponent
+} from "./components/views/distributor/search-requests/new-shipping-offer/new-shipping-offer.component";
+import {DetailedDeliveryComponent} from "./components/views/distributor/detailed-delivery/detailed-delivery.component";
+import {
+    ViewShippingRequestsComponent
+} from "./components/views/distributor/search-requests/view-shipping-requests/view-shipping-requests.component";
 
 const routes: Routes = [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -26,11 +35,34 @@ const routes: Routes = [
             }
         ]
     },
-    {path: 'distributor', component: DistributorComponent},
+    {
+        path: 'distributor', component: DistributorComponent, children: [
+            {
+                path: '',
+                component: ViewDeliveriesComponent,
+            },
+            {
+                path: 'deliveries/:id',
+                component: DetailedDeliveryComponent,
+            },
+            {
+                path: 'requests',
+                component: SearchRequestsComponent, children: [
+                    {
+                        path: '',
+                        component: ViewShippingRequestsComponent,
+                    },
+                    {
+                        path: ':id/offers/new',
+                        component: NewShippingOfferComponent,
+                    }]
+            },
+        ]
+    }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
     exports: [RouterModule]
 })
 export class AppRoutingModule {
