@@ -101,7 +101,7 @@ func FindShippingStateById(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 	if stateDto.State == "COMPLETED" {
-		return dtos.Response{Success: true, Data: "the process has been successfully completed"}
+		return dtos.Response{Success: true, Error: "the process has been successfully completed"}
 	}
 
 	currentTaskDto, err := GetProcInstanceCurrentTask(camundaID)
