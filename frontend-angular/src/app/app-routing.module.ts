@@ -4,7 +4,7 @@ import {DistributorComponent} from "./components/views/distributor/distributor.c
 import {SenderComponent} from "./components/views/sender/sender.component";
 import {DashboardComponent} from "./components/views/dashboard/dashboard.component";
 import {NewRequestComponent} from "./components/views/sender/new-request/new-request.component";
-import {ViewRequestsComponent} from "./components/views/sender/view-requests/view-requests.component";
+import {ViewShippingsComponent} from "./components/views/sender/view-shippings/view-shippings.component";
 import {DetailedRequestComponent} from "./components/views/sender/detailed-request/detailed-request.component";
 
 const routes: Routes = [
@@ -14,7 +14,7 @@ const routes: Routes = [
         path: 'sender', component: SenderComponent, children: [
             {
                 path: '',
-                component: ViewRequestsComponent,
+                component: ViewShippingsComponent,
             },
             {
                 path: 'new-request',

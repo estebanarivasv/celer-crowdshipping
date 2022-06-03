@@ -11,7 +11,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {DistributorComponent} from "./components/views/distributor/distributor.component";
 import {DashboardComponent} from "./components/views/dashboard/dashboard.component";
 import {NewRequestComponent} from "./components/views/sender/new-request/new-request.component";
-import {ViewRequestsComponent} from "./components/views/sender/view-requests/view-requests.component";
+import {ViewShippingsComponent} from "./components/views/sender/view-shippings/view-shippings.component";
 import {FormsModule} from "@angular/forms";
 import {DetailedRequestComponent} from "./components/views/sender/detailed-request/detailed-request.component";
 
@@ -23,7 +23,7 @@ import {DetailedRequestComponent} from "./components/views/sender/detailed-reque
         HeaderComponent,
         DashboardComponent,
         NewRequestComponent,
-        ViewRequestsComponent,
+        ViewShippingsComponent,
         DetailedRequestComponent
     ],
     imports: [

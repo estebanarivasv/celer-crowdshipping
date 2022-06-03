@@ -1,7 +1,7 @@
 import {Shipping} from "./shipping";
 import {User} from "./user";
 
-export class Offers {
+export class Offer {
 
     id?: number;
     shippingCost?: number;
@@ -10,7 +10,7 @@ export class Offers {
     shippingId?: number;
     shipping?: Shipping
     distributorId?: number;
-    distributor?: User;
+    distributor: User = new User();
 
     constructor() {
     }
