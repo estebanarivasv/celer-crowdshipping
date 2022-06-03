@@ -15,7 +15,4 @@ type PackageOutDTO struct {
 	Description string  `json:"description"`
 	Dimensions  string  `json:"dimensions"`
 	Value       float64 `json:"value"`
-	// CreatedAt time.Time `json:"createdAt"`
-	// UpdatedAt time.Time `json:"updatedAt"`
-	// DeletedAt time.Time `json:"deletedAt"`
 }

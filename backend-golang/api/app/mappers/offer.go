@@ -42,3 +42,24 @@ func (m OfferMapper) ToDTO(model *models.Offer) interface{} {
 	}
 
 }
+
+func (m OfferMapper) ToDetailedDTO(model *models.Offer) interface{} {
+
+	// If model is empty, it returns an empty interface
+	if model.ID == 0 {
+		return nil
+	}
+
+	return entities.DetailedOfferOutDTO{
+		ID:           model.ID,
+		ShippingCost: model.ShippingCost,
+		Message:      model.Message,
+		Duration:     model.Duration,
+		ShippingID:   model.ShippingID,
+		Distributor:  UserMapper{}.ToDTO(&model.Distributor),
+		//CreatedAt:   model.CreatedAt,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
+	}
+
+}

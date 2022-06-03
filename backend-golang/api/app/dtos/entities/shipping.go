@@ -30,8 +30,6 @@ type ShippingOutDTO struct {
 	PickedUpAt         time.Time   `json:"pickedUpAt"`
 	DeliveredAt        time.Time   `json:"deliveredAt"`
 	CreatedAt          time.Time   `json:"createdAt"`
-	// UpdatedAt time.Time `json:"updatedAt"`
-	// DeletedAt time.Time `json:"deletedAt"`
 }
 
 type ShippingOutBasicDTO struct {

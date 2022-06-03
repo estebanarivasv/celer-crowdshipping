@@ -19,7 +19,4 @@ type UserOutDTO struct {
 	Email    string `json:"email"`
 	BankName string `json:"bankName"`
 	BankCBU  string `json:"bankCbu"`
-	// CreatedAt time.Time `json:"createdAt"`
-	// UpdatedAt time.Time `json:"updatedAt"`
-	// DeletedAt time.Time `json:"deletedAt"`
 }
