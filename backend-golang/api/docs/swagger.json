@@ -822,7 +822,7 @@
         "entities.NewOfferInDTO": {
             "type": "object",
             "properties": {
-                "distributor_id": {
+                "distributorId": {
                     "type": "integer"
                 },
                 "duration": {
@@ -831,7 +831,7 @@
                 "message": {
                     "type": "string"
                 },
-                "shipping_cost": {
+                "shippingCost": {
                     "type": "number"
                 }
             }
@@ -853,7 +853,7 @@
                 "dimensions": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
                 "name": {
@@ -867,22 +867,22 @@
         "entities.ShippingInDTO": {
             "type": "object",
             "properties": {
-                "dest_addr": {
+                "destinationAddress": {
                     "type": "string"
                 },
                 "details": {
                     "type": "string"
                 },
-                "origin_addr": {
+                "originAddress": {
                     "type": "string"
                 },
-                "package_id": {
+                "packageId": {
                     "type": "integer"
                 },
-                "recipient_id": {
+                "recipientId": {
                     "type": "integer"
                 },
-                "sender_id": {
+                "senderId": {
                     "type": "integer"
                 }
             }
@@ -890,7 +890,7 @@
         "entities.ShippingInPatchDTO": {
             "type": "object",
             "properties": {
-                "selected_offer_id": {
+                "selectedOfferId": {
                     "type": "integer"
                 }
             }

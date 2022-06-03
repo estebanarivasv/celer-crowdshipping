@@ -38,14 +38,19 @@ func (m ShippingMapper) ToDTO(model *models.Shipping) interface{} {
 		PickedUpAt:         model.PickedUpAt,
 		DeliveredAt:        model.DeliveredAt,
 		CreatedAt:          model.CreatedAt,
-		UpdatedAt:          model.UpdatedAt,
-		DeletedAt:          model.DeletedAt.Time,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
 	}
 
 }
 
 // ToBasicDTO Return a dto with the model that comes from the database
 func (m ShippingMapper) ToBasicDTO(model *models.Shipping) interface{} {
+
+	// If model is empty, it returns an empty interface
+	if model.ID == 0 {
+		return nil
+	}
 
 	return entities.ShippingOutBasicDTO{
 		ID:                 model.ID,

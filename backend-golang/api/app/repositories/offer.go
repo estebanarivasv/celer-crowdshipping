@@ -30,7 +30,7 @@ func (r *OfferRepository) Create(dao models.Offer) (models.Offer, error) {
 func (r *OfferRepository) FindOneById(id *int) (models.Offer, error) {
 	var model models.Offer
 
-	err := r.db.First(&model, id).Error
+	err := r.db.Preload(clause.Associations).First(&model, id).Error
 	if err != nil {
 		return *new(models.Offer), err
 	}

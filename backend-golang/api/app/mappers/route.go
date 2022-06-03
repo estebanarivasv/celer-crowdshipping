@@ -3,7 +3,6 @@ package mappers
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 )
 
 type RouteMapper struct {
@@ -23,17 +22,17 @@ func (m RouteMapper) FromDTO(dto *entities.RouteDetailInDTO) models.RouteDetail 
 func (m RouteMapper) ToDTO(model *models.RouteDetail) interface{} {
 
 	// If model is empty, it returns an empty interface
-	if controllers.IsZero[*models.RouteDetail](model) {
-		return *new(interface{})
+	if model.ID == 0 {
+		return nil
 	}
 
 	return entities.RouteDetailOutDTO{
 		ID:          model.ID,
 		Coordinates: model.Coordinates,
 		ShippingID:  model.ShippingID,
-		CreatedAt:   model.CreatedAt,
-		UpdatedAt:   model.UpdatedAt,
-		DeletedAt:   model.DeletedAt.Time,
+		//CreatedAt:   model.CreatedAt,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
 	}
 
 }

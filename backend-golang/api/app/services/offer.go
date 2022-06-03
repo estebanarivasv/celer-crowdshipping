@@ -159,10 +159,12 @@ func FindSelectedOfferByShippingId(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: "there is not a selected offer in this shipping instance."}
 	}
 
-	dto, err := offerRepository.FindOneById(shipping.SelectedOfferID)
+	dao, err := offerRepository.FindOneById(shipping.SelectedOfferID)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
+
+	dto := offerMapper.ToDetailedDTO(&dao)
 
 	return dtos.Response{Success: true, Data: dto}
 }

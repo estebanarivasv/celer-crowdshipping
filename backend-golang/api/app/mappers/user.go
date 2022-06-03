@@ -3,7 +3,6 @@ package mappers
 import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
-	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 )
 
 type UserMapper struct {
@@ -28,22 +27,22 @@ func (m UserMapper) FromDTO(dto *entities.UserInDTO) models.User {
 func (m UserMapper) ToDTO(model *models.User) interface{} {
 
 	// If model is empty, it returns an empty interface
-	if controllers.IsZero[*models.User](model) {
-		return *new(interface{})
+	if model.ID == 0 {
+		return nil
 	}
 
 	return entities.UserOutDTO{
-		ID:        model.ID,
-		Name:      model.Name,
-		Surname:   model.Surname,
-		Username:  model.Username,
-		Phone:     model.Phone,
-		Email:     model.Email,
-		BankName:  model.BankName,
-		BankCBU:   model.BankCBU,
-		CreatedAt: model.CreatedAt,
-		UpdatedAt: model.UpdatedAt,
-		DeletedAt: model.DeletedAt.Time,
+		ID:       model.ID,
+		Name:     model.Name,
+		Surname:  model.Surname,
+		Username: model.Username,
+		Phone:    model.Phone,
+		Email:    model.Email,
+		BankName: model.BankName,
+		BankCBU:  model.BankCBU,
+		//CreatedAt:   model.CreatedAt,
+		//UpdatedAt:   model.UpdatedAt,
+		//DeletedAt:   model.DeletedAt.Time,
 	}
 
 }

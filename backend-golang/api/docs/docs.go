@@ -834,7 +834,7 @@ const docTemplate = `{
         "entities.NewOfferInDTO": {
             "type": "object",
             "properties": {
-                "distributor_id": {
+                "distributorId": {
                     "type": "integer"
                 },
                 "duration": {
@@ -843,7 +843,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "shipping_cost": {
+                "shippingCost": {
                     "type": "number"
                 }
             }
@@ -865,7 +865,7 @@ const docTemplate = `{
                 "dimensions": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
                 "name": {
@@ -879,22 +879,22 @@ const docTemplate = `{
         "entities.ShippingInDTO": {
             "type": "object",
             "properties": {
-                "dest_addr": {
+                "destinationAddress": {
                     "type": "string"
                 },
                 "details": {
                     "type": "string"
                 },
-                "origin_addr": {
+                "originAddress": {
                     "type": "string"
                 },
-                "package_id": {
+                "packageId": {
                     "type": "integer"
                 },
-                "recipient_id": {
+                "recipientId": {
                     "type": "integer"
                 },
-                "sender_id": {
+                "senderId": {
                     "type": "integer"
                 }
             }
@@ -902,7 +902,7 @@ const docTemplate = `{
         "entities.ShippingInPatchDTO": {
             "type": "object",
             "properties": {
-                "selected_offer_id": {
+                "selectedOfferId": {
                     "type": "integer"
                 }
             }

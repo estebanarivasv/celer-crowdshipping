@@ -14,6 +14,9 @@ func main() {
 	config.LoadSwaggerConfig()
 
 	server := gin.Default()
+	
+	// Add cors configuration
+	server.Use(config.GetCorsConfig())
 
 	// Connect to database
 	db := config.ConnectToDb()

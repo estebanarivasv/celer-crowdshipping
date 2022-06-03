@@ -1,0 +1,102 @@
+<p-toast></p-toast>
+<div class="grid p-fluid">
+    <div class="col-1">
+        <div class="justify-content-start mr-3">
+            <button routerLink="/sender" pButton pRipple type="button" icon="pi pi-arrow-left"
+                    class="p-button-rounded p-button-outlined p-button-secondary"></button>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="grid -mt-3">
+            <div class="col">
+                <p-card header="Shipping details">
+                    <div class="p-card-content -mt-3 pt-0 pb-6">
+                        <p-chip label="{{shipping!.originAddress}}"></p-chip>
+                        ->
+                        <p-chip label="{{shipping!.destinationAddress}}"></p-chip>
+                        <p>"{{shipping!.details}}"</p>
+                        <p><u>From:</u> {{shipping!.sender!.name}} {{shipping!.sender!.surname}}</p>
+                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{shipping!.sender!.phone}} -
+                            <strong>Username: </strong>{{shipping!.sender!.username}}</p>
+
+                        <p><u>To:</u> {{shipping!.recipient!.name}} {{shipping!.recipient!.surname}}</p>
+                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{shipping!.recipient!.phone}} - <strong>Username: </strong>{{shipping!.recipient!.username}}
+                        </p>
+
+
+                        <h3 class="mt-5">{{shipping!.package.name}}</h3>
+                        <p>{{shipping!.package.description}}</p>
+                        <p><strong>Value: </strong> ${{shipping!.package.value}} -
+                            <strong>Size: </strong> {{shipping!.package.dimensions}}</p>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <p-card header="Tracking">
+
+                        <ng-template [ngIf]="!shippingCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Shipping state:
+                                    <p-chip styleClass="ml-2"
+                                            label="{{shippingState!.childActivityInstances![0].activityId}}"></p-chip>
+
+                                </p>
+                                <p class="ml-3 -mt-2">
+                                    <strong>{{shippingState!.childActivityInstances![0].activityName}}</strong></p>
+                                <div class="flex"></div>
+                                <ng-template
+                                        [ngIf]="shippingState!.childActivityInstances![0].activityId! == 'ConfirmPackageOkTask'">
+                                    <div class="flex">
+                                        <button (click)="onClickPkgOk(shipping!.id!)"
+                                                pButton pRipple type="button" label="Package OK"
+                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngIf]="shippingCompleted!">
+                            <div class="p-card-content -mt-4 p-0">
+                                <p>Shipping state:
+                                    <p-chip styleClass="ml-2"
+                                            label="Completed"></p-chip>
+
+                                </p>
+                            </div>
+                        </ng-template>
+                    </p-card>
+                </div>
+
+                <ng-template [ngIf]="shipping!.selectedOfferId">
+                    <p-card header="Selected Offer">
+                        <div class="p-card-content -mt-4 p-0">
+                            <p><u>Shipping cost:</u> ${{selectedOffer!.shippingCost}}</p>
+                            <p><u>ETA:</u> {{selectedOffer!.duration}} hours</p>
+                            <p>
+                                <u>Distributor:</u> {{selectedOffer!.distributor!.name}} {{selectedOffer!.distributor!.surname}}
+                            </p>
+                            <p class="ml-4 -mt-2 ">
+                                <strong>Mobile: </strong>{{selectedOffer!.distributor!.phone}} -
+                                <strong>Username: </strong>{{selectedOffer!.distributor!.username}}
+                            </p>
+                        </div>
+                    </p-card>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-2 -mt-2">
+        <ng-template [ngIf]="shipping!.selectedOfferId === null">
+            <h2>Offers</h2>
+            <p-scrollPanel [style]="{width: '100%', height: '405px'}" styleClass="">
+                <div *ngFor="let offer of offers" class="p-card p-3">
+                    <p><strong>$ {{offer.shippingCost}} - arrives in {{offer.duration}} hours</strong></p>
+                    <p>Message: {{offer.message}}</p>
+                    <button (click)="markOfferAsSelected(shipping!.id!, offer!.id!)" pButton pRipple type="button" label="Accept offer"
+                            class="p-button-rounded p-button-success p-button-sm"></button>
+                </div>
+            </p-scrollPanel>
+        </ng-template>
+    </div>
+</div>

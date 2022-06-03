@@ -14,13 +14,13 @@ definitions:
     type: object
   entities.NewOfferInDTO:
     properties:
-      distributor_id:
+      distributorId:
         type: integer
       duration:
         type: number
       message:
         type: string
-      shipping_cost:
+      shippingCost:
         type: number
     type: object
   entities.NewRouteDetailInDTO:
@@ -34,7 +34,7 @@ definitions:
         type: string
       dimensions:
         type: string
-      image_url:
+      imageUrl:
         type: string
       name:
         type: string
@@ -43,22 +43,22 @@ definitions:
     type: object
   entities.ShippingInDTO:
     properties:
-      dest_addr:
+      destinationAddress:
         type: string
       details:
         type: string
-      origin_addr:
+      originAddress:
         type: string
-      package_id:
+      packageId:
         type: integer
-      recipient_id:
+      recipientId:
         type: integer
-      sender_id:
+      senderId:
         type: integer
     type: object
   entities.ShippingInPatchDTO:
     properties:
-      selected_offer_id:
+      selectedOfferId:
         type: integer
     type: object
 info:
