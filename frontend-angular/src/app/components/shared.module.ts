@@ -15,6 +15,8 @@ import {StepsModule} from "primeng/steps";
 import {DropdownModule} from "primeng/dropdown";
 import {MessageModule} from "primeng/message";
 import {ScrollPanelModule} from "primeng/scrollpanel";
+import {ChipModule} from "primeng/chip";
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
     imports: [
@@ -35,7 +37,8 @@ import {ScrollPanelModule} from "primeng/scrollpanel";
         StepsModule,
         DropdownModule,
         MessageModule,
-        ScrollPanelModule
+        ScrollPanelModule,
+        ChipModule
     ], providers: []
 })
 export class SharedModule {

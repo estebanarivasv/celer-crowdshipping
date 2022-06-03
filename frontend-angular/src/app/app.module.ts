@@ -14,6 +14,16 @@ import {NewRequestComponent} from "./components/views/sender/new-request/new-req
 import {ViewShippingsComponent} from "./components/views/sender/view-shippings/view-shippings.component";
 import {FormsModule} from "@angular/forms";
 import {DetailedRequestComponent} from "./components/views/sender/detailed-request/detailed-request.component";
+import {ViewDeliveriesComponent} from "./components/views/distributor/view-deliveries/view-deliveries.component";
+import {SearchRequestsComponent} from "./components/views/distributor/search-requests/search-requests.component";
+import {
+    NewShippingOfferComponent
+} from "./components/views/distributor/search-requests/new-shipping-offer/new-shipping-offer.component";
+import {DetailedDeliveryComponent} from "./components/views/distributor/detailed-delivery/detailed-delivery.component";
+import {
+    ViewShippingRequestsComponent
+} from "./components/views/distributor/search-requests/view-shipping-requests/view-shipping-requests.component";
+import {FooterComponent} from "./components/footer/footer.component";
 
 @NgModule({
     declarations: [
@@ -21,10 +31,16 @@ import {DetailedRequestComponent} from "./components/views/sender/detailed-reque
         SenderComponent,
         DistributorComponent,
         HeaderComponent,
+        FooterComponent,
         DashboardComponent,
         NewRequestComponent,
         ViewShippingsComponent,
-        DetailedRequestComponent
+        DetailedRequestComponent,
+        SearchRequestsComponent,
+        NewShippingOfferComponent,
+        ViewDeliveriesComponent,
+        DetailedDeliveryComponent,
+        ViewShippingRequestsComponent
     ],
     imports: [
         BrowserModule,
