@@ -4,7 +4,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Package TODO: Field-Level Permission gorm
 type Package struct {
 	gorm.Model
 	ID          int `gorm:"primarykey"`

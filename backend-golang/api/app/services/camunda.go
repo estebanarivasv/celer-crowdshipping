@@ -7,12 +7,26 @@ import (
 	"net/http"
 )
 
+type CamundaService struct {
+	camundaRepo *repositories.CamundaRepository
+}
+
+// NewCamundaService Returns a new instance
+func NewCamundaService() *CamundaService {
+
+	var repo = repositories.NewCamundaRepository()
+
+	return &CamundaService{
+		camundaRepo: repo,
+	}
+}
+
 // CreateNewCamundaProcInstance Camunda service that creates a new process instance
-func CreateNewCamundaProcInstance() (*dtos.BasicCamundaProcessDTO, error) {
+func (s *CamundaService) CreateNewCamundaProcInstance() (*dtos.BasicCamundaProcessDTO, error) {
 
 	url := camunda.GetCreateShippingProcURL()
 
-	procDTO, err := repositories.SendNewInstanceRequest(http.MethodPost, url, nil)
+	procDTO, err := s.camundaRepo.SendNewInstanceRequest(http.MethodPost, url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +34,7 @@ func CreateNewCamundaProcInstance() (*dtos.BasicCamundaProcessDTO, error) {
 }
 
 // SendMessageToCamundaProcess Camunda service that sends a message to a process instance
-func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
+func (s *CamundaService) SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 
 	url := camunda.GetMessageProcURL()
 	payload := dtos.MessageToProcessDTO{
@@ -32,7 +46,7 @@ func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	err = repositories.SendMessageToProcessRequest(http.MethodPost, url, body)
+	err = s.camundaRepo.SendMessageToProcessRequest(http.MethodPost, url, body)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -41,22 +55,22 @@ func SendMessageToCamundaProcess(procId string, msgName string) dtos.Response {
 
 }
 
-func GetProcInstanceCurrentTask(procId string) (dtos.DetailedCamundaProcessDTO, error) {
+func (s *CamundaService) GetProcInstanceCurrentTask(procId string) (dtos.DetailedCamundaProcessDTO, error) {
 
 	url := camunda.GetProcCurrentActivityURL(procId)
 
-	procDTO, err := repositories.GetProcCurrentActivity(http.MethodGet, url)
+	procDTO, err := s.camundaRepo.GetProcCurrentActivity(http.MethodGet, url)
 	if err != nil {
 		return *new(dtos.DetailedCamundaProcessDTO), err
 	}
 	return procDTO, nil
 }
 
-func GetProcInstanceState(procId string) (dtos.DetailedCamundaProcessDTO, error) {
+func (s *CamundaService) GetProcInstanceState(procId string) (dtos.DetailedCamundaProcessDTO, error) {
 
 	url := camunda.GetProcStateURL(procId)
 
-	procDTO, err := repositories.GetProcCurrentActivity(http.MethodGet, url)
+	procDTO, err := s.camundaRepo.GetProcCurrentActivity(http.MethodGet, url)
 	if err != nil {
 		return *new(dtos.DetailedCamundaProcessDTO), err
 	}

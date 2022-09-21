@@ -12,10 +12,9 @@ type ShippingRepository struct {
 	db *gorm.DB
 }
 
-var db = config.ConnectToDb()
-
 // NewShippingRepository Returns a new instance
 func NewShippingRepository() *ShippingRepository {
+	var db = config.ConnectToDb()
 	return &ShippingRepository{db: db}
 }
 

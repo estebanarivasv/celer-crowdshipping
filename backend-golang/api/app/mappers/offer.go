@@ -8,6 +8,11 @@ import (
 type OfferMapper struct {
 }
 
+// NewOfferMapper Returns a new instance
+func NewOfferMapper() *OfferMapper {
+	return &OfferMapper{}
+}
+
 // FromDTO Return a model with the dto that comes from the service
 func (m OfferMapper) FromDTO(dto *entities.OfferInDTO) models.Offer {
 

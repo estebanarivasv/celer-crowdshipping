@@ -8,6 +8,11 @@ import (
 type ShippingMapper struct {
 }
 
+// NewShippingMapper Returns a new instance
+func NewShippingMapper() *ShippingMapper {
+	return &ShippingMapper{}
+}
+
 // FromDTO Return a model with the dto that comes from the service
 func (m ShippingMapper) FromDTO(dto *entities.ShippingInDTO) models.Shipping {
 

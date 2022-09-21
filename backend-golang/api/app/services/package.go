@@ -7,28 +7,42 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
 )
 
-var packageRepository = repositories.NewPackageRepository()
-var packageMapper = mappers.PackageMapper{}
+type PackageService struct {
+	packageRepo *repositories.PackageRepository
+	mapper      *mappers.PackageMapper
+}
 
-func CreatePackage(packageInDTO *entities.PackageInDTO) dtos.Response {
+// NewPackageService Returns a new instance
+func NewPackageService() *PackageService {
+
+	var repo = repositories.NewPackageRepository()
+	var mapper = mappers.NewPackageMapper()
+
+	return &PackageService{
+		packageRepo: repo,
+		mapper:      mapper,
+	}
+}
+
+func (s *PackageService) CreatePackage(packageInDTO *entities.PackageInDTO) dtos.Response {
 
 	// Convert the dto to an entity
-	model := packageMapper.FromDTO(packageInDTO)
+	model := s.mapper.FromDTO(packageInDTO)
 
-	query, err := packageRepository.Create(model)
+	query, err := s.packageRepo.Create(model)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
 	// Mapping into a dto
-	dto := packageMapper.ToDTO(&query)
+	dto := s.mapper.ToDTO(&query)
 
 	return dtos.Response{Success: true, Data: dto}
 }
 
-func DeletePackageById(id int) dtos.Response {
+func (s *PackageService) DeletePackageById(id int) dtos.Response {
 
-	err := packageRepository.DeleteById(id)
+	err := s.packageRepo.DeleteById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}

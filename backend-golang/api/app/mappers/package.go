@@ -8,6 +8,11 @@ import (
 type PackageMapper struct {
 }
 
+// NewPackageMapper Returns a new instance
+func NewPackageMapper() *PackageMapper {
+	return &PackageMapper{}
+}
+
 // FromDTO Return a model with the dto that comes from the service
 func (m PackageMapper) FromDTO(dto *entities.PackageInDTO) models.Package {
 

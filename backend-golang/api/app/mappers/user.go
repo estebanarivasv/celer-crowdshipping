@@ -8,6 +8,11 @@ import (
 type UserMapper struct {
 }
 
+// NewUserMapper Returns a new instance
+func NewUserMapper() *UserMapper {
+	return &UserMapper{}
+}
+
 // FromDTO Return a model with the dto that comes from the service
 func (m UserMapper) FromDTO(dto *entities.UserInDTO) models.User {
 

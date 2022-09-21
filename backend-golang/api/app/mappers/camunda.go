@@ -9,6 +9,11 @@ import (
 
 type CamundaMapper struct{}
 
+// NewCamundaMapper Returns a new instance
+func NewCamundaMapper() *CamundaMapper {
+	return &CamundaMapper{}
+}
+
 func (m *CamundaMapper) JsonBodyToCamundaProcessDTO(jsonResponse []byte) (*dtos.BasicCamundaProcessDTO, error) {
 	var data dtos.BasicCamundaProcessDTO
 	err := json.Unmarshal(jsonResponse, &data)

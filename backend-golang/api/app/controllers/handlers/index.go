@@ -7,12 +7,20 @@ import (
 	"os"
 )
 
-func IndexHandler(c *gin.Context) {
+type IndexController struct {
+}
+
+// NewIndexController Returns a new instance
+func NewIndexController() *IndexController {
+	return &IndexController{}
+}
+
+func (c *IndexController) IndexHandler(context *gin.Context) {
 
 	config.LoadEnv()
 	address := os.Getenv("ADDR")
 
-	c.JSON(http.StatusOK, gin.H{
+	context.JSON(http.StatusOK, gin.H{
 		"status":  200,
 		"message": "Welcome to celer-crowdshipping API - Docs: http://localhost" + address + "/docs/swagger/index.html",
 	})

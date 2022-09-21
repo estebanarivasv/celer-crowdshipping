@@ -7,27 +7,44 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
 )
 
-var routeRepository = repositories.NewRouteRepository()
-var routeMapper = mappers.RouteMapper{}
+type RouteService struct {
+	routeRepo    *repositories.RouteRepository
+	shippingRepo *repositories.ShippingRepository
+	mapper       *mappers.RouteMapper
+}
 
-func AddNewShippingCoordinates(shippingId int, dto entities.RouteDetailInDTO) dtos.Response {
+// NewRouteService Returns a new instance
+func NewRouteService() *RouteService {
 
-	model := routeMapper.FromDTO(&dto)
+	var routeRepository = repositories.NewRouteRepository()
+	var shippingRepository = repositories.NewShippingRepository()
+	var routeMapper = mappers.NewRouteMapper()
+
+	return &RouteService{
+		routeRepo:    routeRepository,
+		shippingRepo: shippingRepository,
+		mapper:       routeMapper,
+	}
+}
+
+func (s *RouteService) AddNewShippingCoordinates(shippingId int, dto entities.RouteDetailInDTO) dtos.Response {
+
+	model := s.mapper.FromDTO(&dto)
 	model.ShippingID = shippingId
 
-	query, err := routeRepository.Create(model)
+	query, err := s.routeRepo.Create(model)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	responseDto := routeMapper.ToDTO(&query)
+	responseDto := s.mapper.ToDTO(&query)
 	return dtos.Response{Success: true, Data: responseDto}
 }
 
-func FindRouteByShippingID(id int) dtos.Response {
+func (s *RouteService) FindRouteByShippingID(id int) dtos.Response {
 
 	// Get shipping
-	shippingDao, err := shippingRepository.FindOneById(id)
+	shippingDao, err := s.shippingRepo.FindOneById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -35,7 +52,7 @@ func FindRouteByShippingID(id int) dtos.Response {
 	conditions := make(map[string]interface{})
 	conditions["shipping_id"] = shippingDao.ID
 
-	routeDetails, err := routeRepository.FindFilteredRoutes(conditions)
+	routeDetails, err := s.routeRepo.FindFilteredRoutes(conditions)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -43,7 +60,7 @@ func FindRouteByShippingID(id int) dtos.Response {
 	// Map all models into a dto
 	var routeArr []interface{}
 	for _, detail := range routeDetails {
-		routeArr = append(routeArr, routeMapper.ToDTO(&detail))
+		routeArr = append(routeArr, s.mapper.ToDTO(&detail))
 	}
 
 	return dtos.Response{Success: true, Data: routeArr}

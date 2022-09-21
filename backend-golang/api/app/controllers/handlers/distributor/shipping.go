@@ -9,6 +9,23 @@ import (
 	"net/http"
 )
 
+type DistShippingController struct {
+	shippingService *services.ShippingService
+	routeService    *services.RouteService
+}
+
+// NewDistShippingController Returns a new instance
+func NewDistShippingController() *DistShippingController {
+
+	var shippingService = services.NewShippingService()
+	var routeService = services.NewRouteService()
+
+	return &DistShippingController{
+		shippingService: shippingService,
+		routeService:    routeService,
+	}
+}
+
 // NewShippingCoordinates
 // @Summary Create new coordinates
 // @Description Add new coordinates to a shipping and stores it in the database
@@ -21,21 +38,21 @@ import (
 // @Failure 400 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/shippings/{id}/route [post]
-func NewShippingCoordinates(c *gin.Context) {
+func (c *DistShippingController) NewShippingCoordinates(context *gin.Context) {
 
-	shippingId, err := controllers.ConvertParamToInt(c.Param("id"))
+	shippingId, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
-	dto := controllers.ShouldBindDTO(c, entities.RouteDetailInDTO{})
-	responseDto := services.AddNewShippingCoordinates(shippingId, dto)
+	dto := controllers.ShouldBindDTO(context, entities.RouteDetailInDTO{})
+	responseDto := c.routeService.AddNewShippingCoordinates(shippingId, dto)
 	if !responseDto.Success {
-		c.JSON(http.StatusBadRequest, dto)
+		context.JSON(http.StatusBadRequest, dto)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto)
+	context.JSON(http.StatusOK, dto)
 	return
 
 }
@@ -51,24 +68,24 @@ func NewShippingCoordinates(c *gin.Context) {
 // @Failure 400 {object} dtos.Response
 // @Failure 404 {object} dtos.Response
 // @Router /distributor/shippings/{id} [get]
-func GetShippingByID(c *gin.Context) {
+func (c *DistShippingController) GetShippingByID(context *gin.Context) {
 	// TODO: Verify user has access to this information - AUTH
-	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	dto := services.FindShippingById(id)
+	dto := c.shippingService.FindShippingById(id)
 	if !dto.Success {
 		if dto.Error == "record not found" {
-			c.JSON(http.StatusNotFound, dto)
+			context.JSON(http.StatusNotFound, dto)
 			return
 		}
-		c.JSON(http.StatusInternalServerError, dto)
+		context.JSON(http.StatusInternalServerError, dto)
 		return
 	}
-	c.JSON(http.StatusOK, dto)
+	context.JSON(http.StatusOK, dto)
 	return
 }
 
@@ -83,31 +100,31 @@ func GetShippingByID(c *gin.Context) {
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Router /distributor/shippings/{id} [patch]
-func UpdateShippingStateByID(c *gin.Context) {
+func (c *DistShippingController) UpdateShippingStateByID(context *gin.Context) {
 
-	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
-	dto := controllers.ShouldBindDTO(c, dtos.MessageToProcessInDTO{})
+	dto := controllers.ShouldBindDTO(context, dtos.MessageToProcessInDTO{})
 
 	// Verify message is valid for sender
 	valid := controllers.ContainsValidDistributorMsg(dto.MessageName)
 	if !valid {
-		c.JSON(
+		context.JSON(
 			http.StatusBadRequest,
 			dtos.Response{Success: false, Error: "not a valid message"})
 		return
 	}
 
-	responseDto := services.UpdateShippingState(id, dto.MessageName)
+	responseDto := c.shippingService.UpdateShippingState(id, dto.MessageName)
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
 
-	c.JSON(http.StatusCreated, responseDto)
+	context.JSON(http.StatusCreated, responseDto)
 	return
 }
 
@@ -120,15 +137,15 @@ func UpdateShippingStateByID(c *gin.Context) {
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/shippings [get]
-func GetShippingsInProcess(c *gin.Context) {
+func (c *DistShippingController) GetShippingsInProcess(context *gin.Context) {
 
-	responseDto := services.FindActiveShippings()
+	responseDto := c.shippingService.FindActiveShippings()
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
 
-	c.JSON(http.StatusOK, responseDto)
+	context.JSON(http.StatusOK, responseDto)
 	return
 
 }

@@ -8,6 +8,11 @@ import (
 type RouteMapper struct {
 }
 
+// NewRouteMapper Returns a new instance
+func NewRouteMapper() *RouteMapper {
+	return &RouteMapper{}
+}
+
 // FromDTO Return a model with the dto that comes from the service
 func (m RouteMapper) FromDTO(dto *entities.RouteDetailInDTO) models.RouteDetail {
 

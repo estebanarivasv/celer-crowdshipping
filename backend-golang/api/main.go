@@ -14,7 +14,7 @@ func main() {
 	config.LoadSwaggerConfig()
 
 	server := gin.Default()
-	
+
 	// Add cors configuration
 	server.Use(config.GetCorsConfig())
 
@@ -33,8 +33,9 @@ func main() {
 		return
 	}
 
+	router := controllers.NewRouter()
 	// Load REST handlers
-	controllers.GenerateRouting(server)
+	router.GenerateRouting(server)
 
 	err = server.Run(os.Getenv("ADDR"))
 	if err != nil {

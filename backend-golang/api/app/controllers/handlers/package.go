@@ -8,6 +8,20 @@ import (
 	"net/http"
 )
 
+type PackageController struct {
+	packageService *services.PackageService
+}
+
+// NewPackageController Returns a new instance
+func NewPackageController() *PackageController {
+
+	var service = services.NewPackageService()
+
+	return &PackageController{
+		packageService: service,
+	}
+}
+
 // NewPackage
 // @Summary Creates a new package
 // @Description Creates a new package in the database
@@ -18,15 +32,15 @@ import (
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Router /packages [post]
-func NewPackage(c *gin.Context) {
-	dto := controllers.ShouldBindDTO(c, entities.PackageInDTO{})
+func (c *PackageController) NewPackage(context *gin.Context) {
+	dto := controllers.ShouldBindDTO(context, entities.PackageInDTO{})
 
-	var responseDto = services.CreatePackage(&dto)
+	var responseDto = c.packageService.CreatePackage(&dto)
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
-	c.JSON(http.StatusCreated, responseDto)
+	context.JSON(http.StatusCreated, responseDto)
 	return
 }
 
@@ -40,19 +54,19 @@ func NewPackage(c *gin.Context) {
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
 // @Router /packages/{id} [delete]
-func DeletePackageByID(c *gin.Context) {
+func (c *PackageController) DeletePackageByID(context *gin.Context) {
 
-	id, err := controllers.ConvertParamToInt(c.Param("id"))
+	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	var responseDto = services.DeletePackageById(id)
+	var responseDto = c.packageService.DeletePackageById(id)
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 	}
-	c.JSON(http.StatusAccepted, responseDto)
+	context.JSON(http.StatusAccepted, responseDto)
 
 	return
 }

@@ -7,6 +7,20 @@ import (
 	"net/http"
 )
 
+type ShippingController struct {
+	shippingService *services.ShippingService
+}
+
+// NewShippingController Returns a new instance
+func NewShippingController() *ShippingController {
+
+	var shippingService = services.NewShippingService()
+
+	return &ShippingController{
+		shippingService: shippingService,
+	}
+}
+
 // GetShippingStateByID
 // @Summary Get Shipping state
 // @Description Get Shipping state making reference to Camunda instance
@@ -18,22 +32,22 @@ import (
 // @Failure 400 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /shippings/{id}/state [get]
-func GetShippingStateByID(c *gin.Context) {
-	id, err := controllers.ConvertParamToInt(c.Param("id"))
+func (c *ShippingController) GetShippingStateByID(context *gin.Context) {
+	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
-	dto := services.FindShippingStateById(id)
+	dto := c.shippingService.FindShippingStateById(id)
 	if !dto.Success {
 		if dto.Error == "process ID not found" {
-			c.JSON(http.StatusNotFound, dto)
+			context.JSON(http.StatusNotFound, dto)
 			return
 		}
-		c.JSON(http.StatusInternalServerError, dto)
+		context.JSON(http.StatusInternalServerError, dto)
 		return
 	}
 
-	c.JSON(http.StatusOK, dto)
+	context.JSON(http.StatusOK, dto)
 	return
 }

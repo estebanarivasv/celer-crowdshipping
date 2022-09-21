@@ -4,7 +4,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// User TODO: Field-Level Permission gorm
 type User struct {
 	gorm.Model
 	ID       int `gorm:"primarykey"`

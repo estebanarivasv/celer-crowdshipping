@@ -19,6 +19,6 @@ func GetCorsConfig() gin.HandlerFunc {
 		return cors.New(config)
 	*/
 
-	// This will allow all HTTP methods and origins,
+	// This will allow all HTTP methods and origins
 	return cors.Default()
 }

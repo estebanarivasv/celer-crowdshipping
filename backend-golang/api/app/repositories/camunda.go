@@ -13,10 +13,24 @@ import (
 	"time"
 )
 
-var client = &http.Client{Timeout: 10 * time.Second}
-var mapper = mappers.CamundaMapper{}
+type CamundaRepository struct {
+	client *http.Client
+	mapper *mappers.CamundaMapper
+}
 
-func SendNewInstanceRequest(httpMethod string, url string, body io.Reader) (*shipping.BasicCamundaProcessDTO, error) {
+// NewCamundaRepository Returns a new instance
+func NewCamundaRepository() *CamundaRepository {
+
+	var client = &http.Client{Timeout: 10 * time.Second}
+	var mapper = mappers.NewCamundaMapper()
+
+	return &CamundaRepository{
+		client: client,
+		mapper: mapper,
+	}
+}
+
+func (r *CamundaRepository) SendNewInstanceRequest(httpMethod string, url string, body io.Reader) (*shipping.BasicCamundaProcessDTO, error) {
 
 	// Define the request
 	request, err := http.NewRequest(httpMethod, url, body)
@@ -26,7 +40,7 @@ func SendNewInstanceRequest(httpMethod string, url string, body io.Reader) (*shi
 	}
 
 	// Make a request and return a response
-	response, err := client.Do(request)
+	response, err := r.client.Do(request)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +67,7 @@ func SendNewInstanceRequest(httpMethod string, url string, body io.Reader) (*shi
 		return nil, err
 	}
 
-	dto, err := mapper.JsonBodyToCamundaProcessDTO(dao)
+	dto, err := r.mapper.JsonBodyToCamundaProcessDTO(dao)
 	if err != nil {
 		return nil, err
 	}
@@ -61,14 +75,14 @@ func SendNewInstanceRequest(httpMethod string, url string, body io.Reader) (*shi
 
 }
 
-func SendMessageToProcessRequest(httpMethod string, url string, body io.Reader) error {
+func (r *CamundaRepository) SendMessageToProcessRequest(httpMethod string, url string, body io.Reader) error {
 
 	request, err := http.NewRequest(httpMethod, url, body)
 	if err != nil {
 		return err
 	}
 	request.Header.Set("Content-Type", "application/json")
-	response, err := client.Do(request)
+	response, err := r.client.Do(request)
 	if err != nil {
 		return err
 	}
@@ -87,14 +101,14 @@ func SendMessageToProcessRequest(httpMethod string, url string, body io.Reader) 
 	return nil
 }
 
-func GetProcCurrentActivity(httpMethod string, url string) (shipping.DetailedCamundaProcessDTO, error) {
+func (r *CamundaRepository) GetProcCurrentActivity(httpMethod string, url string) (shipping.DetailedCamundaProcessDTO, error) {
 
 	request, err := http.NewRequest(httpMethod, url, nil)
 	if err != nil {
 		return *new(shipping.DetailedCamundaProcessDTO), err
 	}
 
-	response, err := client.Do(request)
+	response, err := r.client.Do(request)
 	if err != nil {
 		return *new(shipping.DetailedCamundaProcessDTO), err
 	}
@@ -114,7 +128,7 @@ func GetProcCurrentActivity(httpMethod string, url string) (shipping.DetailedCam
 		return *new(shipping.DetailedCamundaProcessDTO), err
 	}
 
-	dto, err := mapper.JsonBodyToDetailedProcessDTO(dao)
+	dto, err := r.mapper.JsonBodyToDetailedProcessDTO(dao)
 
 	if err != nil {
 		return *new(shipping.DetailedCamundaProcessDTO), err

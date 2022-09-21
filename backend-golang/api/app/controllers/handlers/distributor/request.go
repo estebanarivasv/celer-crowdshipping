@@ -8,6 +8,23 @@ import (
 	"net/http"
 )
 
+type RequestController struct {
+	shippingService *services.ShippingService
+	offerService    *services.OfferService
+}
+
+// NewRequestController Returns a new instance
+func NewRequestController() *RequestController {
+
+	var shippingService = services.NewShippingService()
+	var offerService = services.NewOfferService()
+
+	return &RequestController{
+		shippingService: shippingService,
+		offerService:    offerService,
+	}
+}
+
 // SearchRequests
 // @Summary Get all pending shipping requests
 // @Description Get all requests which are stored in the database and expect offers
@@ -15,14 +32,14 @@ import (
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/requests [get]
-func SearchRequests(c *gin.Context) {
+func (c *RequestController) SearchRequests(context *gin.Context) {
 
-	responseDto := services.FindShippingRequests()
+	responseDto := c.shippingService.FindShippingRequests()
 	if !responseDto.Success {
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
-	c.JSON(http.StatusOK, responseDto)
+	context.JSON(http.StatusOK, responseDto)
 	return
 }
 
@@ -38,27 +55,55 @@ func SearchRequests(c *gin.Context) {
 // @Failure 400 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/requests/{id}/offers [post]
-func NewRequestOffer(c *gin.Context) {
+func (c *RequestController) NewRequestOffer(context *gin.Context) {
 
-	shippingID, err := controllers.ConvertParamToInt(c.Param("id"))
+	shippingID, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
-	dto := controllers.ShouldBindDTO(c, entities.OfferInDTO{})
+	dto := controllers.ShouldBindDTO(context, entities.OfferInDTO{})
 	dto.ShippingID = shippingID
 
-	responseDto := services.CreateOffer(&dto)
+	responseDto := c.offerService.CreateOffer(&dto)
 	if !responseDto.Success {
 		if responseDto.Error == "this shipping id does not refer to a shipping request" {
-			c.JSON(http.StatusBadRequest, responseDto)
+			context.JSON(http.StatusBadRequest, responseDto)
 			return
 		}
-		c.JSON(http.StatusInternalServerError, responseDto)
+		context.JSON(http.StatusInternalServerError, responseDto)
 		return
 	}
-	c.JSON(http.StatusCreated, responseDto)
+	context.JSON(http.StatusCreated, responseDto)
+	return
+
+}
+
+// GetRequestOffers
+// @Summary Get request offers
+// @Description Get offers associated to a request from the database by passing an ID
+// @Consume application/json
+// @Accept json
+// @Produce json
+// @Param id path int true "Shipping request ID"
+// @Success 200 {object} dtos.Response
+// @Failure 500 {object} dtos.Response
+// @Router /distributor/requests/{id}/offers [get]
+func (c *OfferController) GetRequestOffers(context *gin.Context) {
+	shippingId, err := controllers.ConvertParamToInt(context.Param("id"))
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	dto := c.offerService.FindOffersByRequestID(shippingId)
+	if !dto.Success {
+		context.JSON(http.StatusBadRequest, dto)
+		return
+	}
+
+	context.JSON(http.StatusOK, dto)
 	return
 
 }

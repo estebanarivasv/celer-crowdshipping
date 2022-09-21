@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-// Shipping TODO: Field-Level Permission gorm
 type Shipping struct {
 	gorm.Model
 	ID                 int `gorm:"primarykey"`
