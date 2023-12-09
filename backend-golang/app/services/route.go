@@ -57,7 +57,7 @@ func (s *RouteService) FindRouteByShippingID(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Map all models into a dto
+	// Map all bpmn-models into a dto
 	var routeArr []interface{}
 	for _, detail := range routeDetails {
 		routeArr = append(routeArr, s.mapper.ToDTO(&detail))

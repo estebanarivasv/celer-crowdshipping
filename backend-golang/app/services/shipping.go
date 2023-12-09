@@ -73,7 +73,7 @@ func (s *ShippingService) FindAllShippings() dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Convert and append all models into dtos
+	// Convert and append all bpmn-models into dtos
 	for _, v := range response {
 		dtosArr = append(dtosArr, s.mapper.ToBasicDTO(&v))
 	}
@@ -197,7 +197,7 @@ func (s *ShippingService) FindShippingRequests() dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Map all models into a dto
+	// Map all bpmn-models into a dto
 	var requestsArr []interface{}
 	for _, r := range requests {
 		requestsArr = append(requestsArr, s.mapper.ToBasicDTO(&r))
@@ -213,7 +213,7 @@ func (s *ShippingService) FindActiveShippings() dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Map all models into a dto
+	// Map all bpmn-models into a dto
 	var requestsArr []interface{}
 	for _, r := range requests {
 		requestsArr = append(requestsArr, s.mapper.ToBasicDTO(&r))

@@ -93,7 +93,7 @@ func (s *OfferService) FindOffersByRequestID(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Convert and append all models into dtos
+	// Convert and append all bpmn-models into dtos
 	for _, offer := range offers {
 		dtosArr = append(dtosArr, s.mapper.ToDTO(&offer))
 	}
@@ -120,7 +120,7 @@ func (s *OfferService) FindOffersByShippingID(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Convert and append all models into dtos
+	// Convert and append all bpmn-models into dtos
 	for _, offer := range offers {
 		dtosArr = append(dtosArr, s.mapper.ToDTO(&offer))
 	}
@@ -156,7 +156,7 @@ func (s *OfferService) FindOffersByDistributorID(id int) dtos.Response {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Convert and append all models into dtos
+	// Convert and append all bpmn-models into dtos
 	for _, offer := range offers {
 		dtosArr = append(dtosArr, s.mapper.ToDTO(&offer))
 	}
