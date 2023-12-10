@@ -3,7 +3,6 @@ package config
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 	"os"
 )
 
@@ -16,7 +15,6 @@ func ConnectToDb() *gorm.DB {
 	if err != nil {
 		panic("Database connection failed")
 	}
-	log.Printf("Database connection successful")
 	db.Set("gorm:auto_preload", true)
 
 	return db

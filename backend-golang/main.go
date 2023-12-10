@@ -7,6 +7,7 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/gin-gonic/gin"
+	"log"
 	"os"
 )
 
@@ -22,6 +23,7 @@ func main() {
 
 	// Connect to database
 	db := config.ConnectToDb()
+	log.Printf("Connection to the database was successful")
 
 	// AutoMigrate will create tables, missing foreign keys, constraints, columns and indexes
 	err := db.AutoMigrate(
