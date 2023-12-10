@@ -2,10 +2,11 @@ version: "3.8"
 
 services:
   # GOLANG API
-  api:
+  celer-api:
     build: 
       context: "./backend-golang/"
       dockerfile: Dockerfile
+    image: e-rivas/celer-golang-backend:v0.0.1
     container_name: celer-api
     volumes:
       - "./backend-golang/:/backend-golang"
@@ -26,6 +27,23 @@ services:
       - camunda-platform
     ports:
       - "5000:5000"
+    networks:
+      - main
+
+  # CELER FRONT
+  celer-angular:
+    build: 
+      context: "./frontend-angular/"
+      dockerfile: Dockerfile
+    image: e-rivas/celer-angular-front:v0.0.1
+    container_name: celer-angular
+    volumes:
+      - "./frontend-angular/:/frontend-angular/"
+    depends_on:
+      - celer-api
+      - camunda-platform
+    ports:
+      - "4200:4200"
     networks:
       - main
 
