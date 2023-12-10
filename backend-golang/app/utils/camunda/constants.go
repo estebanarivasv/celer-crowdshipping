@@ -32,5 +32,20 @@ func GetCreateShippingProcURL() string {
 	ShippingKey := os.Getenv("CAMUNDA_SHIPPING_KEY")
 
 	return CamundaBaseUrl + "/process-definition/key/" + ShippingKey + "/start"
+}
 
+func GetURLToPushBPMNDiagram() string {
+
+	config.LoadEnv()
+	CamundaBaseUrl := os.Getenv("CAMUNDA_BASE_URL")
+
+	return CamundaBaseUrl + "/deployment/create"
+}
+
+func GetURLToPingCamundaEngine() string {
+
+	config.LoadEnv()
+	CamundaBaseUrl := os.Getenv("CAMUNDA_BASE_URL")
+
+	return CamundaBaseUrl + "/engine/"
 }
