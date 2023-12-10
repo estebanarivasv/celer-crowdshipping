@@ -18,9 +18,13 @@
 
 
 ### Requirements
-- Go v1.18.10
-- Docker version 20.10.16, build aa7e414
-- Docker Compose version v2.5.0
+- Docker and docker-compose
 
+#### If you want to run it locally:
+- Go v1.18.10
 - node v16.15.0
 - npm 8.5.5
+
+
+### Important resources
+- REST API Reference - Camunda Platform 7.17.0 - https://docs.camunda.org/manual/7.17/reference/rest/
