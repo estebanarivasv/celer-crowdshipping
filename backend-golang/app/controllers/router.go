@@ -28,11 +28,17 @@ func (r *Router) GenerateRouting(server *gin.Engine) {
 	indexController := handlers.NewIndexController()
 	packageController := handlers.NewPackageController()
 	shippingController := handlers.NewShippingController()
+	authController := handlers.NewAuthController()
 
 	// Create a get method and associate it with the welcome function
 	// ex: localhost/api/v1
 	mainPath := server.Group(docs.SwaggerInfo.BasePath)
 	{
+		authPath := mainPath.Group("/auth")
+		{
+			authPath.POST("/login", authController.Login)
+			authPath.POST("/register", authController.Register)
+		}
 		senderPath := mainPath.Group("/sender")
 		{
 			senderShipPath := senderPath.Group("/shippings")

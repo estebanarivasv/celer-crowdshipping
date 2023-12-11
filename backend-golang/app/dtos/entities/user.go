@@ -1,22 +1,19 @@
 package entities
 
 type UserInDTO struct {
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-	Username string `json:"username"`
-	Phone    string `json:"phone"`
-	Email    string `json:"email"`
-	BankName string `json:"bankName"`
-	BankCBU  string `json:"bankCbu"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Username  string `json:"username"`
+	Password  string `json:"password"`
+	Phone     string `json:"phone"`
+	Email     string `json:"email"`
 }
 
 type UserOutDTO struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-	Username string `json:"username"`
-	Phone    string `json:"phone"`
-	Email    string `json:"email"`
-	BankName string `json:"bankName"`
-	BankCBU  string `json:"bankCbu"`
+	ID        int    `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Username  string `json:"username"`
+	Phone     string `json:"phone"`
+	Email     string `json:"email"`
 }

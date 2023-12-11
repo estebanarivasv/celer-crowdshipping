@@ -61,9 +61,80 @@ definitions:
       selectedOfferId:
         type: integer
     type: object
+  entities.UserInDTO:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  entities.UserLoginInDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates the user and returns a JWT if the credentials are
+        correct
+      parameters:
+      - description: Fill the body to create a new user
+        in: body
+        name: Package
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserLoginInDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Authenticates a user
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user in the database with a hashed password
+      parameters:
+      - description: Fill the body to create a new user
+        in: body
+        name: Package
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserInDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dtos.Response'
+      summary: Creates a new user
   /distributor/offers:
     get:
       consumes:
