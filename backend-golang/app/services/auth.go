@@ -1,10 +1,12 @@
 package services
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/mappers"
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/repositories"
 	"golang.org/x/crypto/bcrypt"
 	"os"
@@ -71,4 +73,47 @@ func (s *AuthService) GenerateJWT(username string) (string, error) {
 	}
 
 	return signedToken, nil
+}
+
+func (s *AuthService) IsJWTValid(tokenFromHeader string) (bool, *jwt.Token, error) {
+
+	jwtKey := os.Getenv("SECRET_JWT_KEY")
+	var secretKey = []byte(jwtKey)
+
+	// Validate the token
+	token, err := jwt.Parse(tokenFromHeader, func(token *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
+
+	if err != nil || !token.Valid {
+		if err != nil {
+			return false, token, err
+		} else {
+			return false, token, errors.New("invalid token")
+		}
+	}
+	return true, token, nil
+}
+
+func (s *AuthService) GetUserFromClaims(token *jwt.Token) (*models.User, error) {
+
+	// Access token claims
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, errors.New("error obtaining token claims")
+	}
+
+	// Access username from claims
+	username, ok := claims["username"].(string)
+	if !ok {
+		return nil, errors.New("error obtaining token claims")
+	}
+
+	// Get user from DB
+	user, err := s.userRepository.FindOneByUsername(username)
+	if err != nil {
+		return nil, errors.New("error obtaining the user data")
+	}
+
+	return &user, nil
 }

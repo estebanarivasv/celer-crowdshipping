@@ -447,6 +447,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Creates a new shipping
   /sender/shippings/{id}:
     delete:
@@ -662,4 +664,9 @@ paths:
           schema:
             $ref: '#/definitions/dtos.Response'
       summary: Get Shipping state
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

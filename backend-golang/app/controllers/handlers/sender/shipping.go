@@ -33,6 +33,7 @@ func NewSendShippingController() *SendShippingController {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param Shipping body entities.ShippingInDTO true "Fill the body to create a new shipping"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response

@@ -37,6 +37,9 @@ func main() {
 		return
 	}
 
+	// @securityDefinitions.apikey ApiKeyAuth
+	// @in header
+	// @name Authorization
 	router := controllers.NewRouter()
 	// Load REST handlers
 	router.GenerateRouting(server)
