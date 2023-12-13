@@ -91,10 +91,12 @@ const docTemplate = `{
         },
         "/distributor/offers": {
             "get": {
-                "description": "Get offers associated to a distributor from the database by passing an ID",
-                "consumes": [
-                    "application/json"
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ],
+                "description": "Get offers associated to a distributor from the database by passing an ID",
                 "produces": [
                     "application/json"
                 ],
@@ -126,6 +128,11 @@ const docTemplate = `{
         },
         "/distributor/offers/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete offer from the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -167,6 +174,11 @@ const docTemplate = `{
         },
         "/distributor/requests": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all requests which are stored in the database and expect offers",
                 "produces": [
                     "application/json"
@@ -190,6 +202,11 @@ const docTemplate = `{
         },
         "/distributor/requests/{id}/offers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get offers associated to a request from the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -278,10 +295,12 @@ const docTemplate = `{
         },
         "/distributor/shippings": {
             "get": {
-                "description": "Get shippings that started their track into the recipient",
-                "consumes": [
-                    "application/json"
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ],
+                "description": "Get shippings that started their track into the recipient",
                 "produces": [
                     "application/json"
                 ],
@@ -304,10 +323,12 @@ const docTemplate = `{
         },
         "/distributor/shippings/{id}": {
             "get": {
-                "description": "Get Shipping stored in the database by passing an ID",
-                "consumes": [
-                    "application/json"
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ],
+                "description": "Get Shipping stored in the database by passing an ID",
                 "produces": [
                     "application/json"
                 ],
@@ -343,6 +364,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Change shipping state by sending a message to a camunda process",
                 "consumes": [
                     "application/json"
@@ -387,6 +413,11 @@ const docTemplate = `{
         },
         "/distributor/shippings/{id}/route": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Add new coordinates to a shipping and stores it in the database",
                 "consumes": [
                     "application/json"
@@ -437,6 +468,11 @@ const docTemplate = `{
         },
         "/packages": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Creates a new package in the database",
                 "consumes": [
                     "application/json"
@@ -474,6 +510,11 @@ const docTemplate = `{
         },
         "/packages/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete a Package by ID which is stored in the database",
                 "consumes": [
                     "application/json"
@@ -509,6 +550,11 @@ const docTemplate = `{
         },
         "/sender/shippings": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all shippings stored in the database",
                 "produces": [
                     "application/json"
@@ -572,6 +618,11 @@ const docTemplate = `{
         },
         "/sender/shippings/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get Shipping stored in the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -611,6 +662,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete a Shipping by ID which is stored in the database",
                 "consumes": [
                     "application/json"
@@ -644,6 +700,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Change shipping state by sending a message to a camunda process",
                 "consumes": [
                     "application/json"
@@ -688,6 +749,11 @@ const docTemplate = `{
         },
         "/sender/shippings/{id}/offers": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get offers associated to a shipping from the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -729,6 +795,11 @@ const docTemplate = `{
         },
         "/sender/shippings/{id}/offers/selected": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a shipping selected route from the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -768,6 +839,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Add selected offer and send a message to a camunda process",
                 "consumes": [
                     "application/json"
@@ -812,6 +888,11 @@ const docTemplate = `{
         },
         "/sender/shippings/{id}/route": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a shipping route from the database by passing an ID",
                 "consumes": [
                     "application/json"
@@ -853,6 +934,11 @@ const docTemplate = `{
         },
         "/shippings/{id}/state": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get Shipping state making reference to Camunda instance",
                 "consumes": [
                     "application/json"

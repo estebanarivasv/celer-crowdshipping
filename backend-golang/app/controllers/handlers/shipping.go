@@ -27,6 +27,7 @@ func NewShippingController() *ShippingController {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 200 {object} dtos.Response
 // @Failure 400 {object} dtos.Response

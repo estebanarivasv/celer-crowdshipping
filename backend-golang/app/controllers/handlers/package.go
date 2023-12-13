@@ -28,6 +28,7 @@ func NewPackageController() *PackageController {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param Package body entities.PackageInDTO true "Fill the body to create a new package"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -50,6 +51,7 @@ func (c *PackageController) NewPackage(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Package ID"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response

@@ -32,6 +32,7 @@ func NewDistShippingController() *DistShippingController {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param Offer body entities.NewRouteDetailInDTO true "Fill the body to update coordinates"
 // @Param id path int true "Shipping ID"
 // @Success 201 {object} dtos.Response
@@ -61,8 +62,8 @@ func (c *DistShippingController) NewShippingCoordinates(context *gin.Context) {
 // @Summary Get Shipping
 // @Description Get Shipping stored in the database by passing an ID
 // @Consume application/json
-// @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -95,6 +96,7 @@ func (c *DistShippingController) GetShippingByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Param Shipping body dtos.MessageToProcessInDTO true "Fill the body to change shipping state"
 // @Success 201 {object} dtos.Response
@@ -132,8 +134,8 @@ func (c *DistShippingController) UpdateShippingStateByID(context *gin.Context) {
 // @Summary Get shippings in progress
 // @Description Get shippings that started their track into the recipient
 // @Consume application/json
-// @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/shippings [get]

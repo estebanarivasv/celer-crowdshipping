@@ -40,7 +40,7 @@ func (r *Router) GenerateRouting(server *gin.Engine) {
 
 	// Middleware applied to all routes within mainPath, except authPath
 	mainPath.Use(func(c *gin.Context) {
-		// Check if the current route is in authPath
+		// Check if the current route is not in authPath
 		if !strings.Contains(c.FullPath(), "/auth") {
 			// Perform middleware logic here only for routes outside authPath
 			authMiddleware.UseMiddleware(c)

@@ -31,6 +31,7 @@ func NewRequestController() *RequestController {
 // @Summary Get all pending shipping requests
 // @Description Get all requests which are stored in the database and expect offers
 // @Produce json
+// @Security ApiKeyAuth
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/requests [get]
@@ -104,6 +105,7 @@ func (c *RequestController) NewRequestOffer(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping request ID"
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response

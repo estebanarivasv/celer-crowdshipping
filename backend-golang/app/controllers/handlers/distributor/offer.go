@@ -25,8 +25,8 @@ func NewOfferController() *OfferController {
 // @Summary Get offers made by a distributor
 // @Description Get offers associated to a distributor from the database by passing an ID
 // @Consume application/json
-// @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param distributorId query int true "Distributor ID"
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
@@ -55,6 +55,7 @@ func (c *OfferController) GetAllOffersByDistributor(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Offer ID"
 // @Success 204 {object} dtos.Response
 // @Failure 400 {object} dtos.Response

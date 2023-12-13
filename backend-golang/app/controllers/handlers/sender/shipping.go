@@ -71,6 +71,7 @@ func (c *SendShippingController) NewShipping(context *gin.Context) {
 // @Summary Get all shippings
 // @Description Get all shippings stored in the database
 // @Produce json
+// @Security ApiKeyAuth
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /sender/shippings [get]
@@ -90,6 +91,7 @@ func (c *SendShippingController) GetAllShippings(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -122,6 +124,7 @@ func (c *SendShippingController) GetShippingByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 201 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -149,6 +152,7 @@ func (c *SendShippingController) DeleteShippingByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Param Shipping body dtos.MessageToProcessInDTO true "Fill the body to change shipping state"
 // @Success 201 {object} dtos.Response
@@ -188,6 +192,7 @@ func (c *SendShippingController) UpdateShippingStateByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Param Shipping body entities.ShippingInPatchDTO true "Add selected offer ID"
 // @Success 201 {object} dtos.Response
@@ -218,6 +223,7 @@ func (c *SendShippingController) UpdateSelectedOfferByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 200 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -247,6 +253,7 @@ func (c *SendShippingController) GetShippingOffersByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 202 {object} dtos.Response
 // @Failure 400 {object} dtos.Response
@@ -277,6 +284,7 @@ func (c *SendShippingController) GetSelectedOfferByID(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param id path int true "Shipping ID"
 // @Success 202 {object} dtos.Response
 // @Failure 400 {object} dtos.Response

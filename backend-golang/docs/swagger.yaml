@@ -135,8 +135,6 @@ paths:
       summary: Creates a new user
   /distributor/offers:
     get:
-      consumes:
-      - application/json
       description: Get offers associated to a distributor from the database by passing
         an ID
       parameters:
@@ -156,6 +154,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get offers made by a distributor
   /distributor/offers/{id}:
     delete:
@@ -183,6 +183,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Delete offer
   /distributor/requests:
     get:
@@ -198,6 +200,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get all pending shipping requests
   /distributor/requests/{id}/offers:
     get:
@@ -222,6 +226,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get request offers
     post:
       consumes:
@@ -260,8 +266,6 @@ paths:
       summary: Creates a new offer for a shipping request
   /distributor/shippings:
     get:
-      consumes:
-      - application/json
       description: Get shippings that started their track into the recipient
       produces:
       - application/json
@@ -274,11 +278,11 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get shippings in progress
   /distributor/shippings/{id}:
     get:
-      consumes:
-      - application/json
       description: Get Shipping stored in the database by passing an ID
       parameters:
       - description: Shipping ID
@@ -301,6 +305,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get Shipping
     patch:
       consumes:
@@ -329,6 +335,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Update Shipping State
   /distributor/shippings/{id}/route:
     post:
@@ -362,6 +370,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Create new coordinates
   /packages:
     post:
@@ -386,6 +396,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Creates a new package
   /packages/{id}:
     delete:
@@ -409,6 +421,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Delete Package
   /sender/shippings:
     get:
@@ -424,6 +438,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get all shippings
     post:
       consumes:
@@ -472,6 +488,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Delete Shipping
     get:
       consumes:
@@ -498,6 +516,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get Shipping
     patch:
       consumes:
@@ -526,6 +546,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Update Shipping State
   /sender/shippings/{id}/offers:
     get:
@@ -554,6 +576,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get shipping offers
   /sender/shippings/{id}/offers/selected:
     get:
@@ -581,6 +605,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get Shipping selected offer
     patch:
       consumes:
@@ -609,6 +635,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Update Shipping's selected offer
   /sender/shippings/{id}/route:
     get:
@@ -636,6 +664,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get Shipping route
   /shippings/{id}/state:
     get:
@@ -663,6 +693,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get Shipping state
 securityDefinitions:
   ApiKeyAuth:
