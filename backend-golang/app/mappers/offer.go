@@ -17,11 +17,11 @@ func NewOfferMapper() *OfferMapper {
 func (m OfferMapper) FromDTO(dto *entities.OfferInDTO) models.Offer {
 
 	return models.Offer{
-		ShippingCost:  dto.ShippingCost,
-		Message:       dto.Message,
-		Duration:      dto.Duration,
-		ShippingID:    dto.ShippingID,
-		DistributorID: dto.DistributorID,
+		ShippingCost: dto.ShippingCost,
+		Message:      dto.Message,
+		Duration:     dto.Duration,
+		ShippingID:   dto.ShippingID,
+		//DistributorID: dto.DistributorID,
 	}
 
 }

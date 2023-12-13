@@ -18,7 +18,7 @@ type AuthService struct {
 	authMapper     *mappers.AuthMapper
 }
 
-// NewUserService Returns a new instance
+// NewAuthService Returns a new instance
 func NewAuthService() *AuthService {
 
 	var repo = repositories.NewUserRepository()

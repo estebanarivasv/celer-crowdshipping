@@ -8,11 +8,11 @@ type NewOfferInDTO struct {
 }
 
 type OfferInDTO struct {
-	ShippingCost  float64 `json:"shippingCost"`
-	Message       string  `json:"message"`
-	Duration      float64 `json:"duration"`
-	ShippingID    int     `json:"requestId"`
-	DistributorID int     `json:"distributorId"`
+	ShippingCost float64 `json:"shippingCost"`
+	Message      string  `json:"message"`
+	Duration     float64 `json:"duration"`
+	ShippingID   int     `json:"requestId"`
+	//DistributorID int     `json:"distributorId"`
 }
 
 type OfferOutDTO struct {

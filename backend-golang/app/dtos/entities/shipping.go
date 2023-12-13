@@ -8,7 +8,6 @@ type ShippingInDTO struct {
 	Details            string `json:"details"`
 	PackageID          int    `json:"packageId"`
 	SenderID           int    `json:"senderId"`
-	RecipientID        int    `json:"recipientId"`
 	OriginAddress      string `json:"originAddress"`
 	DestinationAddress string `json:"destinationAddress"`
 }

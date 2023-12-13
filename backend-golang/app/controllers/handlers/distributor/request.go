@@ -1,11 +1,13 @@
 package distributor
 
 import (
+	"fmt"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type RequestController struct {
@@ -49,6 +51,7 @@ func (c *RequestController) SearchRequests(context *gin.Context) {
 // @Consume application/json
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param Offer body entities.NewOfferInDTO true "Fill the body to create a new shipping request offer"
 // @Param id path int true "Shipping request ID"
 // @Success 201 {object} dtos.Response
@@ -63,10 +66,25 @@ func (c *RequestController) NewRequestOffer(context *gin.Context) {
 		return
 	}
 
+	// Get user_id from context
+	userID, exists := context.Get("user_id")
+	if !exists {
+		// Handle in case user does not exist in the context
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	stringifiedUserID := fmt.Sprintf("%v", userID)
+	parsedUserID, err := strconv.Atoi(stringifiedUserID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
 	dto := controllers.ShouldBindDTO(context, entities.OfferInDTO{})
 	dto.ShippingID = shippingID
 
-	responseDto := c.offerService.CreateOffer(&dto)
+	responseDto := c.offerService.CreateOffer(&dto, parsedUserID)
 	if !responseDto.Success {
 		if responseDto.Error == "this shipping id does not refer to a shipping request" {
 			context.JSON(http.StatusBadRequest, responseDto)

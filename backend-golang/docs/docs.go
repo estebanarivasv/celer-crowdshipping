@@ -223,6 +223,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Creates a new shipping request offer instance and stores it in the database",
                 "consumes": [
                     "application/json"
@@ -967,9 +972,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "packageId": {
-                    "type": "integer"
-                },
-                "recipientId": {
                     "type": "integer"
                 },
                 "senderId": {

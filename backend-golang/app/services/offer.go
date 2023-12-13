@@ -43,7 +43,7 @@ func (s *OfferService) FindOfferById(id int) dtos.Response {
 
 }
 
-func (s *OfferService) CreateOffer(offerDTO *entities.OfferInDTO) dtos.Response {
+func (s *OfferService) CreateOffer(offerDTO *entities.OfferInDTO, distributorIDFromContext int) dtos.Response {
 
 	// Get shipping
 	shippingDao, err := s.shippingRepo.FindOneById(offerDTO.ShippingID)
@@ -57,9 +57,10 @@ func (s *OfferService) CreateOffer(offerDTO *entities.OfferInDTO) dtos.Response 
 	}
 
 	// Convert the dto to an entity
-	model := s.mapper.FromDTO(offerDTO)
+	offerModel := s.mapper.FromDTO(offerDTO)
+	offerModel.DistributorID = distributorIDFromContext // Set distributor from the context
 
-	query, err := s.offerRepo.Create(model)
+	query, err := s.offerRepo.Create(offerModel)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}

@@ -1,12 +1,14 @@
 package sender
 
 import (
+	"fmt"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type SendShippingController struct {
@@ -41,7 +43,22 @@ func NewSendShippingController() *SendShippingController {
 func (c *SendShippingController) NewShipping(context *gin.Context) {
 	dto := controllers.ShouldBindDTO(context, entities.ShippingInDTO{})
 
-	var responseDto = c.shippingService.CreateShipping(&dto)
+	// Get user_id from context
+	userID, exists := context.Get("user_id")
+	if !exists {
+		// Handle in case user does not exist in the context
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	stringifiedUserID := fmt.Sprintf("%v", userID)
+	parsedUserID, err := strconv.Atoi(stringifiedUserID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	var responseDto = c.shippingService.CreateShipping(&dto, parsedUserID)
 	if !responseDto.Success {
 		context.JSON(http.StatusInternalServerError, responseDto)
 		return

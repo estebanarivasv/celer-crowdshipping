@@ -1,8 +1,6 @@
 package middlewares
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -52,11 +50,7 @@ func (m AuthMiddleware) UseMiddleware(c *gin.Context) {
 		return
 	}
 
-	// TODO DELETE
-	marshal, _ := json.Marshal(user)
-	fmt.Printf("user: ", marshal)
-
 	// Store user in gin context for controllers to have this item accessible
-	c.Set("user", user)
+	c.Set("user_id", user.ID)
 
 }

@@ -51,8 +51,6 @@ definitions:
         type: string
       packageId:
         type: integer
-      recipientId:
-        type: integer
       senderId:
         type: integer
     type: object
@@ -257,6 +255,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dtos.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Creates a new offer for a shipping request
   /distributor/shippings:
     get:
