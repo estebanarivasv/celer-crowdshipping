@@ -6,19 +6,12 @@ import (
 )
 
 func GetCorsConfig() gin.HandlerFunc {
-	// TODO: Edit cors configuration
 
-	/*
-		config := cors.Config{
-			AllowAllOrigins:  true,
-			AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
-			AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
-			AllowCredentials: false,
-			MaxAge:           12 * time.Hour,
-		}
-		return cors.New(config)
-	*/
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"*"}
 
 	// This will allow all HTTP methods and origins
-	return cors.Default()
+	return cors.New(config)
 }
