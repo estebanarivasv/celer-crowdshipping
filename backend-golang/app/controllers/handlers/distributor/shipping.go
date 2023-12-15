@@ -1,12 +1,14 @@
 package distributor
 
 import (
+	"fmt"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/dtos/entities"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/services"
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/controllers"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type DistShippingController struct {
@@ -70,7 +72,7 @@ func (c *DistShippingController) NewShippingCoordinates(context *gin.Context) {
 // @Failure 404 {object} dtos.Response
 // @Router /distributor/shippings/{id} [get]
 func (c *DistShippingController) GetShippingByID(context *gin.Context) {
-	// TODO: Verify user has access to this information - AUTH
+
 	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err)
@@ -130,7 +132,7 @@ func (c *DistShippingController) UpdateShippingStateByID(context *gin.Context) {
 	return
 }
 
-// GetShippingsInProcess
+// GetShippingsInProcessByDistributor
 // @Summary Get shippings in progress
 // @Description Get shippings that started their track into the recipient
 // @Consume application/json
@@ -139,9 +141,24 @@ func (c *DistShippingController) UpdateShippingStateByID(context *gin.Context) {
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /distributor/shippings [get]
-func (c *DistShippingController) GetShippingsInProcess(context *gin.Context) {
+func (c *DistShippingController) GetShippingsInProcessByDistributor(context *gin.Context) {
 
-	responseDto := c.shippingService.FindActiveShippings()
+	// Get user_id from context
+	userID, exists := context.Get("user_id")
+	if !exists {
+		// Handle in case user does not exist in the context
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	stringifiedUserID := fmt.Sprintf("%v", userID)
+	parsedUserID, err := strconv.Atoi(stringifiedUserID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	responseDto := c.shippingService.FindActiveShippingsByDistributorID(parsedUserID)
 	if !responseDto.Success {
 		context.JSON(http.StatusInternalServerError, responseDto)
 		return

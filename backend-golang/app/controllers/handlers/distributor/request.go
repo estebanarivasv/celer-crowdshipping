@@ -61,12 +61,6 @@ func (c *RequestController) SearchRequests(context *gin.Context) {
 // @Router /distributor/requests/{id}/offers [post]
 func (c *RequestController) NewRequestOffer(context *gin.Context) {
 
-	shippingID, err := controllers.ConvertParamToInt(context.Param("id"))
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, err)
-		return
-	}
-
 	// Get user_id from context
 	userID, exists := context.Get("user_id")
 	if !exists {
@@ -79,6 +73,12 @@ func (c *RequestController) NewRequestOffer(context *gin.Context) {
 	parsedUserID, err := strconv.Atoi(stringifiedUserID)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	shippingID, err := controllers.ConvertParamToInt(context.Param("id"))
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, err)
 		return
 	}
 
