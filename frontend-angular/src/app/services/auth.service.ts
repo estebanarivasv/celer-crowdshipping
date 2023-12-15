@@ -5,17 +5,20 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { ApiResponse } from "../models/response";
 import { Shipping } from "../models/shipping";
 import { Login } from "../models/auth";
+import jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
+
+  private tokenSubject = new BehaviorSubject<string | null>(null);
+
   constructor(private http: HttpClient) {
     const storedToken = localStorage.getItem("token"); // Initialize token value from local storage
     this.tokenSubject.next(storedToken);
   }
 
-  private tokenSubject = new BehaviorSubject<string | null>(null);
 
   getToken(): string | null {
     return localStorage.getItem("token");
@@ -58,4 +61,28 @@ export class AuthService {
 
     return this.http.post<ApiResponse<Login>>(endpoint, requestBody);
   }
+
+
+  isAuthenticated(): boolean {
+    const authToken = this.getToken()
+
+    console.log(authToken)
+
+    // Check if token exists and have not expired
+    return authToken !== null && !this.isTokenExpired(authToken);
+  }
+
+  private isTokenExpired(token: string): boolean {
+    // Decodificar el token para obtener la información de expiración
+    const decodedToken = this.decodeToken(token);
+    console.log(decodedToken)
+    // Verificar si la fecha de expiración ha pasado
+    return decodedToken.exp < Date.now() / 1000;
+  }
+
+  private decodeToken(token: string): any {
+    return jwtDecode(token);
+  }
+
+
 }
