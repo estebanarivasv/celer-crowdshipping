@@ -22,10 +22,12 @@ func NewSendShippingController() *SendShippingController {
 
 	var shippingService = services.NewShippingService()
 	var routeService = services.NewRouteService()
+	var offerService = services.NewOfferService()
 
 	return &SendShippingController{
 		shippingService: shippingService,
 		routeService:    routeService,
+		offerService:    offerService,
 	}
 }
 
@@ -67,7 +69,7 @@ func (c *SendShippingController) NewShipping(context *gin.Context) {
 	return
 }
 
-// GetAllShippings
+// GetAllMyShippings
 // @Summary Get all shippings
 // @Description Get all shippings stored in the database
 // @Produce json
@@ -75,8 +77,24 @@ func (c *SendShippingController) NewShipping(context *gin.Context) {
 // @Success 200 {object} dtos.Response
 // @Failure 500 {object} dtos.Response
 // @Router /sender/shippings [get]
-func (c *SendShippingController) GetAllShippings(context *gin.Context) {
-	var responseDto = c.shippingService.FindAllShippings()
+func (c *SendShippingController) GetAllMyShippings(context *gin.Context) {
+
+	// Get user_id from context
+	userID, exists := context.Get("user_id")
+	if !exists {
+		// Handle in case user does not exist in the context
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	stringifiedUserID := fmt.Sprintf("%v", userID)
+	parsedUserID, err := strconv.Atoi(stringifiedUserID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "couldn't retrieve user information"})
+		return
+	}
+
+	var responseDto = c.shippingService.FindAllMyShippings(parsedUserID)
 	if !responseDto.Success {
 		context.JSON(http.StatusInternalServerError, responseDto)
 		return
@@ -98,7 +116,7 @@ func (c *SendShippingController) GetAllShippings(context *gin.Context) {
 // @Failure 404 {object} dtos.Response
 // @Router /sender/shippings/{id} [get]
 func (c *SendShippingController) GetShippingByID(context *gin.Context) {
-	// TODO: Verify user has access to this information - AUTH
+
 	id, err := controllers.ConvertParamToInt(context.Param("id"))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err)
