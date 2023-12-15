@@ -16,6 +16,11 @@ type ShippingInPatchDTO struct {
 	SelectedOfferID int `json:"selectedOfferId"`
 }
 
+type ShippingInPatchWithDistributorDTO struct {
+	SelectedOfferID int `json:"selectedOfferId"`
+	DistributorID   int `json:"distributorId"`
+}
+
 type ShippingOutDTO struct {
 	ID                 int         `json:"id"`
 	Details            string      `json:"details"`

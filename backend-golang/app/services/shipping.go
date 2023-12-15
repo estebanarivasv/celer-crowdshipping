@@ -8,11 +8,9 @@ import (
 	"time"
 )
 
-// TODO: comment service
-
 type ShippingService struct {
 	shippingRepo   *repositories.ShippingRepository
-	offerService   *OfferService
+	offerRepo      *repositories.OfferRepository
 	camundaService *CamundaService
 	mapper         *mappers.ShippingMapper
 }
@@ -21,13 +19,13 @@ type ShippingService struct {
 func NewShippingService() *ShippingService {
 
 	var shippingRepository = repositories.NewShippingRepository()
-	var offerService = NewOfferService()
+	var offerRepo = repositories.NewOfferRepository()
 	var camundaService = NewCamundaService()
 	var shippingMapper = mappers.NewShippingMapper()
 
 	return &ShippingService{
 		shippingRepo:   shippingRepository,
-		offerService:   offerService,
+		offerRepo:      offerRepo,
 		camundaService: camundaService,
 		mapper:         shippingMapper,
 	}
@@ -65,16 +63,16 @@ func (s *ShippingService) CreateShipping(shipping *entities.ShippingInDTO, recip
 	return dtos.Response{Success: true, Data: shippingDto}
 }
 
-func (s *ShippingService) FindAllShippings() dtos.Response {
+func (s *ShippingService) FindAllMyShippings(userID int) dtos.Response {
 
 	var dtosArr []interface{}
 
-	response, err := s.shippingRepo.FindAll()
+	response, err := s.shippingRepo.FindAllByRecipientID(userID)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
 
-	// Convert and append all bpmn-models into dtos
+	// Convert and append all shippings into dtos
 	for _, v := range response {
 		dtosArr = append(dtosArr, s.mapper.ToBasicDTO(&v))
 	}
@@ -168,12 +166,17 @@ func (s *ShippingService) UpdateShippingState(shippingId int, message string) dt
 
 func (s *ShippingService) UpdateSelectedOffer(shippingId int, dto entities.ShippingInPatchDTO) dtos.Response {
 
-	offerDto := s.offerService.FindOfferById(dto.SelectedOfferID)
-	if !offerDto.Success {
-		return offerDto
+	var updatesDto = entities.ShippingInPatchWithDistributorDTO{}
+
+	offer, err := s.offerRepo.FindOneById(&dto.SelectedOfferID)
+	if err != nil {
+		return dtos.Response{Success: false, Error: "could not find offer"}
 	}
 
-	query, err := s.shippingRepo.UpdateById(shippingId, dto)
+	updatesDto.SelectedOfferID = dto.SelectedOfferID
+	updatesDto.DistributorID = offer.Distributor.ID
+
+	query, err := s.shippingRepo.UpdateById(shippingId, updatesDto)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
@@ -208,8 +211,8 @@ func (s *ShippingService) FindShippingRequests() dtos.Response {
 
 }
 
-func (s *ShippingService) FindActiveShippings() dtos.Response {
-	requests, err := s.shippingRepo.FindCurrentShippings()
+func (s *ShippingService) FindActiveShippingsByDistributorID(userID int) dtos.Response {
+	requests, err := s.shippingRepo.FindCurrentShippingsByUserID(userID)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}

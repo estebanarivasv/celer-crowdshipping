@@ -105,13 +105,13 @@ func (s *OfferService) FindOffersByRequestID(id int) dtos.Response {
 
 func (s *OfferService) FindOffersByShippingID(id int) dtos.Response {
 
+	var dtosArr []interface{}
+
 	// Get shipping
 	shippingDao, err := s.shippingRepo.FindOneById(id)
 	if err != nil {
 		return dtos.Response{Success: false, Error: err.Error()}
 	}
-
-	var dtosArr []interface{}
 
 	conditions := make(map[string]interface{})
 	conditions["shipping_id"] = shippingDao.ID

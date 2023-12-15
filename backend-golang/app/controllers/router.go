@@ -61,7 +61,7 @@ func (r *Router) GenerateRouting(server *gin.Engine) {
 			senderShipPath := senderPath.Group("/shippings")
 			{
 				senderShipPath.POST("", sShippingController.NewShipping)
-				senderShipPath.GET("", sShippingController.GetAllShippings)
+				senderShipPath.GET("", sShippingController.GetAllMyShippings)
 				senderShipPath.GET("/:id", sShippingController.GetShippingByID)
 				senderShipPath.PATCH("/:id", sShippingController.UpdateShippingStateByID)
 				senderShipPath.DELETE("/:id", sShippingController.DeleteShippingByID)
@@ -83,7 +83,7 @@ func (r *Router) GenerateRouting(server *gin.Engine) {
 			distributorPath.DELETE("/offers/:id", dOfferController.DeleteOfferByID)
 			distributorShipPath := distributorPath.Group("/shippings")
 			{
-				distributorShipPath.GET("", dShippingController.GetShippingsInProcess)
+				distributorShipPath.GET("", dShippingController.GetShippingsInProcessByDistributor)
 				distributorShipPath.GET("/:id", dShippingController.GetShippingByID)
 				distributorShipPath.PATCH("/:id", dShippingController.UpdateShippingStateByID)
 				distributorShipPath.POST("/:id/route", dShippingController.NewShippingCoordinates)
