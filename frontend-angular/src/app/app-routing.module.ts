@@ -15,10 +15,29 @@ import {DetailedDeliveryComponent} from "./components/views/distributor/detailed
 import {
     ViewShippingRequestsComponent
 } from "./components/views/distributor/search-requests/view-shipping-requests/view-shipping-requests.component";
+import {LoginComponent} from "./components/views/auth/login/login.component";
+import {RegisterComponent} from "./components/views/auth/register/register.component";
 
 const routes: Routes = [
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     {path: 'dashboard', component: DashboardComponent},
+    {
+        path: 'auth', children: [
+            {
+                path: '',
+                redirectTo: 'login',
+                pathMatch: 'full'
+            },
+            {
+                path: 'login',
+                component: LoginComponent,
+            },
+            {
+                path: 'register',
+                component: RegisterComponent,
+            }
+        ]
+    },
     {
         path: 'sender', component: SenderComponent, children: [
             {
