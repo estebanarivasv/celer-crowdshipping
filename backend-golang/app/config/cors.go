@@ -9,7 +9,7 @@ func GetCorsConfig() gin.HandlerFunc {
 
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"}
 	config.AllowHeaders = []string{"*"}
 
 	// This will allow all HTTP methods and origins
