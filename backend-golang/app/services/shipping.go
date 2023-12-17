@@ -31,11 +31,11 @@ func NewShippingService() *ShippingService {
 	}
 }
 
-func (s *ShippingService) CreateShipping(shipping *entities.ShippingInDTO, recipientIDFromContext int) dtos.Response {
+func (s *ShippingService) CreateShipping(shipping *entities.ShippingInDTO, senderIDFromContext int) dtos.Response {
 
 	// Convert the dto to an entity
 	shippingModel := s.mapper.FromDTO(shipping)
-	shippingModel.RecipientID = recipientIDFromContext // Set Recipient from the context
+	shippingModel.SenderID = senderIDFromContext // Set Sender from the context
 
 	query, err := s.shippingRepo.Create(shippingModel)
 	if err != nil {

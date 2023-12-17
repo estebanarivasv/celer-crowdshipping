@@ -51,8 +51,8 @@ definitions:
         type: string
       packageId:
         type: integer
-      senderId:
-        type: integer
+      recipient:
+        $ref: '#/definitions/models.Recipient'
     type: object
   entities.ShippingInPatchDTO:
     properties:
@@ -79,6 +79,13 @@ definitions:
       password:
         type: string
       username:
+        type: string
+    type: object
+  models.Recipient:
+    properties:
+      firstName:
+        type: string
+      lastName:
         type: string
     type: object
 info:

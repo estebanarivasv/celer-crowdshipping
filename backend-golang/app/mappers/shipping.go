@@ -18,7 +18,7 @@ func (m ShippingMapper) FromDTO(dto *entities.ShippingInDTO) models.Shipping {
 
 	return models.Shipping{
 		Details:            dto.Details,
-		SenderID:           dto.SenderID,
+		Recipient:          dto.Recipient,
 		PackageID:          dto.PackageID,
 		OriginAddress:      dto.OriginAddress,
 		DestinationAddress: dto.DestinationAddress,
@@ -38,7 +38,7 @@ func (m ShippingMapper) ToDTO(model *models.Shipping) interface{} {
 		ProcessID:          model.ProcessID,
 		SelectedOfferID:    model.SelectedOfferID,
 		Sender:             UserMapper{}.ToDTO(&model.Sender),
-		Recipient:          UserMapper{}.ToDTO(&model.Recipient),
+		Recipient:          model.Recipient,
 		PickedUpAt:         model.PickedUpAt,
 		DeliveredAt:        model.DeliveredAt,
 		CreatedAt:          model.CreatedAt,

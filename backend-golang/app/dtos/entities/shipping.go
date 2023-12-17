@@ -1,15 +1,16 @@
 package entities
 
 import (
+	"github.com/estebanarivasv/Celer/backend-golang/api/app/models"
 	"time"
 )
 
 type ShippingInDTO struct {
-	Details            string `json:"details"`
-	PackageID          int    `json:"packageId"`
-	SenderID           int    `json:"senderId"`
-	OriginAddress      string `json:"originAddress"`
-	DestinationAddress string `json:"destinationAddress"`
+	Details            string           `json:"details"`
+	PackageID          int              `json:"packageId"`
+	OriginAddress      string           `json:"originAddress"`
+	DestinationAddress string           `json:"destinationAddress"`
+	Recipient          models.Recipient `json:"recipient"`
 }
 
 type ShippingInPatchDTO struct {

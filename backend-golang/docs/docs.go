@@ -1060,8 +1060,8 @@ const docTemplate = `{
                 "packageId": {
                     "type": "integer"
                 },
-                "senderId": {
-                    "type": "integer"
+                "recipient": {
+                    "$ref": "#/definitions/models.Recipient"
                 }
             }
         },
@@ -1103,6 +1103,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Recipient": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
                     "type": "string"
                 }
             }
