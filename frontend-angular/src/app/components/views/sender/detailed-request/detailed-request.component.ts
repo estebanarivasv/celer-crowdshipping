@@ -95,4 +95,6 @@ export class DetailedRequestComponent implements OnInit {
                 })
             });
     }
+
+    protected readonly JSON = JSON;
 }
