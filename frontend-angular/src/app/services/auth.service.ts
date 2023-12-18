@@ -31,10 +31,10 @@ export class AuthService {
     this.tokenSubject.next(token);
   }
 
-  login(email: string, password: string): Observable<ApiResponse<Login>> {
+  login(username: string, password: string): Observable<ApiResponse<Login>> {
     const endpoint = `${environment.apiBaseUrl}/auth/login`;
     const requestBody = {
-      username: email,
+      username: username,
       password: password,
     };
 
@@ -66,17 +66,15 @@ export class AuthService {
   isAuthenticated(): boolean {
     const authToken = this.getToken()
 
-    console.log(authToken)
-
     // Check if token exists and have not expired
     return authToken !== null && !this.isTokenExpired(authToken);
   }
 
   private isTokenExpired(token: string): boolean {
-    // Decodificar el token para obtener la información de expiración
+    // Decode the token to get the expiration date
     const decodedToken = this.decodeToken(token);
-    console.log(decodedToken)
-    // Verificar si la fecha de expiración ha pasado
+
+    // Check if expiration date has elapsed
     return decodedToken.exp < Date.now() / 1000;
   }
 
