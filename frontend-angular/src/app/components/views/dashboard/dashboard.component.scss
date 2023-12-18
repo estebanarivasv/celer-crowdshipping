@@ -1,0 +1,9 @@
+.p-card .p-component {
+  transition: border-width 0.3s ease; /* Agrega una transición suave para suavizar el cambio de grosor */
+}
+
+.p-card:hover {
+  background-color: rgba(173, 216, 230, 0.3); /* Color azul claro con opacidad */
+  border-color: #006699; /* Color de borde azul oscuro */
+  border-width: 2px; /* Grosor del borde al hacer hover */
+}

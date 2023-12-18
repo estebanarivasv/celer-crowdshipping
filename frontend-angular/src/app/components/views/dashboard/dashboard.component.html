@@ -1,39 +1,49 @@
 <app-header></app-header>
-<!--
-<div class="grid mx-8 px-5">
-    <div class="col">
-        <p-card class="card mb-0">
-            <ng-template pTemplate="header">
-                <img src="assets/demo/ship.webp" alt="Ship a package" height="275">
-            </ng-template>
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-bold mb-3">Ship a package</span>
+<div class="lg:grid lg:grid-cols-12 lg:gap-4">
+
+    <div class="lg:col-span-1 hidden md:block lg:block"></div>
+
+    <div class="lg:col-span-10 col-span-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 mx-8 px-5 mt-5">
+
+            <div class="col transform hover:scale-105 transition duration-300 cursor-pointer" [routerLink]="['/sender']">
+                <div class="bg-gradient-to-b from-blue-400 to-blue-600 text-white rounded-lg overflow-hidden shadow-md hover:shadow-lg">
+                    <img src="assets/demo/ship.webp" alt="Ship a package" height="200"
+                         class="object-cover w-full h-40 rounded-t-lg">
+                    <div class="p-4">
+                        <div class="flex justify-between mb-3">
+                            <div>
+                                <span class="block text-lg font-bold mb-3">Ship a package</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <span class="text-green-300 font-medium">+20 </span>
+                            <span class="text-lg ml-1">newly created requests</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">+20  </span>
-            <span class="text-500">newly created requests</span>
-            <div class="flex justify-content-end">
-                <button routerLink="/sender" pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-outlined"></button>
-            </div>
-        </p-card>
-    </div>
-    <div class="col">
-        <p-card class="card">
-            <ng-template pTemplate="header">
-                <img src="assets/demo/deliver.jpg" alt="Deliver a package" height="275">
-            </ng-template>
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-bold mb-3">Make a delivery</span>
+
+            <div class="col transform hover:scale-105 transition duration-300 cursor-pointer" [routerLink]="['/distributor']">
+                <div class="bg-gradient-to-b from-green-400 to-green-600 text-white rounded-lg overflow-hidden shadow-md hover:shadow-lg">
+                    <img src="assets/demo/deliver.jpg" alt="Deliver a package" height="200"
+                         class="object-cover w-full h-40 rounded-t-lg">
+                    <div class="p-4">
+                        <div class="flex justify-content-center mb-3">
+                            <div>
+                                <span class="block text-lg font-bold mb-3 text-center">Make a delivery</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <span class="text-green-300 font-medium">+300 </span>
+                            <span class="text-lg ml-1">to-be delivered</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">+300  </span>
-            <span class="text-500">to-be delivered</span>
-            <div class="flex justify-content-end">
-                <button routerLink="/distributor" pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-rounded p-button-outlined"></button>
-            </div>
-        </p-card>
+
+        </div>
     </div>
+    <div class="lg:col-span-1 hidden md:block lg:block"></div>
+
 </div>
-<app-footer></app-footer>-->
