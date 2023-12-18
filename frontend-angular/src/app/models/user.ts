@@ -1,12 +1,10 @@
 export class User {
     id?: number;
-    name?: string;
-    surname?: string;
+    firstName?: string;
+    lastName?: string;
     username?: string;
     phone?: number;
     email?: string;
-    bankName?: string;
-    bankCbu?: string;
 
     constructor() {
     }
