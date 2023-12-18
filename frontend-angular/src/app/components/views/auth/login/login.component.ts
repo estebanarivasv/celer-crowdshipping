@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  email: string = "";
+  username: string = "";
   password: string = "";
 
   constructor(
@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onSubmit(email: string, password: string) {
-    this.authService.login(email, password).subscribe({
+  onSubmit(username: string, password: string) {
+    this.authService.login(username, password).subscribe({
       next: (response: any) => {
         const jwtToken = response.data.token;
 
