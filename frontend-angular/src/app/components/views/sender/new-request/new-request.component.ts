@@ -37,7 +37,6 @@ export class NewRequestComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(packageData: Package, shippingData: Shipping) {
-    console.log({ package: packageData, shipping: shippingData });
     this.packageService.addPackage(packageData).subscribe({
       next: (res: ApiResponse<Package>) => {
         const packageFromApi = res.data;
@@ -68,67 +67,5 @@ export class NewRequestComponent implements OnInit {
         });
       },
     });
-
-    /*
-    * this.authService.login(username, password).subscribe({
-      next: (response: any) => {
-        const jwtToken = response.data.token;
-
-        this.authService.setToken(jwtToken);
-        this.router.navigate(["/dashboard"]);
-      },
-      error: (error) => {
-        this.toastr.error(error.error.message, "", {
-          closeButton: true,
-        });
-      },
-    });
-    * */
   }
-
-  /*
-        onClickAddPackage() {
-            this.savePkgClicked = true;
-            this.packageService.addPackage(this.packageModel)
-                .subscribe(
-                (res: ApiResponse<Package>) => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Created',
-                        detail: 'Package successfully created'
-                    });
-                    this.packageFromApi = res.data;
-                }, (error) => {
-                    this.messageService.add({
-                        severity: 'danger',
-                        summary: error.summary,
-                        detail: error.detail
-                    });
-                });
-        }
-
-
-        onClickAddShipping() {
-            this.saveShipClicked = true;
-            this.shippingModel.packageId = this.packageFromApi.id;
-            this.senderService.addShipping(this.shippingModel)
-                .subscribe(
-                    (res: ApiResponse<Shipping>) => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Created',
-                            detail: 'Shipping successfully created'
-                        });
-                        this.shippingModel = res.data;
-                        this.router.navigate([`sender/requests/${this.shippingModel.id}`]);
-                    }, (error) => {
-                        this.messageService.add({
-                            severity: 'danger',
-                            summary: error.summary,
-                            detail: error.detail
-                        });
-                    });
-        }
-
-         */
 }
