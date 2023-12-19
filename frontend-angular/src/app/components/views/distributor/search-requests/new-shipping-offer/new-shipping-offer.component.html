@@ -1,11 +1,62 @@
 <p-toast></p-toast>
-<div class="grid p-fluid">
-    <div class="col-1">
-        <div class="justify-content-start mr-3">
+<div class="grid p-fluid px-3">
+    <div class="flex items-center mt-3">
+        <div class="justify-content-start mr-5">
             <button routerLink="/distributor/requests" pButton pRipple type="button" icon="pi pi-arrow-left"
                     class="p-button-rounded p-button-outlined p-button-secondary"></button>
         </div>
+        <h3 class="my-3 text-xl font-bold ">New offer for shipping request</h3>
     </div>
+    <form class="" action="#" method="POST" (ngSubmit)="onSubmit(offer)">
+        <div class="mt-2">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-paperclip"></i></span>
+                        <input required type="text" pInputText placeholder="Message"
+                               [(ngModel)]="offer.message" name="message">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <div class="p-inputgroup">
+                        <input required type="number" pInputText placeholder="Duration in hours"
+                               [(ngModel)]="offer.duration" name="duration">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">$</span>
+                        <input required type="number" pInputText placeholder="Shipping Cost"
+                               [(ngModel)]="offer.shippingCost" name="cost">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex items-end mt-5">
+
+            <div class="justify-content-end w-min">
+                <button pButton pRipple
+                        type="submit" label="Submit"
+                        class="p-button p-button-rounded p-button-success"
+                ></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+<!--
+<div class="grid p-fluid">
     <div class="col-11">
 
         <h3 class="mt-0">Offer details</h3>
@@ -14,28 +65,28 @@
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon"><i class="pi pi-paperclip"></i></span>
                     <input required type="text" pInputText placeholder="Message"
-                           [(ngModel)]="offerModel.message" #message="ngModel">
+                           [(ngModel)]="offer.message" #message="ngModel">
                 </div>
             </div>
 
             <div class="col-12 md:col-4">
                 <div class="p-inputgroup">
                     <input required type="number" pInputText placeholder="Duration in hours"
-                           [(ngModel)]="offerModel.duration" #duration="ngModel">
+                           [(ngModel)]="offer.duration" #duration="ngModel">
                 </div>
             </div>
             <div class="col-12 md:col-4">
                 <div class="p-inputgroup">
                     <span class="p-inputgroup-addon">$</span>
                     <input required type="number" pInputText placeholder="Shipping Cost"
-                           [(ngModel)]="offerModel.shippingCost" #cost="ngModel">
+                           [(ngModel)]="offer.shippingCost" #cost="ngModel">
                 </div>
             </div>
 
             <div class="col-12 md:col-4">
                 <div class="p-inputgroup">
                     <input required type="number" pInputText placeholder="Distributor Id"
-                           [(ngModel)]="offerModel.distributorId" #distributor="ngModel">
+                           [(ngModel)]="offer.distributorId" #distributor="ngModel">
                 </div>
             </div>
 
@@ -58,3 +109,5 @@
 
 
 
+
+-->

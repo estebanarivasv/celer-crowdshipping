@@ -1,3 +1,10 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
-<!--<app-footer></app-footer>-->
+<div class="lg:grid lg:grid-cols-12 lg:gap-4">
+    <div class="lg:col-span-1 hidden md:block lg:block"></div>
+
+    <div class="lg:col-span-10 col-span-12">
+        <router-outlet></router-outlet>
+    </div>
+
+    <div class="lg:col-span-1 hidden md:block lg:block"></div>
+</div>
