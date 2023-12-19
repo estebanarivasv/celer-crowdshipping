@@ -30,8 +30,8 @@ type Shipping struct {
 }
 
 type Recipient struct {
-	FirstName string
-	LastName  string
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 }
 
 // Scan - Parse the value from the database into a Recipient struct - []uint8 --> Recipient

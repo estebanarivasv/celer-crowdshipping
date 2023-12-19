@@ -52,7 +52,7 @@ func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
 func (r *ShippingRepository) FindAllByRecipientID(userID int) ([]models.Shipping, error) {
 	var shippings []models.Shipping
 
-	err := r.db.Preload(clause.Associations).Where("recipient_id = ?", userID).Find(&shippings).Error
+	err := r.db.Preload(clause.Associations).Where("sender_id = ?", userID).Find(&shippings).Error
 	if err != nil {
 		return *new([]models.Shipping), err
 	}

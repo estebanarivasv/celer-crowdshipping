@@ -95,7 +95,7 @@ func (s *CamundaService) GetProcInstanceState(procId string) (dtos.DetailedCamun
 
 	procDTO, err := s.camundaRepo.GetProcCurrentActivity(http.MethodGet, url)
 	if err != nil {
-		return *new(dtos.DetailedCamundaProcessDTO), err
+		return dtos.DetailedCamundaProcessDTO{}, err
 	}
 	return procDTO, nil
 }

@@ -10,7 +10,6 @@ import (
 	"github.com/estebanarivasv/Celer/backend-golang/api/app/utils/camunda"
 	"io"
 	"io/ioutil"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -64,10 +63,10 @@ func (r *CamundaRepository) SendNewInstanceRequest(httpMethod string, url string
 		return nil, err
 	}
 
-	var data any // TODO DATA NO HACE NADA WTF
+	var data any
 	err = json.Unmarshal(dao, &data)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("error: ", err)
 		return nil, err
 	}
 
@@ -109,22 +108,22 @@ func (r *CamundaRepository) GetProcCurrentActivity(httpMethod string, url string
 
 	request, err := http.NewRequest(httpMethod, url, nil)
 	if err != nil {
-		return *new(shipping.DetailedCamundaProcessDTO), err
+		return shipping.DetailedCamundaProcessDTO{}, err
 	}
 
 	response, err := r.client.Do(request)
 	if err != nil {
-		return *new(shipping.DetailedCamundaProcessDTO), err
+		return shipping.DetailedCamundaProcessDTO{}, err
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			fmt.Printf("%s", err)
+			fmt.Println("error: ", err)
 		}
 	}(response.Body)
 
 	if response.StatusCode == http.StatusNotFound {
-		return *new(shipping.DetailedCamundaProcessDTO), errors.New("process ID not found")
+		return shipping.DetailedCamundaProcessDTO{}, errors.New("process ID not found")
 	}
 
 	dao, err := ioutil.ReadAll(response.Body)
@@ -133,7 +132,6 @@ func (r *CamundaRepository) GetProcCurrentActivity(httpMethod string, url string
 	}
 
 	dto, err := r.mapper.JsonBodyToDetailedProcessDTO(dao)
-
 	if err != nil {
 		return *new(shipping.DetailedCamundaProcessDTO), err
 	}
