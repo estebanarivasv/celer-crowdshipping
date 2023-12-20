@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<div class="grid p-fluid">
+<div class="grid p-fluid" *ngIf="!reload">
     <div class="p-2">
         <div class="flex items-center mt-3">
             <div class="justify-content-start mr-5">
@@ -51,8 +51,6 @@
                                 </ng-template>
                             </div>
                         </div>
-
-
                     </div>
                 </ng-template>
                 <ng-template [ngIf]="shippingCompleted!">

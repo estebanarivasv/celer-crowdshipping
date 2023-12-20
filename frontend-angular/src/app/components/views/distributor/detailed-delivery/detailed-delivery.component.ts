@@ -3,7 +3,7 @@ import {MessageService} from "primeng/api";
 import {State} from "../../../../models/state";
 import {Shipping} from "../../../../models/shipping";
 import {Offer} from "../../../../models/offer";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {SenderService} from "../../../../services/sender.service";
 import {DistributorService} from "../../../../services/distributor.service";
 
@@ -14,6 +14,7 @@ import {DistributorService} from "../../../../services/distributor.service";
 })
 export class DetailedDeliveryComponent implements OnInit {
 
+    reload: boolean = false;
     requestId?: number;
     delivery?: Shipping;
     selectedOffer?: Offer;
@@ -22,7 +23,15 @@ export class DetailedDeliveryComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private messageService: MessageService,
-                private distributorService: DistributorService) {
+                private distributorService: DistributorService,
+                private router: Router) {
+    }
+
+    reloadComponent() {
+        this.reload = !this.reload;
+        this.loadParamFromUrl()
+        this.getDeliveryInformation();
+        this.reload = !this.reload;
     }
 
     ngOnInit(): void {
@@ -71,6 +80,8 @@ export class DetailedDeliveryComponent implements OnInit {
                         summary: 'Sent',
                         detail: 'Message sent to workflow engine and returned with no errors'
                     });
+
+                    this.reloadComponent()
                 }
             }), error => {
                 this.messageService.add({
@@ -90,6 +101,8 @@ export class DetailedDeliveryComponent implements OnInit {
                         summary: 'Sent',
                         detail: 'Message sent to workflow engine and returned with no errors'
                     });
+
+                    this.reloadComponent()
                 }
             }), error => {
                 this.messageService.add({
