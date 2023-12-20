@@ -52,7 +52,7 @@ func (r *ShippingRepository) FindAll() ([]models.Shipping, error) {
 func (r *ShippingRepository) FindAllByRecipientID(userID int) ([]models.Shipping, error) {
 	var shippings []models.Shipping
 
-	err := r.db.Preload(clause.Associations).Where("sender_id = ?", userID).Find(&shippings).Error
+	err := r.db.Preload(clause.Associations).Where("sender_id = ?", userID).Order("created_at ASC").Find(&shippings).Error
 	if err != nil {
 		return *new([]models.Shipping), err
 	}
@@ -64,7 +64,7 @@ func (r *ShippingRepository) FindAllByRecipientID(userID int) ([]models.Shipping
 func (r *ShippingRepository) FindFilteredShippings(filter map[string]interface{}) ([]models.Shipping, error) {
 	var shippings []models.Shipping
 
-	err := r.db.Preload(clause.Associations).Where(filter).Find(&shippings).Error
+	err := r.db.Preload(clause.Associations).Where(filter).Order("created_at ASC").Find(&shippings).Error
 	if err != nil {
 		return *new([]models.Shipping), err
 	}
@@ -121,7 +121,7 @@ func (r *ShippingRepository) UpdateById(id int, dto interface{}) (models.Shippin
 func (r *ShippingRepository) FindCurrentShippingsByUserID(userID int) ([]models.Shipping, error) {
 	var shipping []models.Shipping
 
-	err := r.db.Model(models.Shipping{}).Preload(clause.Associations).Where("selected_offer_id IS NOT NULL AND distributor_id = ? ", userID).Find(&shipping).Error
+	err := r.db.Model(models.Shipping{}).Preload(clause.Associations).Where("selected_offer_id IS NOT NULL AND distributor_id = ? ", userID).Order("created_at ASC").Find(&shipping).Error
 	if err != nil {
 		return *new([]models.Shipping), err
 	}
