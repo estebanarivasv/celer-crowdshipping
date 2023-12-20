@@ -7,6 +7,7 @@ export class Shipping {
     details?: string;
     pickedUpAt?: Date;
     deliveredAt?: Date;
+    createdAt?: Date;
     originAddress?: string;
     destinationAddress?: string;
     packageId?: number;
