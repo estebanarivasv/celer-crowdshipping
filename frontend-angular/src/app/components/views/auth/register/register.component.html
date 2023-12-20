@@ -1,0 +1,81 @@
+<div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+    <div class="container max-w-screen-lg mx-auto">
+        <div>
+            <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+                <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <img class="mx-auto h-10 w-auto" src="/assets/logos/full.svg" alt="Your Company">
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create your
+                        account</h2>
+                </div>
+            </div>
+
+            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                    <div class="text-gray-600">
+                        <p class="font-medium text-lg">Personal Information</p>
+                        <p>Please fill out all the fields.</p>
+                    </div>
+
+                    <div class="lg:col-span-2">
+                        <form (ngSubmit)="onSubmit(firstName, lastName, phone, username, email, password)" action="#"
+                              method="POST">
+
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                                <div class="md:col-span-2">
+                                    <label for="firstName">First name</label>
+                                    <input type="text" [(ngModel)]="firstName" name="firstName" id="firstName"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                           placeholder=""/>
+                                </div>
+
+                                <div class="md:col-span-2">
+                                    <label for="lastName">Last name</label>
+                                    <input type="text" [(ngModel)]="lastName" name="lastName" id="lastName"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                           placeholder=""/>
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" [(ngModel)]="phone" name="phone" id="phone"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""/>
+                                </div>
+
+                                <div class="md:col-span-5">
+                                    <label for="username">Username</label>
+                                    <input type="text" [(ngModel)]="username" name="username" id="username"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""/>
+                                </div>
+
+                                <div class="md:col-span-3">
+                                    <label for="email">Email</label>
+                                    <input type="text" [(ngModel)]="email" name="email" id="email"
+                                           placeholder="email@domain.com"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""/>
+                                </div>
+
+                                <div class="md:col-span-2">
+                                    <label for="password">Password</label>
+                                    <input type="password" [(ngModel)]="password" name="password" id="password"
+                                           class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                           placeholder=""/>
+                                </div>
+
+
+                                <div class="md:col-span-5 text-right">
+                                    <div class="inline-flex items-end">
+                                        <button type="submit"
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

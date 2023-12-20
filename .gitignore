@@ -30,3 +30,6 @@ go.work
 
 *.env
 *.idea
+backend-golang/tmp/
+*/.env
+docker-volumes/

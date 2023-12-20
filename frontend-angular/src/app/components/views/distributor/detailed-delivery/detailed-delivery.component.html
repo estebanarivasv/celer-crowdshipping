@@ -1,55 +1,53 @@
 <p-toast></p-toast>
-<div class="grid p-fluid">
-    <div class="col-1">
-        <div class="justify-content-start mr-3">
-            <button routerLink="/distributor" pButton pRipple type="button" icon="pi pi-arrow-left"
-                    class="p-button-rounded p-button-outlined p-button-secondary"></button>
-        </div>
-    </div>
-    <div class="col-11">
-        <div class="grid -mt-3">
-            <div class="col">
-                <p-card header="Shipping details">
-                    <div class="p-card-content -mt-3 pt-0 pb-6">
-                        <p-chip label="{{delivery!.originAddress}}"></p-chip>
-                        ->
-                        <p-chip label="{{delivery!.destinationAddress}}"></p-chip>
-                        <p>"{{delivery!.details}}"</p>
-                        <p><u>From:</u> {{delivery!.sender!.name}} {{delivery!.sender!.surname}}</p>
-                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{delivery!.sender!.phone}} -
-                            <strong>Username: </strong>{{delivery!.sender!.username}}</p>
-
-                        <p><u>To:</u> {{delivery!.recipient!.name}} {{delivery!.recipient!.surname}}</p>
-                        <p class="ml-4 -mt-2"><strong>Mobile: </strong>{{delivery!.recipient!.phone}} - <strong>Username: </strong>{{delivery!.recipient!.username}}
-                        </p>
 
 
-                        <h3 class="mt-5">{{delivery!.package.name}}</h3>
-                        <p>{{delivery!.package.description}}</p>
-                        <p><strong>Value: </strong> ${{delivery!.package.value}} -
-                            <strong>Size: </strong> {{delivery!.package.dimensions}}</p>
-                    </div>
-                </p-card>
+
+<div class="grid p-fluid" *ngIf="!reload">
+    <div class="p-2">
+        <div class="flex items-center mt-3">
+            <div class="justify-content-start mr-5">
+                <button routerLink="/distributor" pButton pRipple type="button" icon="pi pi-arrow-left"
+                        class="p-button-rounded p-button-outlined p-button-secondary"></button>
             </div>
-            <div class="col">
-                <div class="mb-3">
-                    <p-card header="Tracking">
-                        <ng-template [ngIf]="!deliveryCompleted!">
-                            <div class="p-card-content -mt-4 p-0">
-                                <p>Delivery state:
-                                    <p-chip styleClass="ml-2"
-                                            label="{{deliveryState!.childActivityInstances![0].activityId}}"></p-chip>
+            <h3 class="my-3 text-xl font-bold ">Delivery details</h3>
+        </div>
 
+        <div class="flex flex-col sm:flex-row justify-between items-start">
+            <!-- SHIPPING DESCRIPTION -->
+            <div class="sm:w-2/3 mb-2">
+                <p class="text-xl font-bold my-2">{{ delivery!.package.name }}</p>
+                <p class="py-1"><strong>Description: </strong> {{ delivery!.package.description }}</p>
+                <p class="py-1"><strong>Value: </strong> $ {{ delivery!.package.value }}</p>
+                <p class="py-1"><strong>Size: </strong> {{ delivery!.package.dimensions }}</p>
+                <p class="py-1"><strong>Created: </strong> {{ delivery!.createdAt! }}</p>
+            </div>
+            <!-- SHIPPING TRACKING -->
+            <div class="sm:w-1/3 mb-2">
+                <p class="text-xl font-bold my-2">Tracking</p>
+                <ng-template [ngIf]="!deliveryCompleted!">
+                    <div class="p-card-content">
+
+                        <div class="flex flex-col sm:flex-row justify-between items-start">
+                            <div class="sm:w-2/3 mb-2 p-2">
+                                <p class="py-1"><strong>Shipping state:</strong>
+                                    <p-chip styleClass="ml-1"
+                                            label="{{ deliveryState!.childActivityInstances![0].activityName }}">
+                                    </p-chip>
                                 </p>
-                                <p class="ml-3 -mt-2">
-                                    <strong>{{deliveryState!.childActivityInstances![0].activityName}}</strong></p>
-                                <div class="flex"></div>
+
+                                <p class="py-1"><strong>Activity ID:</strong>
+                                    <u class="ml-2">{{ deliveryState!.childActivityInstances![0].activityId }}</u>
+                                </p>
+
+                            </div>
+                            <div class="sm:w-1/3 mb-2 p-2">
+
                                 <ng-template
                                         [ngIf]="deliveryState!.childActivityInstances![0].activityId! == 'AwaitingPickupTask'">
                                     <div class="flex">
                                         <button (click)="onClickPkgInTransit(delivery!.id!)"
                                                 pButton pRipple type="button" label="Package in transit"
-                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                                class="p-button p-button-sm p-button-rounded p-button-success w-4"></button>
                                     </div>
                                 </ng-template>
                                 <ng-template
@@ -57,37 +55,59 @@
                                     <div class="flex">
                                         <button (click)="onClickPkgDelivered(delivery!.id!)"
                                                 pButton pRipple type="button" label="Package delivered"
-                                                class="p-button-outlined p-button-rounded p-button-success w-4"></button>
+                                                class="p-button p-button-sm p-button-rounded p-button-success w-4"></button>
                                     </div>
                                 </ng-template>
                             </div>
-                        </ng-template>
-                        <ng-template [ngIf]="deliveryCompleted!">
-                            <div class="p-card-content -mt-4 p-0">
-                                <p>Delivery state:
-                                    <p-chip styleClass="ml-2" label="Completed"></p-chip>
-                                </p>
-                            </div>
-                        </ng-template>
-                    </p-card>
-                </div>
-
-                <ng-template [ngIf]="delivery!.selectedOfferId">
-                    <p-card header="Your offer">
-                        <div class="p-card-content -mt-4 p-0">
-                            <p><u>Shipping cost:</u> ${{selectedOffer!.shippingCost}}</p>
-                            <p><u>ETA:</u> {{selectedOffer!.duration}} hours</p>
-                            <p>
-                                <u>Distributor:</u> {{selectedOffer!.distributor!.name}} {{selectedOffer!.distributor!.surname}}
-                            </p>
-                            <p class="ml-4 -mt-2 ">
-                                <strong>Mobile: </strong>{{selectedOffer!.distributor!.phone}} -
-                                <strong>Username: </strong>{{selectedOffer!.distributor!.username}}
-                            </p>
                         </div>
-                    </p-card>
-                </ng-template>
 
+
+                    </div>
+                </ng-template>
+                <ng-template [ngIf]="deliveryCompleted!">
+                    <div class="p-card-content">
+                        <p class="py-1">Shipping state:
+                            <p-chip styleClass="ml-2"
+                                    label="Completed"></p-chip>
+                        </p>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start">
+
+            <!-- SHIPPING ORIGIN -->
+            <div class="sm:w-1/3 mb-2">
+                <h4 class="text-xl font-bold my-2">Origin</h4>
+                <p class="py-1"><strong>From:</strong>
+                    <p-chip label="{{delivery!.originAddress}}"></p-chip>
+                </p>
+                <p class="py-1"><strong>Sender:</strong>
+                    {{ delivery!.sender!.firstName }} {{ delivery!.sender!.lastName }}</p>
+                <p class="my-2"><strong>Mobile: </strong>{{ delivery!.sender!.phone }}</p>
+                <p class="my-2"><strong>Username: </strong>{{ delivery!.sender!.username }}</p>
+            </div>
+
+            <!-- SHIPPING DESTINATION -->
+            <div class="sm:w-1/3 mb-2">
+                <h4 class="text-xl font-bold my-2">Destination</h4>
+                <p class="py-1"><strong>To:</strong>
+                    <p-chip label="{{delivery!.destinationAddress}}"></p-chip>
+                </p>
+                <p class="py-1"><strong>Recipient:</strong>
+                    {{ delivery!.recipient!.firstName }} {{ delivery!.recipient!.lastName }}</p>
+            </div>
+
+            <!-- SELECTED OFFER -->
+            <div class="sm:w-1/3 mb-2">
+                <ng-template [ngIf]="delivery!.selectedOfferId">
+                    <h4 class="text-xl font-bold">Your offer</h4>
+                    <div class="p-card-content">
+                        <p class="py-1"><strong>Shipping cost:</strong> ${{ selectedOffer!.shippingCost }}</p>
+                        <p class="py-1"><strong>ETA:</strong> {{ selectedOffer!.duration }} hours</p>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>

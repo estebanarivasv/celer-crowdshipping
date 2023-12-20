@@ -24,6 +24,7 @@ import {
     ViewShippingRequestsComponent
 } from "./components/views/distributor/search-requests/view-shipping-requests/view-shipping-requests.component";
 import {FooterComponent} from "./components/footer/footer.component";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import {FooterComponent} from "./components/footer/footer.component";
         AppRoutingModule,
         FormsModule,
         SharedModule,
+        ToastrModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]

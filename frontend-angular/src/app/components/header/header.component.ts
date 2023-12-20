@@ -7,17 +7,14 @@ import {MenuItem} from 'primeng/api';
 })
 export class HeaderComponent {
 
-    items: MenuItem[] = [
-        {
-            label: 'My shippings',
-            icon: 'pi pi-fw pi-file',
-            routerLink: "/sender"
-        },
-        {
-            label: 'My deliveries',
-            icon: 'pi pi-fw pi-pencil',
-            routerLink: "/distributor"
-        }
-    ];
+    isMobileMenuOpen: boolean = false;
+
+    toggleMobileMenu() {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    }
+
+    closeMobileMenu() {
+        this.isMobileMenuOpen = false;
+    }
 
 }

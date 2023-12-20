@@ -17,10 +17,14 @@ import {MessageModule} from "primeng/message";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import {ChipModule} from "primeng/chip";
 import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './views/auth/login/login.component';
+import { RegisterComponent } from './views/auth/register/register.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        FormsModule
     ],
     exports: [
         TableModule,
@@ -39,7 +43,7 @@ import { FooterComponent } from './footer/footer.component';
         MessageModule,
         ScrollPanelModule,
         ChipModule
-    ], providers: []
+    ], providers: [], declarations: [LoginComponent, RegisterComponent]
 })
 export class SharedModule {
 }
