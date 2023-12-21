@@ -48,6 +48,9 @@ func (s *ShippingService) CreateShipping(shipping *entities.ShippingInDTO, sende
 	}
 
 	// Add Camunda Process ID
+	if newCamundaProcDTO.ID == "" {
+		return dtos.Response{Success: false, Error: "error generating an instance of process definition"}
+	}
 	query.ProcessID = newCamundaProcDTO.ID
 	queryWithProcID, err := s.shippingRepo.Save(&query)
 	if err != nil {
