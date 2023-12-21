@@ -1,0 +1,107 @@
+version: "3.8"
+
+services:
+  # GOLANG API
+  celer-api-prod:
+    build: 
+      context: "./backend-golang/"
+      dockerfile: Dockerfile-PROD
+    image: e-rivas/celer-golang-backend-prod:v0.0.1
+    container_name: celer-api-prod
+    volumes:
+      - "./backend-golang/:/backend-golang"
+      - "./.env:/backend-golang/.env"
+    environment:
+      - DB_USER=${API_DB_USER}
+      - DB_PASSWORD=${API_DB_PASSWORD}
+      - DB_NAME=${API_DB_NAME}
+      - DB_HOST=${API_DB_HOST}
+      - DB_PORT=${API_DB_PORT}
+      - DB_URI=${API_DB_URI}
+      - BASE_PATH=${BASE_PATH}
+      - ADDR=${ADDR}
+      - CAMUNDA_BASE_URL=${CAMUNDA_BASE_URL}
+    depends_on:
+      - postgres-db-api-prod
+      - camunda-platform-prod
+    ports:
+      - "5000:5000"
+    networks:
+      - main
+
+  # CELER FRONT
+  celer-angular-prod:
+    build: 
+      context: "./frontend-angular/"
+      dockerfile: Dockerfile-PROD
+    image: e-rivas/celer-angular-front-prod:v0.0.1
+    container_name: celer-angular-prod
+    volumes:
+      - "./frontend-angular/:/frontend-angular/"
+    depends_on:
+      - celer-api-prod
+      - camunda-platform-prod
+    ports:
+      - "443:443"
+    networks:
+      - main
+
+
+  # POSTGRES DB - USED BY API
+  postgres-db-api-prod:
+    image: postgres:14.2-alpine
+    container_name: celer-db-api-postgres-PROD
+    restart: always
+    environment:
+      - "POSTGRES_USER=${API_DB_USER}"
+      - "POSTGRES_PASSWORD=${API_DB_PASSWORD}"
+      - "POSTGRES_DB=${API_DB_NAME}"
+      - "POSTGRES_PORT=${API_DB_PORT}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./docker-volumes/backend/postgres/data:/var/lib/postgresql/data"
+    networks:
+      - main
+
+  # WORKFLOW ENGINE - USED BY API
+  camunda-platform-prod:
+    image: camunda/camunda-bpm-platform:run-7.17.0-SNAPSHOT
+    command: ./camunda.sh --rest --swaggerui --webapps
+    container_name: celer-camunda-platform-prod
+    environment:
+      - "DB_DRIVER=org.postgresql.Driver"
+      - "DB_URL=jdbc:postgresql://postgres-db-camunda-prod:5432/${CAMUNDA_DB_NAME}"
+      - "DB_USERNAME=${CAMUNDA_DB_USER}"
+      - "DB_PASSWORD=${CAMUNDA_DB_PASSWORD}"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    volumes:
+      - "./docker-volumes/workflow-engine/camunda/webapps/:/camunda/webapps/"
+    links:
+      - postgres-db-camunda-prod
+    depends_on:
+      - postgres-db-camunda-prod
+    networks:
+      - main
+
+  # POSTGRES DB - USED BY WORKFLOW ENGINE
+  postgres-db-camunda-prod:
+    image: postgres:14.2-alpine
+    restart: always
+    container_name: celer-db-camunda-postgres-prod
+    environment:
+      - "POSTGRES_USER=${CAMUNDA_DB_USER}"
+      - "POSTGRES_PASSWORD=${CAMUNDA_DB_PASSWORD}"
+      - "POSTGRES_DB=${CAMUNDA_DB_NAME}"
+    ports:
+      - "5032:5432"
+    volumes:
+      - "./docker-volumes/workflow-engine/postgres/data:/var/lib/postgresql/data"
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
