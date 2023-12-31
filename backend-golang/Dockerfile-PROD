@@ -1,0 +1,41 @@
+FROM golang:1.18.10-buster AS builder
+
+# Create celer-api folder
+RUN mkdir backend-golang
+
+# Set working directory
+WORKDIR /backend-golang
+
+# Copy only dependency files
+COPY go.mod go.sum ./
+
+# Compile the application
+RUN go mod download
+
+# Copy the rest of the code
+COPY . .
+
+# Build the proyect
+RUN CGO_ENABLED=0 GOOS=linux go build -o finalApp .
+
+
+
+# Etapa de producción
+FROM alpine:3.19.0
+
+WORKDIR /app
+
+# Copiar solo el binario construido en la etapa anterior
+COPY --from=builder /backend-golang/finalApp .
+
+COPY ./app/utils/camunda/bpmn-models/shippings_v1.bpmn ./app/utils/camunda/bpmn-models/shippings_v1.bpmn
+
+COPY --from=builder /backend-golang/.env .
+
+RUN chmod +x finalApp
+
+# Exponer el puerto 5000
+EXPOSE 5000
+
+# Ejecutar el binario
+CMD ["./finalApp"]

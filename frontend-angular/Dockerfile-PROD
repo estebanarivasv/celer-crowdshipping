@@ -1,0 +1,43 @@
+# Use the official Node.js v16.15.0 image as the base image
+FROM node:16.15.0 as build
+
+# Create a directory named 'app'
+RUN mkdir frontend-angular
+
+# Set the working directory to '/app'
+WORKDIR /frontend-angular
+
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+
+# Install npm dependencies
+RUN npm install
+
+# Copy the content of the current directory into the container at '/app'
+COPY . .
+
+# Compile Angular app
+RUN npm run build -- --prod
+
+
+
+# Production STEP
+FROM nginx:stable-alpine3.17
+
+# Install OpenSSL -- certificate generation tool
+RUN apk add --no-cache openssl
+
+# Generate self-signed certificate
+RUN openssl req -new -x509 -nodes -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt -subj "/C=AR/ST=MZA/L=SR/O=UM/CN=localhost" -days 3650
+
+# Copiar los archivos compilados desde la etapa de construcción
+COPY --from=build /frontend-angular/dist/celer-client /usr/share/nginx/html
+
+# Configurar Nginx para servir la aplicación con HTTPS
+COPY nginx-custom-https.conf /etc/nginx/conf.d/default.conf
+
+# Expose 443 port for HTTPS connections
+EXPOSE 443
+
+# Comando para iniciar Nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -15,7 +15,7 @@ import (
 type Router struct {
 }
 
-// NewShippingController Returns a new instance
+// NewRouter Returns a new instance
 func NewRouter() *Router {
 
 	return &Router{}
